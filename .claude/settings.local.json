@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Stop-Process *)",
+      "PowerShell(Out-File *)",
+      "PowerShell(cd C:\\\\Users\\\\jorge\\\\essenza-pairing; $env:REACT_APP_ANTHROPIC_KEY = \\(Get-Content .env | Select-String \"REACT_APP_ANTHROPIC_KEY\" | ForEach-Object { $_ -replace \"REACT_APP_ANTHROPIC_KEY=\", \"\" }\\); node server.js)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "PowerShell(New-Item *)"
+    ]
+  }
+}

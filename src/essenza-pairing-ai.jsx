@@ -1,0 +1,604 @@
+import { useState, useRef, useEffect } from "react";
+
+const COLORS = {
+  darkGreen: "#2d4a1e",
+  gold: "#c9a84c",
+  black: "#111111",
+  cream: "#f5f0e8",
+  darkGreenLight: "#3d6229",
+  goldLight: "#e8c46a",
+};
+
+const SYSTEM_PROMPT = `Eres el sommelier de aceite de oliva extra virgen de Essenza Chile, una marca premium de aceite de oliva 100% chileno, prensado en frío, con máximo 0.3% de acidez.
+
+Tu rol es responder ÚNICAMENTE en JSON válido, sin texto adicional, sin markdown, sin explicaciones fuera del JSON.
+
+Cuando el usuario describa un plato o ingredientes, responde con este JSON exacto:
+{
+  "compatibilidad": 92,
+  "titulo": "Carpaccio de Res con Rúcula",
+  "momento": "En crudo, al final",
+  "descripcion": "Una descripción gourmet de 2-3 oraciones sobre por qué Essenza es ideal para este plato, mencionando sus notas organolépticas (frutado, picante suave, herbáceo) y su origen chileno.",
+  "tecnica": "Instrucción concreta y elegante de cómo aplicar Essenza en este plato.",
+  "maridaje": "Sugerencia de un vino chileno u otro elemento que complemente tanto el plato como el aceite.",
+  "consejo_chef": "Un tip de chef de alto nivel, íntimamente relacionado con Essenza y el plato.",
+  "emoji_plato": "🥩"
+}
+
+Reglas:
+- compatibilidad: número entre 70 y 99
+- Tono: refinado, apasionado, experto en gastronomía de autor
+- Siempre mencionar el origen chileno de Essenza de forma orgánica
+- Si el usuario escribe algo que no es un plato o ingrediente, responde con {"error": "Describe un plato o ingrediente para continuar."}`;
+
+const LoadingDots = () => (
+  <span style={{ display: "inline-flex", gap: 4, alignItems: "center" }}>
+    {[0, 1, 2].map((i) => (
+      <span
+        key={i}
+        style={{
+          width: 6,
+          height: 6,
+          borderRadius: "50%",
+          background: COLORS.gold,
+          animation: "pulse 1.2s ease-in-out "+(i*0.2)+"s infinite",
+        }}
+      />
+    ))}
+  </span>
+);
+
+const CompatibilityMeter = ({ value }) => {
+  const [displayed, setDisplayed] = useState(0);
+  useEffect(() => {
+    let start = 0;
+    const step = () => {
+      start += 2;
+      if (start <= value) {
+        setDisplayed(start);
+        requestAnimationFrame(step);
+      } else {
+        setDisplayed(value);
+      }
+    };
+    requestAnimationFrame(step);
+  }, [value]);
+
+  const color =
+    displayed >= 90 ? COLORS.goldLight : displayed >= 80 ? COLORS.gold : "#a07a2e";
+
+  return (
+    <div style={{ marginBottom: 28 }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+          marginBottom: 8,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            color: COLORS.cream,
+            fontSize: 13,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+          }}
+        >
+          Afinidad con Essenza
+        </span>
+        <span
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            color: color,
+            fontSize: 32,
+            fontWeight: 700,
+            lineHeight: 1,
+          }}
+        >
+          {displayed}
+          <span style={{ fontSize: 16, opacity: 0.7 }}>%</span>
+        </span>
+      </div>
+      <div
+        style={{
+          height: 3,
+          background: "rgba(255,255,255,0.1)",
+          borderRadius: 2,
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            height: "100%",
+            width: displayed+"%",
+            background: "linear-gradient(90deg,#3d6229,#c9a84c)",
+            borderRadius: 2,
+            transition: "width 0.05s linear",
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+const ResultCard = ({ data }) => {
+  const items = [
+    {
+      label: "Momento de uso",
+      value: data.momento,
+      icon: "⏱️",
+    },
+    {
+      label: "Técnica",
+      value: data.tecnica,
+      icon: "🫒",
+    },
+    {
+      label: "Maridaje sugerido",
+      value: data.maridaje,
+      icon: "🍷",
+    },
+    {
+      label: "Consejo del chef",
+      value: data.consejo_chef,
+      icon: "👨‍🍳",
+    },
+  ];
+
+  return (
+    <div
+      style={{
+        animation: "fadeUp 0.6s ease forwards",
+        background: "rgba(45, 74, 30, 0.25)",
+        border: "1px solid rgba(201, 168, 76, 0.3)",
+        borderRadius: 16,
+        padding: "32px 28px",
+        marginTop: 24,
+      }}
+    >
+      {/* Header */}
+      <div style={{ marginBottom: 24, textAlign: "center" }}>
+        <div style={{ fontSize: 48, marginBottom: 8 }}>{data.emoji_plato}</div>
+        <h2
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            color: COLORS.gold,
+            fontSize: 26,
+            fontWeight: 600,
+            margin: 0,
+            letterSpacing: "0.02em",
+          }}
+        >
+          {data.titulo}
+        </h2>
+      </div>
+
+      <CompatibilityMeter value={data.compatibilidad} />
+
+      {/* Description */}
+      <p
+        style={{
+          fontFamily: "'Lora', serif",
+          color: "rgba(245, 240, 232, 0.85)",
+          fontSize: 15,
+          lineHeight: 1.8,
+          marginBottom: 24,
+          fontStyle: "italic",
+          borderLeft: `2px solid ${COLORS.gold}`,
+          paddingLeft: 16,
+        }}
+      >
+        {data.descripcion}
+      </p>
+
+      {/* Items */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        {items.map((item) => (
+          <div
+            key={item.label}
+            style={{
+              background: "rgba(0,0,0,0.2)",
+              borderRadius: 10,
+              padding: "14px 16px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 6,
+              }}
+            >
+              <span style={{ fontSize: 16 }}>{item.icon}</span>
+              <span
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  color: COLORS.gold,
+                  fontSize: 11,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  fontWeight: 600,
+                }}
+              >
+                {item.label}
+              </span>
+            </div>
+            <p
+              style={{
+                fontFamily: "'Lora', serif",
+                color: COLORS.cream,
+                fontSize: 14,
+                lineHeight: 1.7,
+                margin: 0,
+              }}
+            >
+              {item.value}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer CTA */}
+      <div
+        style={{
+          marginTop: 24,
+          textAlign: "center",
+          paddingTop: 20,
+          borderTop: "1px solid rgba(201,168,76,0.15)",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            color: "rgba(201,168,76,0.6)",
+            fontSize: 12,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            margin: 0,
+          }}
+        >
+          Essenza Chile · Extra Virgen · Prensado en Frío
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default function EssenzaPairingAI() {
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const textareaRef = useRef(null);
+
+  const suggestions = [
+    "Pulpo a la gallega",
+    "Ensalada caprese",
+    "Lomo de merluza al horno",
+    "Pasta al pesto",
+    "Pan artesanal tostado",
+    "Ceviche chileno",
+  ];
+
+  const handleSubmit = async () => {
+    if (!input.trim() || loading) return;
+    setLoading(true);
+    setResult(null);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: [{ role: "user", content: input }],
+        }),
+      });
+
+      const data = await response.json();
+      const text = data.content?.map((b) => b.text || "").join("") || "";
+      const clean = text.replace(/```json|```/g, "").trim();
+      const parsed = JSON.parse(clean);
+
+      if (parsed.error) {
+        setError(parsed.error);
+      } else {
+        setResult(parsed);
+      }
+    } catch {
+      setError("Algo salió mal. Por favor intenta de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKey = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;1,400&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: ${COLORS.black}; }
+        @keyframes pulse {
+          0%, 100% { opacity: 0.3; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.2); }
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        textarea:focus { outline: none; }
+        textarea::placeholder { color: rgba(245,240,232,0.3); }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+      `}</style>
+
+      <div
+        style={{
+          minHeight: "100vh",
+          background: `radial-gradient(ellipse at 20% 0%, rgba(45,74,30,0.4) 0%, transparent 60%),
+                       radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.08) 0%, transparent 50%),
+                       ${COLORS.black}`,
+          fontFamily: "'Cormorant Garamond', serif",
+          padding: "0 0 60px",
+        }}
+      >
+        {/* Header */}
+        <div
+          style={{
+            textAlign: "center",
+            padding: "52px 24px 40px",
+            borderBottom: "1px solid rgba(201,168,76,0.1)",
+            marginBottom: 40,
+          }}
+        >
+          <div
+            style={{
+              background: `linear-gradient(135deg, ${COLORS.darkGreen}, rgba(45,74,30,0.6))`,
+              border: "1px solid rgba(201,168,76,0.4)",
+              borderRadius: "50%",
+              width: 72,
+              height: 72,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 20px",
+              fontSize: 32,
+            }}
+          >
+            🫒
+          </div>
+          <div
+            style={{
+              fontSize: 10,
+              letterSpacing: "0.35em",
+              color: COLORS.gold,
+              textTransform: "uppercase",
+              marginBottom: 10,
+              opacity: 0.8,
+            }}
+          >
+            Essenza Chile
+          </div>
+          <h1
+            style={{
+              fontSize: 38,
+              fontWeight: 700,
+              color: COLORS.cream,
+              lineHeight: 1.1,
+              marginBottom: 12,
+              background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 100%)`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Pairing AI
+          </h1>
+          <p
+            style={{
+              fontFamily: "'Lora', serif",
+              color: "rgba(245,240,232,0.5)",
+              fontSize: 15,
+              fontStyle: "italic",
+              maxWidth: 320,
+              margin: "0 auto",
+              lineHeight: 1.6,
+            }}
+          >
+            Descubre cómo nuestro aceite extra virgen chileno eleva cada plato
+          </p>
+        </div>
+
+        {/* Main content */}
+        <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 20px" }}>
+          {/* Input area */}
+          <div
+            style={{
+              background: "rgba(45,74,30,0.15)",
+              border: "1px solid rgba(201,168,76,0.25)",
+              borderRadius: 14,
+              padding: "20px",
+              marginBottom: 16,
+            }}
+          >
+            <label
+              style={{
+                display: "block",
+                fontSize: 10,
+                letterSpacing: "0.25em",
+                color: COLORS.gold,
+                textTransform: "uppercase",
+                marginBottom: 12,
+                opacity: 0.9,
+              }}
+            >
+              ¿Qué vas a preparar?
+            </label>
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKey}
+              placeholder="Escribe un plato o ingredientes..."
+              rows={3}
+              style={{
+                width: "100%",
+                background: "transparent",
+                border: "none",
+                color: COLORS.cream,
+                fontFamily: "'Lora', serif",
+                fontSize: 16,
+                lineHeight: 1.7,
+                resize: "none",
+              }}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: 12,
+              }}
+            >
+              <button
+                onClick={handleSubmit}
+                disabled={!input.trim() || loading}
+                style={{
+                  background: input.trim() && !loading
+                    ? `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`
+                    : "rgba(255,255,255,0.05)",
+                  border: `1px solid ${input.trim() && !loading ? COLORS.gold : "rgba(255,255,255,0.1)"}`,
+                  borderRadius: 8,
+                  color: input.trim() && !loading ? COLORS.gold : "rgba(255,255,255,0.2)",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 13,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  padding: "10px 22px",
+                  cursor: input.trim() && !loading ? "pointer" : "default",
+                  transition: "all 0.3s ease",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                }}
+              >
+                {loading ? (
+                  <>Analizando <LoadingDots /></>
+                ) : (
+                  "Descubrir maridaje"
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Suggestions */}
+          {!result && !loading && (
+            <div style={{ marginBottom: 8 }}>
+              <p
+                style={{
+                  fontSize: 10,
+                  letterSpacing: "0.2em",
+                  color: "rgba(201,168,76,0.4)",
+                  textTransform: "uppercase",
+                  marginBottom: 10,
+                }}
+              >
+                Sugerencias
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {suggestions.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setInput(s)}
+                    style={{
+                      background: "transparent",
+                      border: "1px solid rgba(201,168,76,0.2)",
+                      borderRadius: 20,
+                      color: "rgba(245,240,232,0.5)",
+                      fontFamily: "'Lora', serif",
+                      fontSize: 13,
+                      padding: "6px 14px",
+                      cursor: "pointer",
+                      fontStyle: "italic",
+                      transition: "all 0.2s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.borderColor = "rgba(201,168,76,0.5)";
+                      e.target.style.color = COLORS.cream;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.borderColor = "rgba(201,168,76,0.2)";
+                      e.target.style.color = "rgba(245,240,232,0.5)";
+                    }}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Error */}
+          {error && (
+            <div
+              style={{
+                background: "rgba(180,50,50,0.15)",
+                border: "1px solid rgba(180,50,50,0.3)",
+                borderRadius: 10,
+                padding: "14px 18px",
+                marginTop: 16,
+                color: "#f87171",
+                fontFamily: "'Lora', serif",
+                fontSize: 14,
+                fontStyle: "italic",
+              }}
+            >
+              {error}
+            </div>
+          )}
+
+          {/* Result */}
+          {result && <ResultCard data={result} />}
+
+          {/* Reset */}
+          {result && (
+            <button
+              onClick={() => { setResult(null); setInput(""); setError(null); }}
+              style={{
+                display: "block",
+                margin: "20px auto 0",
+                background: "transparent",
+                border: "none",
+                color: "rgba(201,168,76,0.4)",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 12,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                cursor: "pointer",
+                padding: "8px 16px",
+              }}
+            >
+              ← Nuevo maridaje
+            </button>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
