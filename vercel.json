@@ -5,6 +5,9 @@
   "functions": {
     "api/messages.js": {
       "maxDuration": 30
+    },
+    "api/send-order-email.js": {
+      "maxDuration": 10
     }
   }
 }

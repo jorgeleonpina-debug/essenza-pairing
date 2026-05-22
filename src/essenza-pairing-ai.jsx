@@ -32,25 +32,46 @@ Reglas:
 - Si el usuario escribe algo que no es un plato o ingrediente, responde con {"error": "Describe un plato o ingrediente para continuar."}`;
 
 const PRODUCTS = [
-  { id: 1, name: "Aceite Extra Virgen", volume: "250ml",                    price: "$2.490",  badge: null,              image: "/images/bottle-250ml.jpeg" },
-  { id: 2, name: "Aceite Extra Virgen", volume: "1L",                       price: "$14.990", badge: "Más vendido",     image: "/images/bottle-1l.jpeg" },
-  { id: 3, name: "Bidón Extra Virgen",  volume: "5L",                       price: "$32.990", badge: null,              image: "/images/bidon-5l.jpeg" },
-  { id: 4, name: "Pack Completo",       volume: "Aceite + Aceto Balsámico", price: "$47.990", badge: "Oferta especial", image: "/images/pack-completo.jpeg" },
+  { id: 1, name: "Aceite Extra Virgen", volume: "250ml",                    price: "$2.490",  numericPrice: 2490,  badge: null,              image: "/images/bottle-250ml.jpeg" },
+  { id: 2, name: "Aceite Extra Virgen", volume: "1L",                       price: "$14.990", numericPrice: 14990, badge: "Más vendido",     image: "/images/bottle-1l.jpeg" },
+  { id: 3, name: "Bidón Extra Virgen",  volume: "5L",                       price: "$32.990", numericPrice: 32990, badge: null,              image: "/images/bidon-5l.jpeg" },
+  { id: 4, name: "Pack Completo",       volume: "Aceite + Aceto Balsámico", price: "$47.990", numericPrice: 47990, badge: "Oferta especial", image: "/images/pack-completo.jpeg" },
+];
+
+const REGIONS = [
+  { id: "rm",          name: "Región Metropolitana",               shipping: 3990 },
+  { id: "arica",       name: "Arica y Parinacota",                 shipping: 7990 },
+  { id: "tarapaca",    name: "Tarapacá",                           shipping: 5990 },
+  { id: "antofagasta", name: "Antofagasta",                        shipping: 5990 },
+  { id: "atacama",     name: "Atacama",                            shipping: 5990 },
+  { id: "coquimbo",    name: "Coquimbo",                           shipping: 5990 },
+  { id: "valparaiso",  name: "Valparaíso",                         shipping: 5990 },
+  { id: "ohiggins",    name: "O'Higgins",                          shipping: 5990 },
+  { id: "maule",       name: "Maule",                              shipping: 5990 },
+  { id: "nuble",       name: "Ñuble",                              shipping: 5990 },
+  { id: "biobio",      name: "Biobío",                             shipping: 5990 },
+  { id: "araucania",   name: "La Araucanía",                       shipping: 5990 },
+  { id: "losrios",     name: "Los Ríos",                           shipping: 5990 },
+  { id: "loslagos",    name: "Los Lagos",                          shipping: 5990 },
+  { id: "aysen",       name: "Aysén",                              shipping: 7990 },
+  { id: "magallanes",  name: "Magallanes y la Antártica Chilena",  shipping: 7990 },
 ];
 
 const NAV_TABS = [
-  { id: "inicio",         label: "Inicio" },
-  { id: "tienda",         label: "Tienda" },
-  { id: "quienes-somos",  label: "Quiénes Somos" },
-  { id: "contacto",       label: "Contacto" },
+  { id: "inicio",        label: "Inicio" },
+  { id: "tienda",        label: "Tienda" },
+  { id: "quienes-somos", label: "Quiénes Somos" },
+  { id: "contacto",      label: "Contacto" },
 ];
 
 const SOCIAL_LINKS = [
-  { label: "Instagram",  href: "https://instagram.com/essenzaolive",      icon: "instagram" },
-  { label: "Facebook",   href: "https://facebook.com/essenzaolive",       icon: "facebook" },
-  { label: "WhatsApp",   href: "https://wa.me/+56965902996",              icon: "whatsapp" },
-  { label: "Email",      href: "mailto:contacto@premiumolivechile.com",   icon: "email" },
+  { label: "Instagram", href: "https://instagram.com/essenzaolive",     icon: "instagram" },
+  { label: "Facebook",  href: "https://facebook.com/essenzaolive",      icon: "facebook" },
+  { label: "WhatsApp",  href: "https://wa.me/+56965902996",             icon: "whatsapp" },
+  { label: "Email",     href: "mailto:contacto@premiumolivechile.com",  icon: "email" },
 ];
+
+const formatCLP = (n) => `$${Number(n).toLocaleString("es-CL")}`;
 
 // ── Icons ──────────────────────────────────────────────────────────────────────
 const IconInstagram = ({ size = 22 }) => (
@@ -167,10 +188,10 @@ const CompatibilityMeter = ({ value }) => {
 // ── ResultCard ─────────────────────────────────────────────────────────────────
 const ResultCard = ({ data }) => {
   const items = [
-    { label: "Momento de uso",   value: data.momento,      icon: "⏱️" },
-    { label: "Técnica",          value: data.tecnica,       icon: "🫒" },
-    { label: "Maridaje sugerido",value: data.maridaje,      icon: "🍷" },
-    { label: "Consejo del chef", value: data.consejo_chef,  icon: "👨‍🍳" },
+    { label: "Momento de uso",    value: data.momento,     icon: "⏱️" },
+    { label: "Técnica",           value: data.tecnica,      icon: "🫒" },
+    { label: "Maridaje sugerido", value: data.maridaje,     icon: "🍷" },
+    { label: "Consejo del chef",  value: data.consejo_chef, icon: "👨‍🍳" },
   ];
   return (
     <div style={{ animation: "fadeUp 0.6s ease forwards", background: "rgba(45,74,30,0.25)", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 16, padding: "32px 28px", marginTop: 24 }}>
@@ -210,24 +231,8 @@ const ProductImage = ({ src, alt }) => {
   );
 };
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onComprar }) => {
   const [hovered, setHovered] = useState(false);
-  const [buying, setBuying] = useState(false);
-
-  const handleComprar = async () => {
-    if (buying) return;
-    setBuying(true);
-    try {
-      const res = await fetch("/api/create-preference", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: product.id }),
-      });
-      const data = await res.json();
-      if (data.init_point) { window.location.href = data.init_point; }
-      else { setBuying(false); }
-    } catch { setBuying(false); }
-  };
 
   return (
     <div
@@ -245,12 +250,300 @@ const ProductCard = ({ product }) => {
       <div style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.45)", fontSize: 13, fontStyle: "italic", marginBottom: 18 }}>{product.volume}</div>
       <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 26, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.02em" }}>{product.price}</div>
       <button
-        onClick={handleComprar}
-        disabled={buying}
-        style={{ background: buying ? "rgba(45,74,30,0.3)" : `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${buying ? "rgba(201,168,76,0.25)" : COLORS.gold}`, borderRadius: 8, color: buying ? "rgba(201,168,76,0.35)" : COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", padding: "10px 0", cursor: buying ? "default" : "pointer", width: "100%", transition: "all 0.25s ease", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+        onClick={() => onComprar(product)}
+        style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${COLORS.gold}`, borderRadius: 8, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", padding: "10px 0", cursor: "pointer", width: "100%", transition: "all 0.25s ease" }}
       >
-        {buying ? <><LoadingDots /><span>Redirigiendo...</span></> : "Comprar"}
+        Comprar
       </button>
+    </div>
+  );
+};
+
+// ── Checkout Modal ─────────────────────────────────────────────────────────────
+const inputBase = {
+  width: "100%",
+  background: "rgba(0,0,0,0.35)",
+  border: "1px solid rgba(201,168,76,0.25)",
+  borderRadius: 8,
+  color: "#f5f0e8",
+  fontFamily: "'Lora', serif",
+  fontSize: 14,
+  padding: "10px 14px",
+  outline: "none",
+  boxSizing: "border-box",
+};
+
+const fieldLabel = {
+  display: "block",
+  fontSize: 10,
+  letterSpacing: "0.2em",
+  color: "rgba(201,168,76,0.75)",
+  textTransform: "uppercase",
+  marginBottom: 6,
+  fontFamily: "'Cormorant Garamond', serif",
+};
+
+const CheckoutModal = ({ product, onClose }) => {
+  const [form, setForm] = useState({
+    nombre: "", email: "", telefono: "",
+    calle: "", numero: "", ciudad: "", region: "",
+    tipoDoc: "boleta", rut: "", razonSocial: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const set = (field) => (e) =>
+    setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const selectedRegion = REGIONS.find((r) => r.id === form.region);
+  const shippingCost = selectedRegion?.shipping || 0;
+  const total = product.numericPrice + shippingCost;
+
+  const validate = () => {
+    const e = {};
+    if (!form.nombre.trim()) e.nombre = "Requerido";
+    if (!form.email.trim() || !/^[^@]+@[^@]+\.[^@]+$/.test(form.email))
+      e.email = "Email inválido";
+    if (!form.telefono.trim()) e.telefono = "Requerido";
+    if (!form.calle.trim()) e.calle = "Requerido";
+    if (!form.numero.trim()) e.numero = "Requerido";
+    if (!form.ciudad.trim()) e.ciudad = "Requerido";
+    if (!form.region) e.region = "Selecciona una región";
+    if (form.tipoDoc === "factura") {
+      if (!form.rut.trim()) e.rut = "Requerido";
+      if (!form.razonSocial.trim()) e.razonSocial = "Requerido";
+    }
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!validate() || loading) return;
+    setLoading(true);
+    try {
+      const orderData = {
+        customer: form,
+        product: {
+          name: product.name,
+          volume: product.volume,
+          price: product.price,
+          numericPrice: product.numericPrice,
+        },
+        shipping: { cost: shippingCost, regionName: selectedRegion?.name || "" },
+        total,
+      };
+      localStorage.setItem("essenza_order", JSON.stringify(orderData));
+
+      const res = await fetch("/api/create-preference", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: product.id, customer: form, shippingCost }),
+      });
+      const data = await res.json();
+      if (data.init_point) {
+        window.location.href = data.init_point;
+      } else {
+        setLoading(false);
+      }
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  const errStyle = { color: "#f87171", fontSize: 11, margin: "4px 0 0", fontFamily: "'Lora', serif" };
+
+  return (
+    <div
+      style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.78)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, backdropFilter: "blur(4px)" }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div style={{ background: "#111", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 18, width: "100%", maxWidth: 520, maxHeight: "92vh", overflowY: "auto", position: "relative" }}>
+
+        {/* Header */}
+        <div style={{ padding: "22px 26px 18px", borderBottom: "1px solid rgba(201,168,76,0.1)", display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "sticky", top: 0, background: "#111", zIndex: 10, borderRadius: "18px 18px 0 0" }}>
+          <div>
+            <div style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase", marginBottom: 4, fontFamily: "'Cormorant Garamond', serif" }}>Finalizar pedido</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: "#f5f0e8", fontSize: 20, fontWeight: 600, margin: 0 }}>
+              {product.name}{" "}
+              <span style={{ color: "rgba(245,240,232,0.4)", fontWeight: 400, fontSize: 16 }}>{product.volume}</span>
+            </h2>
+          </div>
+          <button
+            onClick={onClose}
+            style={{ background: "transparent", border: "none", color: "rgba(245,240,232,0.35)", cursor: "pointer", fontSize: 20, lineHeight: 1, padding: "4px 4px 4px 12px", marginTop: 2 }}
+          >
+            ✕
+          </button>
+        </div>
+
+        <div style={{ padding: "22px 26px 28px" }}>
+
+          {/* Personal data */}
+          <p style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", margin: "0 0 14px", fontFamily: "'Cormorant Garamond', serif" }}>Datos personales</p>
+
+          <div style={{ marginBottom: 12 }}>
+            <label style={fieldLabel}>Nombre completo</label>
+            <input type="text" value={form.nombre} onChange={set("nombre")} placeholder="Juan Pérez" style={{ ...inputBase, borderColor: errors.nombre ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
+            {errors.nombre && <p style={errStyle}>{errors.nombre}</p>}
+          </div>
+
+          <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabel}>Email</label>
+              <input type="email" value={form.email} onChange={set("email")} placeholder="juan@email.com" style={{ ...inputBase, borderColor: errors.email ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
+              {errors.email && <p style={errStyle}>{errors.email}</p>}
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabel}>Teléfono</label>
+              <input type="tel" value={form.telefono} onChange={set("telefono")} placeholder="+56 9 1234 5678" style={{ ...inputBase, borderColor: errors.telefono ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
+              {errors.telefono && <p style={errStyle}>{errors.telefono}</p>}
+            </div>
+          </div>
+
+          {/* Shipping address */}
+          <p style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", margin: "20px 0 14px", fontFamily: "'Cormorant Garamond', serif" }}>Dirección de despacho</p>
+
+          <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
+            <div style={{ flex: 2 }}>
+              <label style={fieldLabel}>Calle</label>
+              <input type="text" value={form.calle} onChange={set("calle")} placeholder="Av. Providencia" style={{ ...inputBase, borderColor: errors.calle ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
+              {errors.calle && <p style={errStyle}>{errors.calle}</p>}
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabel}>Número</label>
+              <input type="text" value={form.numero} onChange={set("numero")} placeholder="1234" style={{ ...inputBase, borderColor: errors.numero ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
+              {errors.numero && <p style={errStyle}>{errors.numero}</p>}
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 12 }}>
+            <label style={fieldLabel}>Ciudad</label>
+            <input type="text" value={form.ciudad} onChange={set("ciudad")} placeholder="Santiago" style={{ ...inputBase, borderColor: errors.ciudad ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
+            {errors.ciudad && <p style={errStyle}>{errors.ciudad}</p>}
+          </div>
+
+          <div style={{ marginBottom: 20 }}>
+            <label style={fieldLabel}>Región</label>
+            <select
+              value={form.region}
+              onChange={set("region")}
+              style={{
+                ...inputBase,
+                cursor: "pointer",
+                borderColor: errors.region ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)",
+                appearance: "none",
+                WebkitAppearance: "none",
+                backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "right 14px center",
+                paddingRight: 36,
+              }}
+            >
+              <option value="" style={{ background: "#111" }}>Selecciona tu región</option>
+              {REGIONS.map((r) => (
+                <option key={r.id} value={r.id} style={{ background: "#111" }}>{r.name}</option>
+              ))}
+            </select>
+            {errors.region && <p style={errStyle}>{errors.region}</p>}
+          </div>
+
+          {/* Shipping cost badge */}
+          {selectedRegion && (
+            <div style={{ background: "rgba(45,74,30,0.25)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 10, padding: "12px 16px", marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.65)", fontSize: 13 }}>Costo de despacho a {selectedRegion.name}</span>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 18, fontWeight: 700 }}>{formatCLP(shippingCost)}</span>
+            </div>
+          )}
+
+          {/* Tax document */}
+          <p style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", margin: "0 0 14px", fontFamily: "'Cormorant Garamond', serif" }}>Documento tributario</p>
+          <div style={{ display: "flex", gap: 10, marginBottom: form.tipoDoc === "factura" ? 14 : 22 }}>
+            {["boleta", "factura"].map((tipo) => (
+              <button
+                key={tipo}
+                onClick={() => setForm((f) => ({ ...f, tipoDoc: tipo }))}
+                style={{ flex: 1, background: form.tipoDoc === tipo ? "rgba(45,74,30,0.45)" : "transparent", border: `1px solid ${form.tipoDoc === tipo ? COLORS.gold : "rgba(201,168,76,0.22)"}`, borderRadius: 8, color: form.tipoDoc === tipo ? COLORS.gold : "rgba(245,240,232,0.45)", fontFamily: "'Cormorant Garamond', serif", fontSize: 14, letterSpacing: "0.12em", padding: "10px 0", cursor: "pointer", transition: "all 0.2s ease", textTransform: "capitalize" }}
+              >
+                {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          {form.tipoDoc === "factura" && (
+            <div style={{ marginBottom: 22 }}>
+              <div style={{ marginBottom: 12 }}>
+                <label style={fieldLabel}>RUT empresa</label>
+                <input type="text" value={form.rut} onChange={set("rut")} placeholder="12.345.678-9" style={{ ...inputBase, borderColor: errors.rut ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
+                {errors.rut && <p style={errStyle}>{errors.rut}</p>}
+              </div>
+              <div>
+                <label style={fieldLabel}>Razón Social</label>
+                <input type="text" value={form.razonSocial} onChange={set("razonSocial")} placeholder="Mi Empresa SpA" style={{ ...inputBase, borderColor: errors.razonSocial ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
+                {errors.razonSocial && <p style={errStyle}>{errors.razonSocial}</p>}
+              </div>
+            </div>
+          )}
+
+          {/* Order summary */}
+          <div style={{ background: "rgba(45,74,30,0.15)", border: "1px solid rgba(201,168,76,0.18)", borderRadius: 12, padding: "18px 16px", marginBottom: 20 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+              <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.55)", fontSize: 13 }}>{product.name} {product.volume}</span>
+              <span style={{ fontFamily: "'Lora', serif", color: COLORS.cream, fontSize: 13 }}>{product.price}</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", paddingBottom: 14, marginBottom: 14, borderBottom: "1px solid rgba(201,168,76,0.1)" }}>
+              <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.55)", fontSize: 13 }}>
+                Despacho{selectedRegion ? ` — ${selectedRegion.name}` : ""}
+              </span>
+              <span style={{ fontFamily: "'Lora', serif", color: selectedRegion ? COLORS.cream : "rgba(245,240,232,0.25)", fontSize: 13 }}>
+                {selectedRegion ? formatCLP(shippingCost) : "—"}
+              </span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 15, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>Total</span>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 26, fontWeight: 700 }}>
+                {selectedRegion ? formatCLP(total) : product.price}
+              </span>
+            </div>
+          </div>
+
+          {/* Submit */}
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            style={{ width: "100%", background: loading ? "rgba(45,74,30,0.25)" : `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${loading ? "rgba(201,168,76,0.2)" : COLORS.gold}`, borderRadius: 10, color: loading ? "rgba(201,168,76,0.3)" : COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.25em", textTransform: "uppercase", padding: "14px 0", cursor: loading ? "default" : "pointer", transition: "all 0.25s ease", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}
+          >
+            {loading ? <><LoadingDots /><span>Procesando...</span></> : "Proceder al pago →"}
+          </button>
+
+          <div style={{ textAlign: "center", marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.25)", fontSize: 11, fontStyle: "italic" }}>Pago seguro con</span>
+            <span style={{ color: "#009ee3", fontWeight: 700, fontSize: 11, opacity: 0.65 }}>Mercado Pago Chile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── Payment Banner ─────────────────────────────────────────────────────────────
+const PaymentBanner = ({ status, onClose }) => {
+  const isSuccess = status === "success";
+  return (
+    <div style={{ position: "fixed", top: 70, left: "50%", transform: "translateX(-50%)", zIndex: 500, width: "calc(100% - 32px)", maxWidth: 500, background: isSuccess ? "rgba(30,60,20,0.97)" : "rgba(60,20,20,0.97)", border: `1px solid ${isSuccess ? "rgba(201,168,76,0.45)" : "rgba(248,113,113,0.4)"}`, borderRadius: 14, padding: "18px 22px", display: "flex", alignItems: "center", gap: 16, boxShadow: "0 8px 32px rgba(0,0,0,0.5)", animation: "fadeUp 0.4s ease" }}>
+      <span style={{ fontSize: 28, flexShrink: 0 }}>{isSuccess ? "✓" : "✕"}</span>
+      <div style={{ flex: 1 }}>
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", color: isSuccess ? COLORS.gold : "#f87171", fontSize: 16, fontWeight: 600, margin: "0 0 4px" }}>
+          {isSuccess ? "¡Pago confirmado!" : status === "pending" ? "Pago pendiente" : "Pago no completado"}
+        </p>
+        <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.65)", fontSize: 13, margin: 0, lineHeight: 1.5 }}>
+          {isSuccess
+            ? "Recibirás un email de confirmación. Te contactaremos para coordinar el despacho."
+            : status === "pending"
+            ? "Tu pago está siendo procesado. Te notificaremos cuando se confirme."
+            : "Puedes intentarlo nuevamente cuando quieras."}
+        </p>
+      </div>
+      <button onClick={onClose} style={{ background: "transparent", border: "none", color: "rgba(245,240,232,0.35)", cursor: "pointer", fontSize: 18, padding: 4, flexShrink: 0 }}>✕</button>
     </div>
   );
 };
@@ -269,16 +562,8 @@ const QuienesSomos = () => (
     </div>
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
       {[
-        {
-          title: "Visión",
-          text: "Ser embajadores del aceite de oliva chileno en el mundo, promoviendo calidad, trazabilidad y sabor natural.",
-          icon: "🌍",
-        },
-        {
-          title: "Misión",
-          text: "Producir, envasar, comercializar y exportar un aceite de oliva virgen extra de alta gama, respetando el medioambiente y las tradiciones olivícolas.",
-          icon: "🫒",
-        },
+        { title: "Visión", text: "Ser embajadores del aceite de oliva chileno en el mundo, promoviendo calidad, trazabilidad y sabor natural.", icon: "🌍" },
+        { title: "Misión", text: "Producir, envasar, comercializar y exportar un aceite de oliva virgen extra de alta gama, respetando el medioambiente y las tradiciones olivícolas.", icon: "🫒" },
       ].map((item) => (
         <div key={item.title} style={{ background: "rgba(45,74,30,0.2)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 14, padding: "28px 24px" }}>
           <div style={{ fontSize: 28, marginBottom: 12 }}>{item.icon}</div>
@@ -357,8 +642,34 @@ export default function EssenzaPairingAI() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("inicio");
+  const [checkoutProduct, setCheckoutProduct] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState(null);
   const textareaRef = useRef(null);
   const sectionsRef = useRef({});
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const payment = params.get("payment");
+    if (payment === "success" || payment === "failure" || payment === "pending") {
+      setPaymentStatus(payment);
+      if (payment === "success") {
+        const paymentId = params.get("payment_id") || params.get("collection_id") || "";
+        const stored = localStorage.getItem("essenza_order");
+        if (stored) {
+          try {
+            const orderData = JSON.parse(stored);
+            fetch("/api/send-order-email", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ ...orderData, paymentId }),
+            }).catch(console.error);
+          } catch {}
+          localStorage.removeItem("essenza_order");
+        }
+      }
+      window.history.replaceState({}, "", "/");
+    }
+  }, []);
 
   const scrollToSection = (id) => {
     setActiveTab(id);
@@ -410,13 +721,23 @@ export default function EssenzaPairingAI() {
         @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
         textarea:focus { outline: none; }
         textarea::placeholder { color: rgba(245,240,232,0.3); }
+        input::placeholder { color: rgba(245,240,232,0.25); }
+        select option { background: #111111; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
-        @media (max-width: 480px) { .qs-grid { grid-template-columns: 1fr !important; } .nav-label { display: none; } }
+        @media (max-width: 480px) { .qs-grid { grid-template-columns: 1fr !important; } }
       `}</style>
 
       <div style={{ minHeight: "100vh", background: `radial-gradient(ellipse at 20% 0%, rgba(45,74,30,0.4) 0%, transparent 60%), radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.08) 0%, transparent 50%), ${COLORS.black}`, fontFamily: "'Cormorant Garamond', serif" }}>
+
+        {paymentStatus && (
+          <PaymentBanner status={paymentStatus} onClose={() => setPaymentStatus(null)} />
+        )}
+
+        {checkoutProduct && (
+          <CheckoutModal product={checkoutProduct} onClose={() => setCheckoutProduct(null)} />
+        )}
 
         {/* ── Header ── */}
         <header style={{ textAlign: "center", padding: "52px 24px 36px", borderBottom: "1px solid rgba(201,168,76,0.1)" }}>
@@ -485,7 +806,7 @@ export default function EssenzaPairingAI() {
               <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.4)", fontSize: 14, fontStyle: "italic", margin: 0 }}>100% chileno · Prensado en frío · Máximo 0.3% acidez</p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 20 }}>
-              {PRODUCTS.map((p) => <ProductCard key={p.id} product={p} />)}
+              {PRODUCTS.map((p) => <ProductCard key={p.id} product={p} onComprar={setCheckoutProduct} />)}
             </div>
             <div style={{ textAlign: "center", marginTop: 28, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
               <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.3)", fontSize: 12, fontStyle: "italic" }}>Pago seguro con</span>
