@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -15,6 +17,7 @@ module.exports = async function handler(req, res) {
     const data = await response.json();
     res.status(response.status).json(data);
   } catch (err) {
+    console.error("Proxy error:", err);
     res.status(500).json({ error: "Proxy error", detail: err.message });
   }
 };
