@@ -12,7 +12,7 @@ module.exports = async function handler(req, res) {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_KEY,
+        "x-api-key": (process.env.ANTHROPIC_KEY || "").replace(/^﻿/, "").trim(),
         "anthropic-version": "2023-06-01",
       },
       body: rawBody,
