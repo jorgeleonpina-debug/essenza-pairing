@@ -1,5 +1,10 @@
 {
   "framework": "create-react-app",
   "buildCommand": "npm run build",
-  "outputDirectory": "build"
+  "outputDirectory": "build",
+  "functions": {
+    "api/messages.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }
