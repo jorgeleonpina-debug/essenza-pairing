@@ -31,6 +31,43 @@ Reglas:
 - Siempre mencionar el origen chileno de Essenza de forma orgánica
 - Si el usuario escribe algo que no es un plato o ingrediente, responde con {"error": "Describe un plato o ingrediente para continuar."}`;
 
+// Replace each paymentLink with your real Mercado Pago payment link.
+// Generate them at: https://www.mercadopago.cl/tools/create
+const PRODUCTS = [
+  {
+    id: 1,
+    name: "Aceite Extra Virgen",
+    volume: "250ml",
+    price: "$2.490",
+    badge: null,
+    paymentLink: "https://mpago.la/REEMPLAZA_1",
+  },
+  {
+    id: 2,
+    name: "Aceite Extra Virgen",
+    volume: "1L",
+    price: "$14.990",
+    badge: "Más vendido",
+    paymentLink: "https://mpago.la/REEMPLAZA_2",
+  },
+  {
+    id: 3,
+    name: "Bidón Extra Virgen",
+    volume: "5L",
+    price: "$32.990",
+    badge: null,
+    paymentLink: "https://mpago.la/REEMPLAZA_3",
+  },
+  {
+    id: 4,
+    name: "Pack Completo",
+    volume: "Aceite + Aceto Balsámico",
+    price: "$47.990",
+    badge: "Oferta especial",
+    paymentLink: "https://mpago.la/REEMPLAZA_4",
+  },
+];
+
 const LoadingDots = () => (
   <span style={{ display: "inline-flex", gap: 4, alignItems: "center" }}>
     {[0, 1, 2].map((i) => (
@@ -41,7 +78,7 @@ const LoadingDots = () => (
           height: 6,
           borderRadius: "50%",
           background: COLORS.gold,
-          animation: "pulse 1.2s ease-in-out "+(i*0.2)+"s infinite",
+          animation: "pulse 1.2s ease-in-out " + (i * 0.2) + "s infinite",
         }}
       />
     ))}
@@ -69,55 +106,16 @@ const CompatibilityMeter = ({ value }) => {
 
   return (
     <div style={{ marginBottom: 28 }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
-          marginBottom: 8,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            color: COLORS.cream,
-            fontSize: 13,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-          }}
-        >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
+        <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 13, letterSpacing: "0.15em", textTransform: "uppercase" }}>
           Afinidad con Essenza
         </span>
-        <span
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            color: color,
-            fontSize: 32,
-            fontWeight: 700,
-            lineHeight: 1,
-          }}
-        >
-          {displayed}
-          <span style={{ fontSize: 16, opacity: 0.7 }}>%</span>
+        <span style={{ fontFamily: "'Cormorant Garamond', serif", color, fontSize: 32, fontWeight: 700, lineHeight: 1 }}>
+          {displayed}<span style={{ fontSize: 16, opacity: 0.7 }}>%</span>
         </span>
       </div>
-      <div
-        style={{
-          height: 3,
-          background: "rgba(255,255,255,0.1)",
-          borderRadius: 2,
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            height: "100%",
-            width: displayed+"%",
-            background: "linear-gradient(90deg,#3d6229,#c9a84c)",
-            borderRadius: 2,
-            transition: "width 0.05s linear",
-          }}
-        />
+      <div style={{ height: 3, background: "rgba(255,255,255,0.1)", borderRadius: 2, overflow: "hidden" }}>
+        <div style={{ height: "100%", width: displayed + "%", background: "linear-gradient(90deg,#3d6229,#c9a84c)", borderRadius: 2, transition: "width 0.05s linear" }} />
       </div>
     </div>
   );
@@ -125,144 +123,174 @@ const CompatibilityMeter = ({ value }) => {
 
 const ResultCard = ({ data }) => {
   const items = [
-    {
-      label: "Momento de uso",
-      value: data.momento,
-      icon: "⏱️",
-    },
-    {
-      label: "Técnica",
-      value: data.tecnica,
-      icon: "🫒",
-    },
-    {
-      label: "Maridaje sugerido",
-      value: data.maridaje,
-      icon: "🍷",
-    },
-    {
-      label: "Consejo del chef",
-      value: data.consejo_chef,
-      icon: "👨‍🍳",
-    },
+    { label: "Momento de uso", value: data.momento, icon: "⏱️" },
+    { label: "Técnica", value: data.tecnica, icon: "🫒" },
+    { label: "Maridaje sugerido", value: data.maridaje, icon: "🍷" },
+    { label: "Consejo del chef", value: data.consejo_chef, icon: "👨‍🍳" },
   ];
 
   return (
-    <div
-      style={{
-        animation: "fadeUp 0.6s ease forwards",
-        background: "rgba(45, 74, 30, 0.25)",
-        border: "1px solid rgba(201, 168, 76, 0.3)",
-        borderRadius: 16,
-        padding: "32px 28px",
-        marginTop: 24,
-      }}
-    >
-      {/* Header */}
+    <div style={{ animation: "fadeUp 0.6s ease forwards", background: "rgba(45, 74, 30, 0.25)", border: "1px solid rgba(201, 168, 76, 0.3)", borderRadius: 16, padding: "32px 28px", marginTop: 24 }}>
       <div style={{ marginBottom: 24, textAlign: "center" }}>
         <div style={{ fontSize: 48, marginBottom: 8 }}>{data.emoji_plato}</div>
-        <h2
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            color: COLORS.gold,
-            fontSize: 26,
-            fontWeight: 600,
-            margin: 0,
-            letterSpacing: "0.02em",
-          }}
-        >
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 26, fontWeight: 600, margin: 0, letterSpacing: "0.02em" }}>
           {data.titulo}
         </h2>
       </div>
-
       <CompatibilityMeter value={data.compatibilidad} />
-
-      {/* Description */}
-      <p
-        style={{
-          fontFamily: "'Lora', serif",
-          color: "rgba(245, 240, 232, 0.85)",
-          fontSize: 15,
-          lineHeight: 1.8,
-          marginBottom: 24,
-          fontStyle: "italic",
-          borderLeft: `2px solid ${COLORS.gold}`,
-          paddingLeft: 16,
-        }}
-      >
+      <p style={{ fontFamily: "'Lora', serif", color: "rgba(245, 240, 232, 0.85)", fontSize: 15, lineHeight: 1.8, marginBottom: 24, fontStyle: "italic", borderLeft: `2px solid ${COLORS.gold}`, paddingLeft: 16 }}>
         {data.descripcion}
       </p>
-
-      {/* Items */}
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {items.map((item) => (
-          <div
-            key={item.label}
-            style={{
-              background: "rgba(0,0,0,0.2)",
-              borderRadius: 10,
-              padding: "14px 16px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                marginBottom: 6,
-              }}
-            >
+          <div key={item.label} style={{ background: "rgba(0,0,0,0.2)", borderRadius: 10, padding: "14px 16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
               <span style={{ fontSize: 16 }}>{item.icon}</span>
-              <span
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  color: COLORS.gold,
-                  fontSize: 11,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  fontWeight: 600,
-                }}
-              >
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600 }}>
                 {item.label}
               </span>
             </div>
-            <p
-              style={{
-                fontFamily: "'Lora', serif",
-                color: COLORS.cream,
-                fontSize: 14,
-                lineHeight: 1.7,
-                margin: 0,
-              }}
-            >
+            <p style={{ fontFamily: "'Lora', serif", color: COLORS.cream, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
               {item.value}
             </p>
           </div>
         ))}
       </div>
-
-      {/* Footer CTA */}
-      <div
-        style={{
-          marginTop: 24,
-          textAlign: "center",
-          paddingTop: 20,
-          borderTop: "1px solid rgba(201,168,76,0.15)",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            color: "rgba(201,168,76,0.6)",
-            fontSize: 12,
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-            margin: 0,
-          }}
-        >
+      <div style={{ marginTop: 24, textAlign: "center", paddingTop: 20, borderTop: "1px solid rgba(201,168,76,0.15)" }}>
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.6)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", margin: 0 }}>
           Essenza Chile · Extra Virgen · Prensado en Frío
         </p>
       </div>
+    </div>
+  );
+};
+
+const ProductCard = ({ product }) => {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        position: "relative",
+        background: hovered ? "rgba(45,74,30,0.35)" : "rgba(45,74,30,0.18)",
+        border: `1px solid ${hovered ? "rgba(201,168,76,0.5)" : "rgba(201,168,76,0.2)"}`,
+        borderRadius: 14,
+        padding: "28px 20px 22px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        transition: "all 0.3s ease",
+      }}
+    >
+      {product.badge && (
+        <div style={{
+          position: "absolute",
+          top: -11,
+          left: "50%",
+          transform: "translateX(-50%)",
+          background: COLORS.gold,
+          color: COLORS.black,
+          fontSize: 9,
+          fontWeight: 700,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          padding: "3px 12px",
+          borderRadius: 20,
+          whiteSpace: "nowrap",
+          fontFamily: "'Cormorant Garamond', serif",
+        }}>
+          {product.badge}
+        </div>
+      )}
+
+      <div style={{ fontSize: 32, marginBottom: 12 }}>🫒</div>
+
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 17, fontWeight: 600, marginBottom: 4, lineHeight: 1.2 }}>
+        {product.name}
+      </div>
+      <div style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.45)", fontSize: 13, fontStyle: "italic", marginBottom: 18 }}>
+        {product.volume}
+      </div>
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 26, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.02em" }}>
+        {product.price}
+      </div>
+
+      <button
+        onClick={() => window.open(product.paymentLink, "_blank", "noopener")}
+        style={{
+          background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`,
+          border: `1px solid ${COLORS.gold}`,
+          borderRadius: 8,
+          color: COLORS.gold,
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: 12,
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          padding: "10px 0",
+          cursor: "pointer",
+          width: "100%",
+          transition: "all 0.25s ease",
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = `linear-gradient(135deg, ${COLORS.darkGreenLight}, #4a7a35)`; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`; }}
+      >
+        Comprar
+      </button>
+    </div>
+  );
+};
+
+const ProductStore = () => (
+  <div style={{ maxWidth: 860, margin: "72px auto 0", padding: "0 20px" }}>
+    <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)", paddingTop: 60 }}>
+      <div style={{ textAlign: "center", marginBottom: 40 }}>
+        <div style={{ fontSize: 10, letterSpacing: "0.35em", color: COLORS.gold, textTransform: "uppercase", marginBottom: 10, opacity: 0.8 }}>
+          Nuestra Tienda
+        </div>
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 32, fontWeight: 700, margin: "0 0 10px", lineHeight: 1.1 }}>
+          Lleva Essenza a tu cocina
+        </h2>
+        <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.4)", fontSize: 14, fontStyle: "italic", margin: 0 }}>
+          100% chileno · Prensado en frío · Máximo 0.3% acidez
+        </p>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 20 }}>
+        {PRODUCTS.map((p) => <ProductCard key={p.id} product={p} />)}
+      </div>
+
+      <div style={{ textAlign: "center", marginTop: 28, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ opacity: 0.5 }}>
+          <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2a5 5 0 110 10A5 5 0 018 3zm-.5 2v4l3 1.5.5-.87L8.5 8.3V5h-1z" fill="#009ee3"/>
+        </svg>
+        <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.3)", fontSize: 12, fontStyle: "italic" }}>
+          Pago seguro con
+        </span>
+        <span style={{ color: "#009ee3", fontWeight: 700, fontSize: 12, opacity: 0.7 }}>
+          Mercado Pago Chile
+        </span>
+      </div>
+    </div>
+  </div>
+);
+
+const Logo = () => {
+  const [imgError, setImgError] = useState(false);
+  return (
+    <div style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, rgba(45,74,30,0.6))`, border: "1px solid rgba(201,168,76,0.4)", borderRadius: "50%", width: 72, height: 72, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", overflow: "hidden" }}>
+      {!imgError ? (
+        <img
+          src="/images/essenza-logo.png"
+          alt="Essenza Chile"
+          onError={() => setImgError(true)}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      ) : (
+        <span style={{ fontSize: 32 }}>🫒</span>
+      )}
     </div>
   );
 };
@@ -339,10 +367,6 @@ export default function EssenzaPairingAI() {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes shimmer {
-          0% { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
         textarea:focus { outline: none; }
         textarea::placeholder { color: rgba(245,240,232,0.3); }
         ::-webkit-scrollbar { width: 4px; }
@@ -357,98 +381,27 @@ export default function EssenzaPairingAI() {
                        radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.08) 0%, transparent 50%),
                        ${COLORS.black}`,
           fontFamily: "'Cormorant Garamond', serif",
-          padding: "0 0 60px",
+          padding: "0 0 80px",
         }}
       >
         {/* Header */}
-        <div
-          style={{
-            textAlign: "center",
-            padding: "52px 24px 40px",
-            borderBottom: "1px solid rgba(201,168,76,0.1)",
-            marginBottom: 40,
-          }}
-        >
-          <div
-            style={{
-              background: `linear-gradient(135deg, ${COLORS.darkGreen}, rgba(45,74,30,0.6))`,
-              border: "1px solid rgba(201,168,76,0.4)",
-              borderRadius: "50%",
-              width: 72,
-              height: 72,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "0 auto 20px",
-              fontSize: 32,
-            }}
-          >
-            🫒
-          </div>
-          <div
-            style={{
-              fontSize: 10,
-              letterSpacing: "0.35em",
-              color: COLORS.gold,
-              textTransform: "uppercase",
-              marginBottom: 10,
-              opacity: 0.8,
-            }}
-          >
+        <div style={{ textAlign: "center", padding: "52px 24px 40px", borderBottom: "1px solid rgba(201,168,76,0.1)", marginBottom: 40 }}>
+          <Logo />
+          <div style={{ fontSize: 10, letterSpacing: "0.35em", color: COLORS.gold, textTransform: "uppercase", marginBottom: 10, opacity: 0.8 }}>
             Essenza Chile
           </div>
-          <h1
-            style={{
-              fontSize: 38,
-              fontWeight: 700,
-              color: COLORS.cream,
-              lineHeight: 1.1,
-              marginBottom: 12,
-              background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 100%)`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
+          <h1 style={{ fontSize: 38, fontWeight: 700, color: COLORS.cream, lineHeight: 1.1, marginBottom: 12, background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             Pairing AI
           </h1>
-          <p
-            style={{
-              fontFamily: "'Lora', serif",
-              color: "rgba(245,240,232,0.5)",
-              fontSize: 15,
-              fontStyle: "italic",
-              maxWidth: 320,
-              margin: "0 auto",
-              lineHeight: 1.6,
-            }}
-          >
+          <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.5)", fontSize: 15, fontStyle: "italic", maxWidth: 320, margin: "0 auto", lineHeight: 1.6 }}>
             Descubre cómo nuestro aceite extra virgen chileno eleva cada plato
           </p>
         </div>
 
-        {/* Main content */}
+        {/* Pairing tool */}
         <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 20px" }}>
-          {/* Input area */}
-          <div
-            style={{
-              background: "rgba(45,74,30,0.15)",
-              border: "1px solid rgba(201,168,76,0.25)",
-              borderRadius: 14,
-              padding: "20px",
-              marginBottom: 16,
-            }}
-          >
-            <label
-              style={{
-                display: "block",
-                fontSize: 10,
-                letterSpacing: "0.25em",
-                color: COLORS.gold,
-                textTransform: "uppercase",
-                marginBottom: 12,
-                opacity: 0.9,
-              }}
-            >
+          <div style={{ background: "rgba(45,74,30,0.15)", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 14, padding: "20px", marginBottom: 16 }}>
+            <label style={{ display: "block", fontSize: 10, letterSpacing: "0.25em", color: COLORS.gold, textTransform: "uppercase", marginBottom: 12, opacity: 0.9 }}>
               ¿Qué vas a preparar?
             </label>
             <textarea
@@ -458,31 +411,14 @@ export default function EssenzaPairingAI() {
               onKeyDown={handleKey}
               placeholder="Escribe un plato o ingredientes..."
               rows={3}
-              style={{
-                width: "100%",
-                background: "transparent",
-                border: "none",
-                color: COLORS.cream,
-                fontFamily: "'Lora', serif",
-                fontSize: 16,
-                lineHeight: 1.7,
-                resize: "none",
-              }}
+              style={{ width: "100%", background: "transparent", border: "none", color: COLORS.cream, fontFamily: "'Lora', serif", fontSize: 16, lineHeight: 1.7, resize: "none" }}
             />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginTop: 12,
-              }}
-            >
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
               <button
                 onClick={handleSubmit}
                 disabled={!input.trim() || loading}
                 style={{
-                  background: input.trim() && !loading
-                    ? `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`
-                    : "rgba(255,255,255,0.05)",
+                  background: input.trim() && !loading ? `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})` : "rgba(255,255,255,0.05)",
                   border: `1px solid ${input.trim() && !loading ? COLORS.gold : "rgba(255,255,255,0.1)"}`,
                   borderRadius: 8,
                   color: input.trim() && !loading ? COLORS.gold : "rgba(255,255,255,0.2)",
@@ -498,27 +434,14 @@ export default function EssenzaPairingAI() {
                   gap: 10,
                 }}
               >
-                {loading ? (
-                  <>Analizando <LoadingDots /></>
-                ) : (
-                  "Descubrir maridaje"
-                )}
+                {loading ? <><span>Analizando</span><LoadingDots /></> : "Descubrir maridaje"}
               </button>
             </div>
           </div>
 
-          {/* Suggestions */}
           {!result && !loading && (
             <div style={{ marginBottom: 8 }}>
-              <p
-                style={{
-                  fontSize: 10,
-                  letterSpacing: "0.2em",
-                  color: "rgba(201,168,76,0.4)",
-                  textTransform: "uppercase",
-                  marginBottom: 10,
-                }}
-              >
+              <p style={{ fontSize: 10, letterSpacing: "0.2em", color: "rgba(201,168,76,0.4)", textTransform: "uppercase", marginBottom: 10 }}>
                 Sugerencias
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -526,26 +449,9 @@ export default function EssenzaPairingAI() {
                   <button
                     key={s}
                     onClick={() => setInput(s)}
-                    style={{
-                      background: "transparent",
-                      border: "1px solid rgba(201,168,76,0.2)",
-                      borderRadius: 20,
-                      color: "rgba(245,240,232,0.5)",
-                      fontFamily: "'Lora', serif",
-                      fontSize: 13,
-                      padding: "6px 14px",
-                      cursor: "pointer",
-                      fontStyle: "italic",
-                      transition: "all 0.2s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.borderColor = "rgba(201,168,76,0.5)";
-                      e.target.style.color = COLORS.cream;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.borderColor = "rgba(201,168,76,0.2)";
-                      e.target.style.color = "rgba(245,240,232,0.5)";
-                    }}
+                    style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 20, color: "rgba(245,240,232,0.5)", fontFamily: "'Lora', serif", fontSize: 13, padding: "6px 14px", cursor: "pointer", fontStyle: "italic", transition: "all 0.2s ease" }}
+                    onMouseEnter={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.5)"; e.target.style.color = COLORS.cream; }}
+                    onMouseLeave={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.2)"; e.target.style.color = "rgba(245,240,232,0.5)"; }}
                   >
                     {s}
                   </button>
@@ -554,50 +460,26 @@ export default function EssenzaPairingAI() {
             </div>
           )}
 
-          {/* Error */}
           {error && (
-            <div
-              style={{
-                background: "rgba(180,50,50,0.15)",
-                border: "1px solid rgba(180,50,50,0.3)",
-                borderRadius: 10,
-                padding: "14px 18px",
-                marginTop: 16,
-                color: "#f87171",
-                fontFamily: "'Lora', serif",
-                fontSize: 14,
-                fontStyle: "italic",
-              }}
-            >
+            <div style={{ background: "rgba(180,50,50,0.15)", border: "1px solid rgba(180,50,50,0.3)", borderRadius: 10, padding: "14px 18px", marginTop: 16, color: "#f87171", fontFamily: "'Lora', serif", fontSize: 14, fontStyle: "italic" }}>
               {error}
             </div>
           )}
 
-          {/* Result */}
           {result && <ResultCard data={result} />}
 
-          {/* Reset */}
           {result && (
             <button
               onClick={() => { setResult(null); setInput(""); setError(null); }}
-              style={{
-                display: "block",
-                margin: "20px auto 0",
-                background: "transparent",
-                border: "none",
-                color: "rgba(201,168,76,0.4)",
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 12,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                cursor: "pointer",
-                padding: "8px 16px",
-              }}
+              style={{ display: "block", margin: "20px auto 0", background: "transparent", border: "none", color: "rgba(201,168,76,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", padding: "8px 16px" }}
             >
               ← Nuevo maridaje
             </button>
           )}
         </div>
+
+        {/* Product store */}
+        <ProductStore />
       </div>
     </>
   );

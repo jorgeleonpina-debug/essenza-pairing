@@ -5,7 +5,14 @@
       "PowerShell(Out-File *)",
       "PowerShell(cd C:\\\\Users\\\\jorge\\\\essenza-pairing; $env:REACT_APP_ANTHROPIC_KEY = \\(Get-Content .env | Select-String \"REACT_APP_ANTHROPIC_KEY\" | ForEach-Object { $_ -replace \"REACT_APP_ANTHROPIC_KEY=\", \"\" }\\); node server.js)",
       "PowerShell(Get-NetTCPConnection *)",
-      "PowerShell(New-Item *)"
+      "PowerShell(New-Item *)",
+      "PowerShell(vercel *)",
+      "PowerShell(vercel logs *)",
+      "PowerShell(git *)",
+      "PowerShell(git push *)",
+      "PowerShell(vercel curl *)",
+      "PowerShell(vercel env *)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); [System.IO.File]::WriteAllText\\(\"$env:TEMP\\\\test_body.json\", '{\"model\":\"claude-haiku-4-5-20251001\",\"max_tokens\":32,\"messages\":[{\"role\":\"user\",\"content\":\"ping\"}]}', [System.Text.Encoding]::ASCII\\); cd C:\\\\Users\\\\jorge\\\\essenza-pairing; vercel curl \"https://essenza-pairing-lss0eil4u-premium-olive-chile.vercel.app/api/messages\" --request POST --header \"content-type: application/json\" --data \"@$env:TEMP\\\\test_body.json\")"
     ]
   }
 }
