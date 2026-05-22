@@ -4,7 +4,7 @@
   "outputDirectory": "build",
   "functions": {
     "api/messages.js": {
-      "runtime": "nodejs18.x"
+      "maxDuration": 30
     }
   }
 }
