@@ -32,10 +32,10 @@ Reglas:
 - Si el usuario escribe algo que no es un plato o ingrediente, responde con {"error": "Describe un plato o ingrediente para continuar."}`;
 
 const PRODUCTS = [
-  { id: 1, name: "Aceite Extra Virgen", volume: "250ml",                   price: "$2.490",  badge: null,             image: "/images/bottle-250ml.png" },
-  { id: 2, name: "Aceite Extra Virgen", volume: "1L",                      price: "$14.990", badge: "Más vendido",    image: "/images/bottle-1l.png" },
-  { id: 3, name: "Bidón Extra Virgen",  volume: "5L",                      price: "$32.990", badge: null,             image: "/images/bidon-5l.png" },
-  { id: 4, name: "Pack Completo",       volume: "Aceite + Aceto Balsámico", price: "$47.990", badge: "Oferta especial", image: "/images/pack-completo.png" },
+  { id: 1, name: "Aceite Extra Virgen", volume: "250ml",                   price: "$2.490",  badge: null,             image: "/images/bottle-250ml.jpeg" },
+  { id: 2, name: "Aceite Extra Virgen", volume: "1L",                      price: "$14.990", badge: "Más vendido",    image: "/images/bottle-1l.jpeg" },
+  { id: 3, name: "Bidón Extra Virgen",  volume: "5L",                      price: "$32.990", badge: null,             image: "/images/bidon-5l.jpeg" },
+  { id: 4, name: "Pack Completo",       volume: "Aceite + Aceto Balsámico", price: "$47.990", badge: "Oferta especial", image: "/images/pack-completo.jpeg" },
 ];
 
 const LoadingDots = () => (
@@ -292,7 +292,7 @@ const Logo = () => {
     <div style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, rgba(45,74,30,0.6))`, border: "1px solid rgba(201,168,76,0.4)", borderRadius: "50%", width: 72, height: 72, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", overflow: "hidden" }}>
       {!imgError ? (
         <img
-          src="/images/logo.png"
+          src="/images/logo.jpeg"
           alt="Essenza Chile"
           onError={() => setImgError(true)}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
