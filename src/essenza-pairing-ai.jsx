@@ -31,41 +31,11 @@ Reglas:
 - Siempre mencionar el origen chileno de Essenza de forma orgánica
 - Si el usuario escribe algo que no es un plato o ingrediente, responde con {"error": "Describe un plato o ingrediente para continuar."}`;
 
-// Replace each paymentLink with your real Mercado Pago payment link.
-// Generate them at: https://www.mercadopago.cl/tools/create
 const PRODUCTS = [
-  {
-    id: 1,
-    name: "Aceite Extra Virgen",
-    volume: "250ml",
-    price: "$2.490",
-    badge: null,
-    paymentLink: "https://mpago.la/REEMPLAZA_1",
-  },
-  {
-    id: 2,
-    name: "Aceite Extra Virgen",
-    volume: "1L",
-    price: "$14.990",
-    badge: "Más vendido",
-    paymentLink: "https://mpago.la/REEMPLAZA_2",
-  },
-  {
-    id: 3,
-    name: "Bidón Extra Virgen",
-    volume: "5L",
-    price: "$32.990",
-    badge: null,
-    paymentLink: "https://mpago.la/REEMPLAZA_3",
-  },
-  {
-    id: 4,
-    name: "Pack Completo",
-    volume: "Aceite + Aceto Balsámico",
-    price: "$47.990",
-    badge: "Oferta especial",
-    paymentLink: "https://mpago.la/REEMPLAZA_4",
-  },
+  { id: 1, name: "Aceite Extra Virgen", volume: "250ml",                  price: "$2.490",  badge: null },
+  { id: 2, name: "Aceite Extra Virgen", volume: "1L",                     price: "$14.990", badge: "Más vendido" },
+  { id: 3, name: "Bidón Extra Virgen",  volume: "5L",                     price: "$32.990", badge: null },
+  { id: 4, name: "Pack Completo",       volume: "Aceite + Aceto Balsámico", price: "$47.990", badge: "Oferta especial" },
 ];
 
 const LoadingDots = () => (
@@ -167,6 +137,29 @@ const ResultCard = ({ data }) => {
 
 const ProductCard = ({ product }) => {
   const [hovered, setHovered] = useState(false);
+  const [buying, setBuying] = useState(false);
+
+  const handleComprar = async () => {
+    if (buying) return;
+    setBuying(true);
+    try {
+      const res = await fetch("/api/create-preference", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: product.id }),
+      });
+      const data = await res.json();
+      if (data.init_point) {
+        window.location.href = data.init_point;
+      } else {
+        console.error("No init_point:", data);
+        setBuying(false);
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      setBuying(false);
+    }
+  };
 
   return (
     <div
@@ -219,25 +212,28 @@ const ProductCard = ({ product }) => {
       </div>
 
       <button
-        onClick={() => window.open(product.paymentLink, "_blank", "noopener")}
+        onClick={handleComprar}
+        disabled={buying}
         style={{
-          background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`,
-          border: `1px solid ${COLORS.gold}`,
+          background: buying ? "rgba(45,74,30,0.3)" : `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`,
+          border: `1px solid ${buying ? "rgba(201,168,76,0.25)" : COLORS.gold}`,
           borderRadius: 8,
-          color: COLORS.gold,
+          color: buying ? "rgba(201,168,76,0.35)" : COLORS.gold,
           fontFamily: "'Cormorant Garamond', serif",
           fontSize: 12,
           letterSpacing: "0.22em",
           textTransform: "uppercase",
           padding: "10px 0",
-          cursor: "pointer",
+          cursor: buying ? "default" : "pointer",
           width: "100%",
           transition: "all 0.25s ease",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 8,
         }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = `linear-gradient(135deg, ${COLORS.darkGreenLight}, #4a7a35)`; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`; }}
       >
-        Comprar
+        {buying ? <><LoadingDots /><span>Redirigiendo...</span></> : "Comprar"}
       </button>
     </div>
   );
