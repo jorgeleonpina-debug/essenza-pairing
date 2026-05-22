@@ -10,7 +10,7 @@ app.post("/api/messages", async (req, res) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "x-api-key": process.env.REACT_APP_ANTHROPIC_KEY,
+        "x-api-key": process.env.ANTHROPIC_KEY,
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify(req.body),
