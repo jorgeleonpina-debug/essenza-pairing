@@ -23,6 +23,9 @@
     },
     "api/check-tables.js": {
       "maxDuration": 10
+    },
+    "api/debug-supabase.js": {
+      "maxDuration": 10
     }
   },
   "rewrites": [
