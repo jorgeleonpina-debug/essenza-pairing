@@ -930,6 +930,13 @@ const Contacto = () => (
   </div>
 );
 
+const LEGAL_LINKS = [
+  { label: "Despacho y Devolución", href: "/politicas-despacho" },
+  { label: "Términos y Condiciones", href: "/terminos-condiciones" },
+  { label: "Política de Reembolso", href: "/politica-reembolso" },
+  { label: "Privacidad", href: "/politica-privacidad" },
+];
+
 // ── Footer ─────────────────────────────────────────────────────────────────────
 const Footer = ({ onNewsletter }) => (
   <footer style={{ background: "#0d2214", borderTop: "1px solid rgba(201,168,76,0.18)", marginTop: 80, padding: "44px 24px" }}>
@@ -952,8 +959,18 @@ const Footer = ({ onNewsletter }) => (
         onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.3)"; e.currentTarget.style.color = "rgba(201,168,76,0.6)"; }}>
         ✦ Newsletter · 15% OFF
       </button>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px 20px" }}>
+        {LEGAL_LINKS.map((link) => (
+          <a key={link.href} href={link.href}
+            style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.4)", fontSize: 11, letterSpacing: "0.12em", textDecoration: "none", transition: "color 0.2s ease" }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.gold; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(201,168,76,0.4)"; }}>
+            {link.label}
+          </a>
+        ))}
+      </div>
       <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.3)", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", margin: 0, textAlign: "center" }}>
-        © 2025 Essenza Chile · Premium Olive Chile SPA
+        © 2025 Premium Olive Chile SpA · Todos los derechos reservados.
       </p>
     </div>
   </footer>
