@@ -176,7 +176,7 @@ const Logo = ({ size = 72 }) => {
   const [error, setError] = useState(false);
   return (
     <div style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, rgba(45,74,30,0.6))`, border: "1px solid rgba(201,168,76,0.4)", borderRadius: "50%", width: size, height: size, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
-      {!error ? <img src="/images/logo.jpeg" alt="Essenza Chile" onError={() => setError(true)} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: size * 0.44 }}>🫒</span>}
+      {!error ? <img src="/images/logo-original.png" alt="Essenza Chile" onError={() => setError(true)} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: size * 0.44 }}>🫒</span>}
     </div>
   );
 };
