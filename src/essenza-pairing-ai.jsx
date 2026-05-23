@@ -191,10 +191,6 @@ const LoadingDots = () => (
     ))}
   </span>
 );
-const SectionLabel = ({ children }) => (
-  <div style={{ fontSize: 10, letterSpacing: "0.35em", color: COLORS.gold, textTransform: "uppercase", marginBottom: 10, opacity: 0.8 }}>{children}</div>
-);
-const Divider = () => <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)", marginBottom: 60 }} />;
 
 // ── NavBar ─────────────────────────────────────────────────────────────────────
 const NavBar = ({ active, onNav, user, onLogin, onLogout, cartCount, onOpenCart }) => (
