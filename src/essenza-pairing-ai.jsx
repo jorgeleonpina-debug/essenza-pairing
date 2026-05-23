@@ -199,7 +199,9 @@ const Divider = () => <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)"
 // ── NavBar ─────────────────────────────────────────────────────────────────────
 const NavBar = ({ active, onNav, user, onLogin, onLogout, cartCount, onOpenCart }) => (
   <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(13,34,20,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(201,168,76,0.12)", display: "flex", alignItems: "center", padding: "0 12px" }}>
-    <div style={{ flex: 1 }} />
+    <div style={{ flex: 1, display: "flex", alignItems: "center", paddingLeft: 4 }}>
+      <img src="/images/images%20web/logo-essenza-png.png" alt="Essenza Chile" style={{ height: 55, objectFit: "contain" }} />
+    </div>
     <div style={{ display: "flex" }}>
       {NAV_TABS.map((tab) => (
         <button key={tab.id} onClick={() => onNav(tab.id)} style={{ background: "transparent", border: "none", borderBottom: active === tab.id ? `2px solid ${COLORS.gold}` : "2px solid transparent", color: active === tab.id ? COLORS.gold : "rgba(245,240,232,0.45)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", padding: "16px 18px 14px", cursor: "pointer", transition: "all 0.25s ease" }}

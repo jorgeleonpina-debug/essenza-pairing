@@ -19,12 +19,31 @@ const styles = `
   .hero-bg {
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(160deg, rgba(13,34,20,0.82) 0%, rgba(13,34,20,0.55) 50%, rgba(13,34,20,0.80) 100%),
-      url('/images/logo-original.png') center/cover no-repeat;
+    background: linear-gradient(160deg, rgba(13,34,20,0.82) 0%, rgba(13,34,20,0.55) 50%, rgba(13,34,20,0.80) 100%);
+    background-color: #0d2214;
     transform: scale(1.08);
     will-change: transform;
     transition: transform 0.1s linear;
+  }
+
+  .hero-bg-watermark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .hero-bg-watermark img {
+    width: 90vw;
+    max-width: 900px;
+    height: auto;
+    opacity: 0.08;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
 
   .hero-particles {
@@ -247,7 +266,11 @@ export default function HeroSection({ onShopClick, onAiClick }) {
     <>
       <style>{styles}</style>
       <section className="hero-root">
-        <div className="hero-bg" ref={bgRef} />
+        <div className="hero-bg" ref={bgRef}>
+          <div className="hero-bg-watermark" aria-hidden>
+            <img src="/images/images%20web/logo-essenza-png.png" alt="" />
+          </div>
+        </div>
 
         <div className="hero-particles" aria-hidden>
           {PARTICLES.map((p) => (
