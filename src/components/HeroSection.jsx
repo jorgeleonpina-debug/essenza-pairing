@@ -29,22 +29,12 @@ const styles = `
   .hero-bg-watermark {
     position: absolute;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-image: url('/images/images%20web/logo-essenza-1200.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 70%;
+    opacity: 0.07;
     pointer-events: none;
-    overflow: hidden;
-  }
-
-  .hero-bg-watermark-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 700;
-    font-size: clamp(60px, 12vw, 160px);
-    letter-spacing: 0.05em;
-    color: white;
-    opacity: 0.06;
-    white-space: nowrap;
-    user-select: none;
   }
 
   .hero-particles {
@@ -268,9 +258,7 @@ export default function HeroSection({ onShopClick, onAiClick }) {
       <style>{styles}</style>
       <section className="hero-root">
         <div className="hero-bg" ref={bgRef}>
-          <div className="hero-bg-watermark" aria-hidden>
-            <span className="hero-bg-watermark-text">Essenza Chile</span>
-          </div>
+          <div className="hero-bg-watermark" aria-hidden />
         </div>
 
         <div className="hero-particles" aria-hidden>
