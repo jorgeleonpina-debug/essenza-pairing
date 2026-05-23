@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const COLORS = {
   darkGreen: "#0d2214",
