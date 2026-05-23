@@ -200,7 +200,15 @@ const Divider = () => <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)"
 const NavBar = ({ active, onNav, user, onLogin, onLogout, cartCount, onOpenCart }) => (
   <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(13,34,20,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(201,168,76,0.12)", display: "flex", alignItems: "center", padding: "0 12px" }}>
     <div style={{ flex: 1, display: "flex", alignItems: "center", paddingLeft: 4 }}>
-      <img src="/images/images%20web/logo-essenza-png.png" alt="Essenza Chile" style={{ height: 55, objectFit: "contain" }} />
+      <img
+        src="/images/images%20web/logo-essenza.png"
+        alt="Essenza Chile"
+        style={{ height: 55, objectFit: "contain" }}
+        onError={(e) => {
+          e.currentTarget.style.display = "none";
+          e.currentTarget.parentElement.innerHTML = '<span style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-weight:600;letter-spacing:0.08em;color:#c9a84c;">Essenza Chile</span>';
+        }}
+      />
     </div>
     <div style={{ display: "flex" }}>
       {NAV_TABS.map((tab) => (
