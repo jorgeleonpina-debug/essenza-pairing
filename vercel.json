@@ -20,6 +20,9 @@
     },
     "api/admin-data.js": {
       "maxDuration": 15
+    },
+    "api/check-tables.js": {
+      "maxDuration": 10
     }
   },
   "rewrites": [
