@@ -203,7 +203,7 @@ const NavBar = ({ active, onNav, user, onLogin, onLogout, cartCount, onOpenCart 
       <img
         src="/images/logo-header-hq.png"
         alt="Essenza Chile"
-        style={{ height: 55, objectFit: "contain" }}
+        style={{ height: 45, width: "auto", display: "block", objectFit: "contain" }}
       />
     </div>
     <div style={{ display: "flex" }}>

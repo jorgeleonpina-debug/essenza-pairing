@@ -204,29 +204,7 @@ const styles = `
     animation: bounceDown 1.8s ease-in-out infinite;
   }
 
-  .hero-badge {
-    position: absolute;
-    top: 36px;
-    right: 36px;
-    z-index: 10;
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    border: 1px solid rgba(201,168,76,0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    animation: heroFadeUp 0.8s ease forwards 1.6s;
-  }
 
-  .hero-badge img {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-    filter: brightness(0) invert(1);
-    opacity: 0.85;
-  }
 `;
 
 const PARTICLES = Array.from({ length: 22 }, (_, i) => ({
@@ -278,10 +256,6 @@ export default function HeroSection({ onShopClick, onAiClick }) {
               }}
             />
           ))}
-        </div>
-
-        <div className="hero-badge" aria-hidden>
-          <img src="/images/logo-header-dark.png" alt="" />
         </div>
 
         <div className="hero-content">
