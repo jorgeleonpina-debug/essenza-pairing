@@ -198,7 +198,7 @@ const Divider = () => <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)"
 
 // ── NavBar ─────────────────────────────────────────────────────────────────────
 const NavBar = ({ active, onNav, user, onLogin, onLogout, cartCount, onOpenCart }) => (
-  <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(13,34,20,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(201,168,76,0.12)", display: "flex", alignItems: "center", padding: "0 12px" }}>
+  <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000, background: "rgba(13,34,20,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(201,168,76,0.12)", display: "flex", alignItems: "center", padding: "0 12px" }}>
     <div style={{ flex: 1, display: "flex", alignItems: "center", paddingLeft: 4 }}>
       <img
         src="/images/logo-header-hq.png"

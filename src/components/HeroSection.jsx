@@ -8,6 +8,8 @@ const styles = `
     width: 100%;
     height: 100vh;
     min-height: 600px;
+    padding-top: 56px;
+    box-sizing: border-box;
     overflow: hidden;
     display: flex;
     align-items: center;
