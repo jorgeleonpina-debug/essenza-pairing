@@ -592,6 +592,204 @@ const PaymentBanner = ({ status, onClose }) => {
   );
 };
 
+// ── Newsletter Modal ───────────────────────────────────────────────────────────
+const IconOliveBranch = () => (
+  <svg width="52" height="56" viewBox="0 0 52 56" fill="none">
+    <path d="M26 52 Q25 38 24 28 Q23 18 26 8" stroke="#c9a84c" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+    <ellipse cx="16" cy="20" rx="9" ry="4.2" fill="rgba(45,74,30,0.9)" stroke="#c9a84c" strokeWidth="1.2" transform="rotate(-38 16 20)"/>
+    <ellipse cx="14" cy="34" rx="8" ry="3.8" fill="rgba(45,74,30,0.8)" stroke="#c9a84c" strokeWidth="1.1" transform="rotate(-28 14 34)"/>
+    <ellipse cx="36" cy="16" rx="9" ry="4.2" fill="rgba(45,74,30,0.9)" stroke="#c9a84c" strokeWidth="1.2" transform="rotate(33 36 16)"/>
+    <ellipse cx="34" cy="30" rx="8" ry="3.8" fill="rgba(45,74,30,0.8)" stroke="#c9a84c" strokeWidth="1.1" transform="rotate(22 34 30)"/>
+    <circle cx="16" cy="18" r="2.2" fill="#c9a84c" opacity="0.75"/>
+    <circle cx="36" cy="14" r="2.2" fill="#c9a84c" opacity="0.75"/>
+    <circle cx="13" cy="32" r="1.8" fill="#c9a84c" opacity="0.5"/>
+  </svg>
+);
+
+const NEWSLETTER_PREFS = [
+  "Aceite de oliva extra virgen",
+  "Pastas artesanales",
+  "Sets de regalo",
+  "Todo Essenza",
+];
+
+const DISCOUNT_CODE = "ESSENZA15";
+
+const nlInputBase = {
+  width: "100%",
+  background: "rgba(255,255,255,0.06)",
+  border: "1px solid rgba(201,168,76,0.2)",
+  borderRadius: 8,
+  color: "#f5f0e8",
+  fontFamily: "'Lora', serif",
+  fontSize: 14,
+  padding: "11px 14px",
+  outline: "none",
+  boxSizing: "border-box",
+};
+
+const nlFieldLabel = {
+  display: "block",
+  fontSize: 10,
+  letterSpacing: "0.2em",
+  color: "rgba(201,168,76,0.7)",
+  textTransform: "uppercase",
+  marginBottom: 5,
+  fontFamily: "'Cormorant Garamond', serif",
+};
+
+const chevronSvg = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")";
+
+const NewsletterModal = ({ onClose }) => {
+  const [form, setForm] = useState({ nombre: "", apellido: "", email: "", fechaNacimiento: "", preferencia: "" });
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const set = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const validate = () => {
+    const e = {};
+    if (!form.nombre.trim()) e.nombre = "Requerido";
+    if (!form.email.trim() || !/^[^@]+@[^@]+\.[^@]+$/.test(form.email)) e.email = "Email inválido";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!validate() || loading) return;
+    setLoading(true);
+    try {
+      await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      localStorage.setItem("essenza_subscribed", "1");
+      setSuccess(true);
+    } catch {}
+    setLoading(false);
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(DISCOUNT_CODE);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {}
+  };
+
+  const nlErr = { color: "#f87171", fontSize: 11, margin: "3px 0 0", fontFamily: "'Lora', serif" };
+
+  return (
+    <div
+      style={{ position: "fixed", inset: 0, zIndex: 1100, background: "rgba(0,0,0,0.86)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, backdropFilter: "blur(7px)" }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div style={{ background: "#0d2214", border: "1px solid rgba(201,168,76,0.32)", borderRadius: 22, width: "100%", maxWidth: 480, maxHeight: "94vh", overflowY: "auto", animation: "fadeUp 0.4s ease", position: "relative" }}>
+        <button
+          onClick={onClose}
+          style={{ position: "absolute", top: 16, right: 18, background: "transparent", border: "none", color: "rgba(245,240,232,0.3)", cursor: "pointer", fontSize: 20, lineHeight: 1, zIndex: 2, padding: 6 }}
+        >✕</button>
+
+        {!success ? (
+          <div style={{ padding: "40px 36px 32px" }}>
+            {/* Icon + badge */}
+            <div style={{ textAlign: "center", marginBottom: 22 }}>
+              <div style={{ marginBottom: 14 }}><IconOliveBranch /></div>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.32)", borderRadius: 20, padding: "5px 16px" }}>
+                <span style={{ fontSize: 9, color: COLORS.gold }}>✦</span>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.24em", color: COLORS.gold, textTransform: "uppercase" }}>Bienvenida exclusiva</span>
+                <span style={{ fontSize: 9, color: COLORS.gold }}>✦</span>
+              </div>
+            </div>
+
+            {/* Headline */}
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 31, fontWeight: 700, lineHeight: 1.08, textAlign: "center", marginBottom: 14, background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 60%, ${COLORS.gold} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", textTransform: "uppercase", letterSpacing: "-0.01em" }}>
+              15% OFF<br />y Envío Gratis<br />en tu primera compra
+            </h2>
+
+            <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.48)", fontSize: 13.5, lineHeight: 1.7, textAlign: "center", marginBottom: 26, fontStyle: "italic" }}>
+              Regístrate para recibir tu descuento exclusivo,<br />novedades y ofertas de Essenza Chile.
+            </p>
+
+            <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)", marginBottom: 22 }} />
+
+            {/* Form */}
+            <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
+              <div style={{ flex: 1 }}>
+                <label style={nlFieldLabel}>Nombre</label>
+                <input type="text" value={form.nombre} onChange={set("nombre")} placeholder="María" style={{ ...nlInputBase, borderColor: errors.nombre ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.2)" }} />
+                {errors.nombre && <p style={nlErr}>{errors.nombre}</p>}
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={nlFieldLabel}>Apellido</label>
+                <input type="text" value={form.apellido} onChange={set("apellido")} placeholder="González" style={nlInputBase} />
+              </div>
+            </div>
+
+            <div style={{ marginBottom: 12 }}>
+              <label style={nlFieldLabel}>Email</label>
+              <input type="email" value={form.email} onChange={set("email")} placeholder="maria@email.com" style={{ ...nlInputBase, borderColor: errors.email ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.2)" }} />
+              {errors.email && <p style={nlErr}>{errors.email}</p>}
+            </div>
+
+            <div style={{ display: "flex", gap: 10, marginBottom: 24 }}>
+              <div style={{ flex: 1 }}>
+                <label style={nlFieldLabel}>Fecha de nacimiento</label>
+                <input type="date" value={form.fechaNacimiento} onChange={set("fechaNacimiento")} style={{ ...nlInputBase, colorScheme: "dark" }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={nlFieldLabel}>Preferencia</label>
+                <select value={form.preferencia} onChange={set("preferencia")} style={{ ...nlInputBase, cursor: "pointer", appearance: "none", WebkitAppearance: "none", backgroundImage: chevronSvg, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", paddingRight: 32 }}>
+                  <option value="" style={{ background: "#0d2214" }}>Elige una</option>
+                  {NEWSLETTER_PREFS.map((p) => <option key={p} value={p} style={{ background: "#0d2214" }}>{p}</option>)}
+                </select>
+              </div>
+            </div>
+
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              style={{ width: "100%", background: loading ? "rgba(201,168,76,0.5)" : COLORS.gold, border: "none", borderRadius: 10, color: COLORS.black, fontFamily: "'Cormorant Garamond', serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.26em", textTransform: "uppercase", padding: "16px 0", cursor: loading ? "default" : "pointer", transition: "all 0.25s ease", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 16 }}
+            >
+              {loading ? <><LoadingDots /><span style={{ color: COLORS.darkGreen }}>Enviando...</span></> : "Quiero mi descuento"}
+            </button>
+
+            <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.2)", fontSize: 10.5, lineHeight: 1.6, textAlign: "center" }}>
+              Al registrarte aceptas nuestra{" "}
+              <a href="mailto:contacto@premiumolivechile.com" style={{ color: "rgba(201,168,76,0.4)", textDecoration: "underline" }}>Política de Privacidad</a>.
+              {" "}Puedes cancelar en cualquier momento.
+            </p>
+          </div>
+        ) : (
+          <div style={{ padding: "52px 36px", textAlign: "center" }}>
+            <div style={{ width: 58, height: 58, borderRadius: "50%", background: "rgba(45,74,30,0.5)", border: "1px solid rgba(201,168,76,0.4)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 24, color: COLORS.gold }}>✓</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 26, fontWeight: 600, margin: "0 0 8px", lineHeight: 1.2 }}>¡Ya eres parte de Essenza!</h2>
+            <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.45)", fontSize: 13, lineHeight: 1.7, marginBottom: 30, fontStyle: "italic" }}>Hemos enviado tu código exclusivo a tu email.</p>
+
+            <div style={{ background: "rgba(201,168,76,0.09)", border: "1px solid rgba(201,168,76,0.32)", borderRadius: 14, padding: "26px 20px", marginBottom: 22 }}>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.6)", fontSize: 10, letterSpacing: "0.26em", textTransform: "uppercase", margin: "0 0 14px" }}>Tu código exclusivo</p>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginBottom: 12 }}>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 38, fontWeight: 700, letterSpacing: "0.14em" }}>{DISCOUNT_CODE}</span>
+                <button onClick={handleCopy} style={{ background: copied ? "rgba(45,74,30,0.6)" : "rgba(201,168,76,0.14)", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 8, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", padding: "7px 14px", cursor: "pointer", transition: "all 0.2s ease" }}>
+                  {copied ? "✓ Copiado" : "Copiar"}
+                </button>
+              </div>
+              <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.4)", fontSize: 12, margin: 0, fontStyle: "italic" }}>15% de descuento + envío gratis en tu primera compra</p>
+            </div>
+
+            <button onClick={onClose} style={{ width: "100%", background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${COLORS.gold}`, borderRadius: 10, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", padding: "13px 0", cursor: "pointer", transition: "all 0.25s ease" }}>
+              Ir a la tienda →
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // ── Section: Quiénes Somos ─────────────────────────────────────────────────────
 const QuienesSomos = () => (
   <div style={{ maxWidth: 720, margin: "0 auto", padding: "0 24px" }}>
@@ -654,7 +852,7 @@ const Contacto = () => (
 );
 
 // ── Footer ─────────────────────────────────────────────────────────────────────
-const Footer = () => (
+const Footer = ({ onNewsletter }) => (
   <footer style={{ background: "rgba(0,0,0,0.5)", borderTop: "1px solid rgba(201,168,76,0.1)", marginTop: 80, padding: "40px 24px" }}>
     <div style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
       <div style={{ display: "flex", gap: 24 }}>
@@ -672,6 +870,14 @@ const Footer = () => (
           );
         })}
       </div>
+      <button
+        onClick={onNewsletter}
+        style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 20, color: "rgba(201,168,76,0.5)", fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", padding: "7px 18px", cursor: "pointer", transition: "all 0.2s ease" }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.55)"; e.currentTarget.style.color = COLORS.gold; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.25)"; e.currentTarget.style.color = "rgba(201,168,76,0.5)"; }}
+      >
+        ✦ Newsletter · 15% OFF
+      </button>
       <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(245,240,232,0.2)", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", margin: 0, textAlign: "center" }}>
         © 2025 Essenza Chile · Premium Olive Chile SPA
       </p>
@@ -688,8 +894,16 @@ export default function EssenzaPairingAI() {
   const [activeTab, setActiveTab] = useState("inicio");
   const [checkoutProduct, setCheckoutProduct] = useState(null);
   const [paymentStatus, setPaymentStatus] = useState(null);
+  const [showNewsletter, setShowNewsletter] = useState(false);
   const textareaRef = useRef(null);
   const sectionsRef = useRef({});
+
+  useEffect(() => {
+    if (!localStorage.getItem("essenza_subscribed")) {
+      const t = setTimeout(() => setShowNewsletter(true), 8000);
+      return () => clearTimeout(t);
+    }
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -771,6 +985,7 @@ export default function EssenzaPairingAI() {
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
         @media (max-width: 480px) { .qs-grid { grid-template-columns: 1fr !important; } }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75) sepia(1) hue-rotate(10deg); opacity: 0.55; cursor: pointer; }
       `}</style>
 
       <div style={{ minHeight: "100vh", background: `radial-gradient(ellipse at 20% 0%, rgba(45,74,30,0.4) 0%, transparent 60%), radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.08) 0%, transparent 50%), ${COLORS.black}`, fontFamily: "'Cormorant Garamond', serif" }}>
@@ -781,6 +996,10 @@ export default function EssenzaPairingAI() {
 
         {checkoutProduct && (
           <CheckoutModal product={checkoutProduct} onClose={() => setCheckoutProduct(null)} />
+        )}
+
+        {showNewsletter && (
+          <NewsletterModal onClose={() => setShowNewsletter(false)} />
         )}
 
         {/* ── Header ── */}
@@ -871,7 +1090,7 @@ export default function EssenzaPairingAI() {
           <Contacto />
         </section>
 
-        <Footer />
+        <Footer onNewsletter={() => setShowNewsletter(true)} />
       </div>
     </>
   );

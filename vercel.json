@@ -8,6 +8,9 @@
     },
     "api/send-order-email.js": {
       "maxDuration": 10
+    },
+    "api/newsletter.js": {
+      "maxDuration": 10
     }
   }
 }
