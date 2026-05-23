@@ -176,16 +176,6 @@ const SectionLabel = ({ children }) => (
 );
 const Divider = () => <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)", marginBottom: 60 }} />;
 
-// ── Logo ───────────────────────────────────────────────────────────────────────
-const Logo = ({ size = 72 }) => {
-  const [error, setError] = useState(false);
-  return (
-    <div style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, rgba(45,74,30,0.6))`, border: "1px solid rgba(201,168,76,0.4)", borderRadius: "50%", width: size, height: size, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
-      {!error ? <img src="/images/logo-original.png" alt="Essenza Chile" onError={() => setError(true)} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: size * 0.44 }}>🫒</span>}
-    </div>
-  );
-};
-
 // ── NavBar ─────────────────────────────────────────────────────────────────────
 const NavBar = ({ active, onNav, user, onLogin, onLogout, cartCount, onOpenCart }) => (
   <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(13,34,20,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(201,168,76,0.12)", display: "flex", alignItems: "center", padding: "0 12px" }}>
@@ -277,55 +267,11 @@ const ResultCard = ({ data }) => {
   );
 };
 
-// ── Product Card ───────────────────────────────────────────────────────────────
-const ProductImage = ({ src, alt }) => {
-  const [error, setError] = useState(false);
-  return (
-    <div style={{ width: 90, height: 90, marginBottom: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      {!error ? <img src={src} alt={alt} onError={() => setError(true)} style={{ width: "100%", height: "100%", objectFit: "contain" }} /> : <span style={{ fontSize: 36 }}>🫒</span>}
-    </div>
-  );
-};
-
 const QtyBtn = ({ onClick, disabled, children }) => (
   <button onClick={onClick} disabled={disabled} style={{ background: disabled ? "rgba(255,255,255,0.04)" : "rgba(45,74,30,0.4)", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 6, color: disabled ? "rgba(201,168,76,0.2)" : COLORS.gold, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: disabled ? "default" : "pointer", flexShrink: 0 }}>
     {children}
   </button>
 );
-
-const ProductCard = ({ product, onDetail, onAddToCart }) => {
-  const [hovered, setHovered] = useState(false);
-  const [qty, setQty] = useState(1);
-
-  return (
-    <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-      style={{ position: "relative", background: hovered ? "rgba(45,74,30,0.35)" : "rgba(45,74,30,0.18)", border: `1px solid ${hovered ? "rgba(201,168,76,0.5)" : "rgba(201,168,76,0.2)"}`, borderRadius: 14, padding: "28px 16px 18px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", transition: "all 0.3s ease" }}>
-      {product.badge && (
-        <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: COLORS.gold, color: COLORS.black, fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "3px 12px", borderRadius: 20, whiteSpace: "nowrap", fontFamily: "'Cormorant Garamond', serif" }}>{product.badge}</div>
-      )}
-
-      <div onClick={() => onDetail(product)} style={{ cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <ProductImage src={product.image} alt={product.name} />
-        <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 16, fontWeight: 600, marginBottom: 2, lineHeight: 1.2 }}>{product.name}</div>
-        <div style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.45)", fontSize: 12, fontStyle: "italic", marginBottom: 10 }}>{product.volume}</div>
-      </div>
-
-      <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 24, fontWeight: 700, marginBottom: 14, letterSpacing: "-0.02em" }}>{product.price}</div>
-
-      <div onClick={(e) => e.stopPropagation()} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <QtyBtn onClick={() => setQty((q) => Math.max(1, q - 1))} disabled={qty <= 1}><IconMinus /></QtyBtn>
-        <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 16, fontWeight: 600, minWidth: 20, textAlign: "center" }}>{qty}</span>
-        <QtyBtn onClick={() => setQty((q) => q + 1)}><IconPlus /></QtyBtn>
-      </div>
-
-      <button
-        onClick={(e) => { e.stopPropagation(); onAddToCart(product.id, qty); setQty(1); }}
-        style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${COLORS.gold}`, borderRadius: 8, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", padding: "9px 0", cursor: "pointer", width: "100%", transition: "all 0.25s ease" }}>
-        Agregar · {formatCLP(product.numericPrice * qty)}
-      </button>
-    </div>
-  );
-};
 
 // ── Checkout Modal (cart-based) ────────────────────────────────────────────────
 const inputBase = {
@@ -1129,19 +1075,15 @@ export default function EssenzaPairingAI() {
 
         <BrandStory />
 
-        <ProductsShowcase
-          onAddToCart={addToCart}
-          onViewAll={() => scrollToSection("tienda")}
-        />
+        <div ref={(el) => { sectionsRef.current["tienda"] = el; }} data-section="tienda">
+          <ProductsShowcase
+            onAddToCart={addToCart}
+            onDetail={setDetailProduct}
+            onViewAll={() => scrollToSection("tienda")}
+          />
+        </div>
 
         <Testimonials />
-
-        <header style={{ textAlign: "center", padding: "52px 24px 36px", borderBottom: "1px solid rgba(201,168,76,0.1)" }}>
-          <div style={{ margin: "0 auto 20px" }}><Logo size={80} /></div>
-          <SectionLabel>Essenza Chile</SectionLabel>
-          <h1 style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.1, marginBottom: 12, background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Pairing AI</h1>
-          <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.5)", fontSize: 15, fontStyle: "italic", maxWidth: 320, margin: "0 auto", lineHeight: 1.6 }}>Descubre cómo nuestro aceite extra virgen chileno eleva cada plato</p>
-        </header>
 
         <NavBar active={activeTab} onNav={scrollToSection} user={user} onLogin={() => setShowAuth(true)} onLogout={logout} cartCount={cartCount} onOpenCart={() => setShowCart(true)} />
 
@@ -1179,31 +1121,6 @@ export default function EssenzaPairingAI() {
                 ← Nuevo maridaje
               </button>
             )}
-          </div>
-        </section>
-
-        <section ref={(el) => { sectionsRef.current["tienda"] = el; }} data-section="tienda" style={{ padding: "0 0 80px" }}>
-          <Divider />
-          <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 20px" }}>
-            <div style={{ textAlign: "center", marginBottom: 40 }}>
-              <SectionLabel>Nuestra Tienda</SectionLabel>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 36, fontWeight: 700, margin: "0 0 10px", lineHeight: 1.1 }}>Lleva Essenza a tu cocina</h2>
-              <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.4)", fontSize: 14, fontStyle: "italic", margin: 0 }}>100% chileno · Prensado en frío · Máximo 0.3% acidez</p>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 20 }}>
-              {PRODUCTS.map((p) => <ProductCard key={p.id} product={p} onDetail={setDetailProduct} onAddToCart={addToCart} />)}
-            </div>
-            {cartCount > 0 && (
-              <div style={{ textAlign: "center", marginTop: 28 }}>
-                <button onClick={() => setShowCart(true)} style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${COLORS.gold}`, borderRadius: 10, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", padding: "12px 28px", cursor: "pointer" }}>
-                  Ver carrito ({cartCount}) →
-                </button>
-              </div>
-            )}
-            <div style={{ textAlign: "center", marginTop: 20, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.3)", fontSize: 12, fontStyle: "italic" }}>Pago seguro con</span>
-              <span style={{ color: "#009ee3", fontWeight: 700, fontSize: 12, opacity: 0.7 }}>Mercado Pago Chile</span>
-            </div>
           </div>
         </section>
 

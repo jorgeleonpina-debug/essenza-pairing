@@ -238,22 +238,22 @@ const styles = `
 const PRODUCTS = [
   {
     id: 1, name: "Aceite Extra Virgen", volume: "250ml",
-    price: "$2.490", badge: null, image: "/images/bottle-250ml.jpeg",
+    price: "$2.490", numericPrice: 2490, badge: null, image: "/images/bottle-250ml.jpeg",
     description: "Botella de iniciación perfecta para descubrir Essenza. Prensado en frío, cosecha selectiva, acidez máxima 0.3%.",
   },
   {
     id: 2, name: "Aceite Extra Virgen", volume: "1L",
-    price: "$14.990", badge: "Más vendido", image: "/images/bottle-1l.jpeg",
+    price: "$14.990", numericPrice: 14990, badge: "Más vendido", image: "/images/bottle-1l.jpeg",
     description: "El favorito de nuestra comunidad. Cosecha selectiva, extracción en frío, acidez máxima 0.3%. Perfecto para cocinar y regalar.",
   },
   {
     id: 3, name: "Bidón Extra Virgen", volume: "5L",
-    price: "$32.990", badge: null, image: "/images/bidon-5l.jpeg",
+    price: "$32.990", numericPrice: 32990, badge: null, image: "/images/bidon-5l.jpeg",
     description: "Ideal para uso diario y cocina profesional. Primera presión en frío, acidez máxima 0.3%. Origen: Valle Central de Chile.",
   },
   {
     id: 4, name: "Pack Completo", volume: "Aceite + Aceto Balsámico",
-    price: "$47.990", badge: "Oferta especial", image: "/images/pack-completo.jpeg",
+    price: "$47.990", numericPrice: 47990, badge: "Oferta especial", image: "/images/pack-completo.jpeg",
     description: "El regalo perfecto. Aceite extra virgen Essenza y aceto balsámico premium en un pack exclusivo.",
   },
 ];
@@ -273,7 +273,7 @@ function useVisible(ref, threshold = 0.18) {
   return visible;
 }
 
-function ProductCard({ product, delay, onAddToCart }) {
+function ProductCard({ product, delay, onAddToCart, onDetail }) {
   const ref = useRef(null);
   const visible = useVisible(ref);
 
@@ -284,7 +284,11 @@ function ProductCard({ product, delay, onAddToCart }) {
       style={{ transitionDelay: `${delay}ms` }}
     >
       {product.badge && <span className="ps-badge">{product.badge}</span>}
-      <div className="ps-card-img-wrap">
+      <div
+        className="ps-card-img-wrap"
+        onClick={() => onDetail && onDetail(product)}
+        style={{ cursor: "pointer" }}
+      >
         <img
           src={product.image}
           alt={`${product.name} ${product.volume}`}
@@ -294,15 +298,21 @@ function ProductCard({ product, delay, onAddToCart }) {
       </div>
       <div className="ps-card-body">
         <p className="ps-card-volume">{product.volume}</p>
-        <h3 className="ps-card-name">{product.name}</h3>
+        <h3
+          className="ps-card-name"
+          onClick={() => onDetail && onDetail(product)}
+          style={{ cursor: "pointer" }}
+        >
+          {product.name}
+        </h3>
         <p className="ps-card-desc">{product.description}</p>
         <div className="ps-card-footer">
           <span className="ps-card-price">{product.price}</span>
           <button
             className="ps-card-btn"
-            onClick={() => onAddToCart(product.id, 1)}
+            onClick={(e) => { e.stopPropagation(); onAddToCart(product.id, 1); }}
           >
-            Agregar
+            Agregar al carrito
           </button>
         </div>
       </div>
@@ -310,7 +320,7 @@ function ProductCard({ product, delay, onAddToCart }) {
   );
 }
 
-export default function ProductsShowcase({ onAddToCart, onViewAll }) {
+export default function ProductsShowcase({ onAddToCart, onDetail, onViewAll }) {
   const headerRef = useRef(null);
   const kickerRef = useRef(null);
   const subRef = useRef(null);
@@ -344,6 +354,7 @@ export default function ProductsShowcase({ onAddToCart, onViewAll }) {
                 product={p}
                 delay={i * 100}
                 onAddToCart={onAddToCart}
+                onDetail={onDetail}
               />
             ))}
           </div>
