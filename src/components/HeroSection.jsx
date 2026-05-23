@@ -29,7 +29,7 @@ const styles = `
   .hero-bg-watermark {
     position: absolute;
     inset: 0;
-    background-image: url('/images/images%20web/logo-transparent-hq.png');
+    background-image: url('/images/logo-transparent-hq.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 65%;
