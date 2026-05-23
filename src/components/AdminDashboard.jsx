@@ -95,19 +95,24 @@ export default function AdminDashboard() {
   const fetchData = async (pw) => {
     setLoading(true);
     setFetchError("");
+    setAuthError("");
     try {
       const res = await fetch("/api/admin-data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: pw }),
       });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Error al cargar datos");
+      let json;
+      try { json = await res.json(); } catch { json = {}; }
+      if (res.status === 401) {
+        setAuthError("Contraseña incorrecta");
+        return;
+      }
+      if (!res.ok) throw new Error(json.error || `Error del servidor (${res.status})`);
       setData(json);
       setIsLoggedIn(true);
     } catch (err) {
-      if (err.message === "Contraseña incorrecta") setAuthError(err.message);
-      else setFetchError(err.message);
+      setFetchError(err.message);
     } finally {
       setLoading(false);
     }
@@ -133,12 +138,13 @@ export default function AdminDashboard() {
           <input
             type="password"
             value={password}
-            onChange={(e) => { setPassword(e.target.value); setAuthError(""); }}
+            onChange={(e) => { setPassword(e.target.value); setAuthError(""); setFetchError(""); }}
             onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             placeholder="Contraseña de acceso"
-            style={{ width: "100%", background: "rgba(0,0,0,0.3)", border: `1px solid ${authError ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)"}`, borderRadius: 9, color: COLORS.cream, fontFamily: "'Lora', serif", fontSize: 14, padding: "12px 16px", outline: "none", marginBottom: authError ? 8 : 20 }}
+            style={{ width: "100%", background: "rgba(0,0,0,0.3)", border: `1px solid ${(authError || fetchError) ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)"}`, borderRadius: 9, color: COLORS.cream, fontFamily: "'Lora', serif", fontSize: 14, padding: "12px 16px", outline: "none", marginBottom: (authError || fetchError) ? 8 : 20 }}
           />
           {authError && <p style={{ color: "#f87171", fontSize: 12, fontFamily: "'Lora', serif", textAlign: "left", marginBottom: 14 }}>{authError}</p>}
+          {fetchError && <p style={{ color: "#f87171", fontSize: 12, fontFamily: "'Lora', serif", textAlign: "left", marginBottom: 14 }}>{fetchError}</p>}
           <button onClick={handleLogin} disabled={loading} style={{ width: "100%", background: loading ? "rgba(201,168,76,0.4)" : COLORS.gold, border: "none", borderRadius: 9, color: COLORS.black, fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: 13, letterSpacing: "0.24em", textTransform: "uppercase", padding: "14px 0", cursor: loading ? "default" : "pointer" }}>
             {loading ? "Verificando..." : "Ingresar"}
           </button>
