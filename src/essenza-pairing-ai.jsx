@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import HeroSection from "./components/HeroSection";
 import BrandStory from "./components/BrandStory";
 import ProductsShowcase from "./components/ProductsShowcase";
+import Testimonials from "./components/Testimonials";
 
 const COLORS = {
   darkGreen: "#2d4a1e",
@@ -1130,6 +1131,8 @@ export default function EssenzaPairingAI() {
           onAddToCart={addToCart}
           onViewAll={() => scrollToSection("tienda")}
         />
+
+        <Testimonials />
 
         <header style={{ textAlign: "center", padding: "52px 24px 36px", borderBottom: "1px solid rgba(201,168,76,0.1)" }}>
           <div style={{ margin: "0 auto 20px" }}><Logo size={80} /></div>
