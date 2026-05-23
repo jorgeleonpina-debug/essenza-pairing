@@ -14,7 +14,7 @@ const COLORS = {
   goldLight: "#e8c46a",
 };
 
-const SYSTEM_PROMPT = `Eres el sommelier de aceite de oliva extra virgen de Essenza Chile, una marca premium de aceite de oliva 100% chileno, prensado en frío, con máximo 0.3% de acidez.
+const SYSTEM_PROMPT = `Eres el sommelier de aceite de oliva extra virgen de Essenza Chile, una marca premium de aceite de oliva 100% chileno, extracción en frío, con máximo 0.3% de acidez.
 
 Tu rol es responder ÚNICAMENTE en JSON válido, sin texto adicional, sin markdown, sin explicaciones fuera del JSON.
 
@@ -256,34 +256,68 @@ const CompatibilityMeter = ({ value }) => {
 };
 
 // ── ResultCard ─────────────────────────────────────────────────────────────────
-const ResultCard = ({ data }) => {
-  const items = [
-    { label: "Momento de uso",    value: data.momento,     icon: "⏱️" },
-    { label: "Técnica",           value: data.tecnica,      icon: "🫒" },
-    { label: "Maridaje sugerido", value: data.maridaje,     icon: "🍷" },
-    { label: "Consejo del chef",  value: data.consejo_chef, icon: "👨‍🍳" },
+const ResultCard = ({ data, onAddToCart }) => {
+  const [added, setAdded] = useState(false);
+  const featured = PRODUCTS[4]; // 1L glass bottle
+
+  const handleAdd = () => {
+    if (onAddToCart) { onAddToCart(featured.id, 1); }
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2500);
+  };
+
+  const details = [
+    { label: "Momento de uso",    value: data.momento,      icon: "⏱" },
+    { label: "Técnica",           value: data.tecnica,       icon: "🫒" },
+    { label: "Maridaje sugerido", value: data.maridaje,      icon: "🍷" },
+    { label: "Consejo del chef",  value: data.consejo_chef,  icon: "👨‍🍳" },
   ];
+
   return (
-    <div style={{ animation: "fadeUp 0.6s ease forwards", background: "rgba(45,74,30,0.25)", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 16, padding: "32px 28px", marginTop: 24 }}>
-      <div style={{ marginBottom: 24, textAlign: "center" }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>{data.emoji_plato}</div>
-        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 26, fontWeight: 600, margin: 0 }}>{data.titulo}</h2>
+    <div style={{ animation: "fadeUp 0.6s ease forwards", marginTop: 40, borderLeft: "3px solid #c9a84c", paddingLeft: 28 }}>
+
+      {/* Title row */}
+      <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+        <span style={{ fontSize: 40, lineHeight: 1 }}>{data.emoji_plato}</span>
+        <h3 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 26, fontWeight: 600, margin: 0, lineHeight: 1.1 }}>{data.titulo}</h3>
       </div>
+
       <CompatibilityMeter value={data.compatibilidad} />
-      <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.85)", fontSize: 15, lineHeight: 1.8, marginBottom: 24, fontStyle: "italic", borderLeft: `2px solid ${COLORS.gold}`, paddingLeft: 16 }}>{data.descripcion}</p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        {items.map((item) => (
-          <div key={item.label} style={{ background: "rgba(0,0,0,0.2)", borderRadius: 10, padding: "14px 16px" }}>
+
+      {/* Product image + description */}
+      <div style={{ display: "flex", gap: 24, alignItems: "flex-start", marginBottom: 28 }}>
+        <div style={{ flexShrink: 0, textAlign: "center", width: 76 }}>
+          <img src={featured.image} alt={featured.name}
+            style={{ width: 68, height: 90, objectFit: "contain", filter: "drop-shadow(0 4px 14px rgba(201,168,76,0.22))" }}
+            onError={(e) => { e.target.style.display = "none"; }} />
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.5)", fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 6 }}>Essenza 1L</div>
+        </div>
+        <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.82)", fontSize: 15, lineHeight: 1.9, margin: 0, fontStyle: "italic", flex: 1 }}>{data.descripcion}</p>
+      </div>
+
+      {/* Detail rows */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 28 }}>
+        {details.map((item) => (
+          <div key={item.label} style={{ borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: 14, paddingBottom: 14 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-              <span style={{ fontSize: 16 }}>{item.icon}</span>
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600 }}>{item.label}</span>
+              <span style={{ fontSize: 14 }}>{item.icon}</span>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase" }}>{item.label}</span>
             </div>
-            <p style={{ fontFamily: "'Lora', serif", color: COLORS.cream, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{item.value}</p>
+            <p style={{ fontFamily: "'Lora', serif", color: COLORS.cream, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{item.value}</p>
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 24, textAlign: "center", paddingTop: 20, borderTop: "1px solid rgba(201,168,76,0.15)" }}>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.6)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", margin: 0 }}>Essenza Chile · Extra Virgen · Prensado en Frío</p>
+
+      {/* Add to cart */}
+      <button onClick={handleAdd}
+        style={{ width: "100%", background: added ? "transparent" : COLORS.gold, border: `1px solid ${COLORS.gold}`, color: added ? COLORS.gold : COLORS.darkGreen, fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", padding: "15px 0", cursor: "pointer", transition: "all 0.3s ease" }}>
+        {added ? `✓ Agregado — ${featured.price}` : `Agregar al carrito · ${featured.price}`}
+      </button>
+
+      <div style={{ textAlign: "center", marginTop: 18 }}>
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.35)", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", margin: 0 }}>
+          Essenza Chile · Extra Virgen · Extracción en Frío
+        </p>
       </div>
     </div>
   );
@@ -1057,6 +1091,7 @@ export default function EssenzaPairingAI() {
   const [detailProduct, setDetailProduct] = useState(null);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [showNewsletter, setShowNewsletter] = useState(false);
+  const [inputFocused, setInputFocused] = useState(false);
 
   const textareaRef = useRef(null);
   const sectionsRef = useRef({});
@@ -1111,7 +1146,9 @@ export default function EssenzaPairingAI() {
         if (stored) {
           try {
             const orderData = JSON.parse(stored);
-            fetch("/api/send-order-email", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...orderData, paymentId }) }).catch(console.error);
+            const payload = JSON.stringify({ ...orderData, paymentId });
+            fetch("/api/send-order-email", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload }).catch(console.error);
+            fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload }).catch(console.error);
           } catch {}
           localStorage.removeItem("essenza_order");
         }
@@ -1169,6 +1206,8 @@ export default function EssenzaPairingAI() {
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75) sepia(1) hue-rotate(10deg); opacity: 0.55; cursor: pointer; }
+        @keyframes slowRotate { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
+        .pairing-input::placeholder { color: rgba(245,240,232,0.3) !important; font-style: italic; }
         @media (max-width: 640px) { .nav-text { display: none; } .qs-cards { grid-template-columns: 1fr !important; gap: 32px !important; } }
         @media (max-width: 480px) { .nav-text { display: none; } }
       `}</style>
@@ -1202,37 +1241,119 @@ export default function EssenzaPairingAI() {
 
         <NavBar active={activeTab} onNav={scrollToSection} user={user} onLogin={() => setShowAuth(true)} onLogout={logout} cartCount={cartCount} onOpenCart={() => setShowCart(true)} />
 
-        <section ref={(el) => { sectionsRef.current["inicio"] = el; }} data-section="inicio" style={{ padding: "60px 0 80px" }}>
-          <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 20px" }}>
-            <div style={{ background: "rgba(45,74,30,0.15)", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 14, padding: "20px", marginBottom: 16 }}>
-              <label style={{ display: "block", fontSize: 10, letterSpacing: "0.25em", color: COLORS.gold, textTransform: "uppercase", marginBottom: 12, opacity: 0.9 }}>¿Qué vas a preparar?</label>
-              <textarea ref={textareaRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleKey} placeholder="Escribe un plato o ingredientes..." rows={3}
-                style={{ width: "100%", background: "transparent", border: "none", color: COLORS.cream, fontFamily: "'Lora', serif", fontSize: 16, lineHeight: 1.7, resize: "none" }} />
-              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
-                <button onClick={handleSubmit} disabled={!input.trim() || loading}
-                  style={{ background: input.trim() && !loading ? `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})` : "rgba(255,255,255,0.05)", border: `1px solid ${input.trim() && !loading ? COLORS.gold : "rgba(255,255,255,0.1)"}`, borderRadius: 8, color: input.trim() && !loading ? COLORS.gold : "rgba(255,255,255,0.2)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", padding: "10px 22px", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.3s ease", display: "flex", alignItems: "center", gap: 10 }}>
-                  {loading ? <><span>Analizando</span><LoadingDots /></> : "Descubrir maridaje"}
-                </button>
+        <section ref={(el) => { sectionsRef.current["inicio"] = el; }} data-section="inicio"
+          style={{ minHeight: "100vh", background: "#0d2214", display: "flex", flexDirection: "column", justifyContent: "center", padding: "110px 0 80px", position: "relative", overflow: "hidden" }}>
+
+          {/* Animated olive branch background */}
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", opacity: 0.04, animation: "slowRotate 80s linear infinite", pointerEvents: "none", zIndex: 0 }}>
+            <svg viewBox="0 0 400 400" width="760" height="760" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M200 380 Q196 290 186 210 Q176 130 200 50" stroke="#c9a84c" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+              <path d="M191 335 Q148 308 105 288" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M189 295 Q238 268 278 250" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M192 258 Q144 228 102 205" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M191 218 Q242 192 282 172" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M193 178 Q148 150 110 130" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M195 140 Q244 115 278 96" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M197 104 Q155 82 122 68" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round" fill="none"/>
+              <ellipse cx="84" cy="280" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(-36 84 280)"/>
+              <ellipse cx="58" cy="266" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-42 58 266)"/>
+              <ellipse cx="114" cy="292" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-28 114 292)"/>
+              <ellipse cx="288" cy="242" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(36 288 242)"/>
+              <ellipse cx="314" cy="228" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(30 314 228)"/>
+              <ellipse cx="264" cy="255" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(42 264 255)"/>
+              <ellipse cx="82" cy="198" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(-40 82 198)"/>
+              <ellipse cx="56" cy="184" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-46 56 184)"/>
+              <ellipse cx="112" cy="210" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-32 112 210)"/>
+              <ellipse cx="292" cy="164" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(34 292 164)"/>
+              <ellipse cx="318" cy="150" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(28 318 150)"/>
+              <ellipse cx="88" cy="122" rx="22" ry="8.5" fill="#c9a84c" transform="rotate(-38 88 122)"/>
+              <ellipse cx="64" cy="108" rx="17" ry="6.5" fill="#c9a84c" transform="rotate(-44 64 108)"/>
+              <ellipse cx="286" cy="88" rx="22" ry="8.5" fill="#c9a84c" transform="rotate(37 286 88)"/>
+              <ellipse cx="264" cy="76" rx="17" ry="6.5" fill="#c9a84c" transform="rotate(43 264 76)"/>
+              <ellipse cx="100" cy="66" rx="18" ry="7" fill="#c9a84c" transform="rotate(-35 100 66)"/>
+              <circle cx="104" cy="288" r="7" fill="#c9a84c"/>
+              <circle cx="294" cy="248" r="7" fill="#c9a84c"/>
+              <circle cx="102" cy="208" r="6" fill="#c9a84c"/>
+              <circle cx="298" cy="168" r="6" fill="#c9a84c"/>
+              <circle cx="106" cy="128" r="6" fill="#c9a84c"/>
+              <circle cx="292" cy="94" r="6" fill="#c9a84c"/>
+              <circle cx="112" cy="74" r="5" fill="#c9a84c"/>
+            </svg>
+          </div>
+
+          <div style={{ maxWidth: 620, margin: "0 auto", padding: "0 28px", position: "relative", zIndex: 1 }}>
+
+            {/* Header */}
+            <div style={{ textAlign: "center", marginBottom: 60 }}>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: "clamp(34px, 5vw, 52px)", fontWeight: 400, margin: "0 0 18px", lineHeight: 1.05, letterSpacing: "0.01em" }}>
+                Encuentra tu Maridaje Perfecto
+              </h2>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: "rgba(245,240,232,0.6)", fontSize: "clamp(15px, 2.2vw, 18px)", margin: "0 0 32px", lineHeight: 1.65, fontWeight: 400 }}>
+                Nuestra IA selecciona el aceite Essenza ideal para cada plato
+              </p>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
+                <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.5))" }} />
+                <span style={{ color: COLORS.gold, fontSize: 10 }}>◆</span>
+                <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, rgba(201,168,76,0.5), transparent)" }} />
               </div>
             </div>
+
+            {/* Elegant underline input */}
+            <div style={{ position: "relative", marginBottom: 40 }}>
+              <input
+                ref={textareaRef}
+                className="pairing-input"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKey}
+                onFocus={() => setInputFocused(true)}
+                onBlur={() => setInputFocused(false)}
+                placeholder="Escribe tu plato... ej: Pasta al pesto, Ceviche, Asado"
+                style={{ width: "100%", background: "transparent", border: "none", borderBottom: "1px solid rgba(201,168,76,0.35)", color: COLORS.cream, fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(18px, 3vw, 24px)", fontStyle: "italic", padding: "14px 0", outline: "none", caretColor: COLORS.gold, boxSizing: "border-box" }}
+              />
+              <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", height: 2, background: `linear-gradient(90deg, transparent, ${COLORS.gold}, transparent)`, width: inputFocused ? "100%" : "0%", transition: "width 0.45s ease", pointerEvents: "none" }} />
+            </div>
+
+            {/* Suggestion chips — minimal underline style with · separators */}
             {!result && !loading && (
-              <div style={{ marginBottom: 8 }}>
-                <p style={{ fontSize: 10, letterSpacing: "0.2em", color: "rgba(201,168,76,0.4)", textTransform: "uppercase", marginBottom: 10 }}>Sugerencias</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {suggestions.map((s) => (
-                    <button key={s} onClick={() => setInput(s)} style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 20, color: "rgba(245,240,232,0.5)", fontFamily: "'Lora', serif", fontSize: 13, padding: "6px 14px", cursor: "pointer", fontStyle: "italic", transition: "all 0.2s ease" }}
-                      onMouseEnter={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.5)"; e.target.style.color = COLORS.cream; }}
-                      onMouseLeave={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.2)"; e.target.style.color = "rgba(245,240,232,0.5)"; }}>
-                      {s}
-                    </button>
+              <div style={{ textAlign: "center", marginBottom: 44 }}>
+                <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+                  {suggestions.map((s, i) => (
+                    <span key={s} style={{ display: "inline-flex", alignItems: "center" }}>
+                      <button onClick={() => setInput(s)}
+                        style={{ background: "transparent", border: "none", borderBottom: "1px solid rgba(201,168,76,0.22)", color: "rgba(245,240,232,0.45)", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 15, padding: "4px 2px", cursor: "pointer", transition: "all 0.22s ease", letterSpacing: "0.02em" }}
+                        onMouseEnter={(e) => { e.target.style.color = COLORS.gold; e.target.style.borderBottomColor = "rgba(201,168,76,0.55)"; e.target.style.textShadow = "0 0 14px rgba(201,168,76,0.3)"; }}
+                        onMouseLeave={(e) => { e.target.style.color = "rgba(245,240,232,0.45)"; e.target.style.borderBottomColor = "rgba(201,168,76,0.22)"; e.target.style.textShadow = "none"; }}>
+                        {s}
+                      </button>
+                      {i < suggestions.length - 1 && (
+                        <span style={{ color: "rgba(201,168,76,0.32)", margin: "0 11px", fontSize: 17, lineHeight: 1, userSelect: "none" }}>·</span>
+                      )}
+                    </span>
                   ))}
                 </div>
               </div>
             )}
-            {error && <div style={{ background: "rgba(180,50,50,0.15)", border: "1px solid rgba(180,50,50,0.3)", borderRadius: 10, padding: "14px 18px", marginTop: 16, color: "#f87171", fontFamily: "'Lora', serif", fontSize: 14, fontStyle: "italic" }}>{error}</div>}
-            {result && <ResultCard data={result} />}
+
+            {/* Full-width gold bar button */}
+            <button onClick={handleSubmit} disabled={!input.trim() || loading}
+              style={{ width: "100%", background: input.trim() && !loading ? COLORS.gold : "rgba(201,168,76,0.12)", border: input.trim() && !loading ? `1px solid ${COLORS.gold}` : "1px solid rgba(201,168,76,0.2)", color: input.trim() && !loading ? COLORS.darkGreen : "rgba(201,168,76,0.22)", fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: 14, letterSpacing: "0.2em", textTransform: "uppercase", padding: "18px 0", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.35s ease", display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}
+              onMouseEnter={(e) => { if (input.trim() && !loading) { e.currentTarget.style.background = "#0d2214"; e.currentTarget.style.color = COLORS.gold; } }}
+              onMouseLeave={(e) => { if (input.trim() && !loading) { e.currentTarget.style.background = COLORS.gold; e.currentTarget.style.color = COLORS.darkGreen; } }}>
+              {loading ? <><span>Analizando</span><LoadingDots /></> : "Descubrir Maridaje"}
+            </button>
+
+            {error && (
+              <div style={{ padding: "14px 18px", marginTop: 24, color: "#f87171", fontFamily: "'Lora', serif", fontSize: 14, fontStyle: "italic", borderLeft: "2px solid rgba(248,113,113,0.4)" }}>{error}</div>
+            )}
+
+            {result && <ResultCard data={result} onAddToCart={addToCart} />}
+
             {result && (
-              <button onClick={() => { setResult(null); setInput(""); setError(null); }} style={{ display: "block", margin: "20px auto 0", background: "transparent", border: "none", color: "rgba(201,168,76,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", padding: "8px 16px" }}>
+              <button onClick={() => { setResult(null); setInput(""); setError(null); }}
+                style={{ display: "block", margin: "28px auto 0", background: "transparent", border: "none", color: "rgba(201,168,76,0.38)", fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", padding: "8px 16px", transition: "color 0.2s ease" }}
+                onMouseEnter={(e) => { e.target.style.color = "rgba(201,168,76,0.72)"; }}
+                onMouseLeave={(e) => { e.target.style.color = "rgba(201,168,76,0.38)"; }}>
                 ← Nuevo maridaje
               </button>
             )}

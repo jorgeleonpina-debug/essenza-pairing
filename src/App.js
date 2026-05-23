@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import EssenzaPairingAI from "./essenza-pairing-ai";
 import { PoliticasDespacho, TerminosCondiciones, PoliticaReembolso, PoliticaPrivacidad } from "./legal-pages";
 import ScrollOliveEffect from "./components/ScrollOliveEffect";
+import AdminDashboard from "./components/AdminDashboard";
 
 export default function App() {
   return (
@@ -9,6 +10,7 @@ export default function App() {
       <ScrollOliveEffect />
       <Routes>
         <Route path="/" element={<EssenzaPairingAI />} />
+        <Route path="/admin-essenza" element={<AdminDashboard />} />
         <Route path="/politicas-despacho" element={<PoliticasDespacho />} />
         <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
         <Route path="/politica-reembolso" element={<PoliticaReembolso />} />

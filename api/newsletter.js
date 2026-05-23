@@ -1,4 +1,5 @@
 const DISCOUNT_CODE = "ESSENZA15";
+const supabase = require('./_supabase');
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
@@ -109,6 +110,15 @@ module.exports = async function handler(req, res) {
     await Promise.all([
       sendEmail(email, `Tu código exclusivo ${DISCOUNT_CODE} | Essenza Chile`, subscriberHtml),
       sendEmail("contacto@premiumolivechile.com", `Nuevo suscriptor: ${nombreCompleto}`, storeHtml),
+      supabase.from("newsletter_subscribers").upsert(
+        {
+          name: nombreCompleto,
+          email,
+          birthdate: fechaNacimiento || null,
+          preference: preferencia || null,
+        },
+        { onConflict: "email", ignoreDuplicates: true }
+      ),
     ]);
     res.status(200).json({ ok: true });
   } catch (err) {

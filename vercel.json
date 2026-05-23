@@ -11,6 +11,15 @@
     },
     "api/newsletter.js": {
       "maxDuration": 10
+    },
+    "api/checkout.js": {
+      "maxDuration": 10
+    },
+    "api/setup-db.js": {
+      "maxDuration": 30
+    },
+    "api/admin-data.js": {
+      "maxDuration": 15
     }
   },
   "rewrites": [
