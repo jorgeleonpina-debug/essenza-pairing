@@ -855,31 +855,56 @@ const NewsletterModal = ({ onClose }) => {
 };
 
 // ── Sections ───────────────────────────────────────────────────────────────────
-const QuienesSomos = () => (
-  <div style={{ maxWidth: 720, margin: "0 auto", padding: "0 24px" }}>
-    <div style={{ textAlign: "center", marginBottom: 48 }}>
-      <SectionLabel>Nuestra Historia</SectionLabel>
-      <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 36, fontWeight: 700, margin: 0, lineHeight: 1.1 }}>Quiénes Somos</h2>
-    </div>
-    <div style={{ background: "rgba(45,74,30,0.15)", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 16, padding: "40px 36px", marginBottom: 28 }}>
-      <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.85)", fontSize: 16, lineHeight: 1.9, margin: 0, fontStyle: "italic" }}>
+const QuienesSomos = () => {
+  const containerRef = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const cards = [
+    { title: "Visión", text: "Ser embajadores del aceite de oliva chileno en el mundo, promoviendo calidad, trazabilidad y sabor natural." },
+    { title: "Misión", text: "Producir, envasar, comercializar y exportar un aceite de oliva virgen extra de alta gama, respetando el medioambiente y las tradiciones olivícolas." },
+    { title: "Origen", text: "Valle Central de Chile, donde el clima mediterráneo y la tierra fértil producen aceitunas de calidad excepcional." },
+  ];
+
+  return (
+    <div ref={containerRef} style={{ maxWidth: 860, margin: "0 auto", padding: "80px 24px", textAlign: "center", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(32px)", transition: "opacity 0.9s ease, transform 0.9s ease" }}>
+      <div style={{ marginBottom: 56 }}>
+        <div style={{ fontSize: 10, letterSpacing: "0.35em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", marginBottom: 20 }}>Nuestra Historia</div>
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: "clamp(40px, 6vw, 56px)", fontWeight: 400, margin: "0 0 24px", lineHeight: 1 }}>Quiénes Somos</h2>
+        <div style={{ width: 80, height: 1, background: "linear-gradient(90deg, transparent, #c9a84c, transparent)", margin: "0 auto" }} />
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 52, color: "rgba(201,168,76,0.45)", fontSize: 11 }}>
+        <span>◆</span>
+        <span>◆</span>
+        <span>◆</span>
+      </div>
+
+      <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: "#f5f0e8", fontSize: "clamp(18px, 2.5vw, 22px)", lineHeight: 1.9, maxWidth: 700, margin: "0 auto 72px", fontWeight: 400 }}>
         Essenza Chile nace en el corazón agrícola del Valle Central, donde el clima mediterráneo y la tierra generosa se unen para producir uno de los mejores aceites de oliva virgen extra del mundo. Nuestra marca representa la elegancia, el origen y el compromiso con la excelencia.
       </p>
+
+      <div className="qs-cards" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
+        {cards.map((item, i) => (
+          <div key={item.title} style={{ borderTop: "2px solid #c9a84c", paddingTop: 28, textAlign: "left", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: `opacity 0.9s ease ${0.2 + i * 0.15}s, transform 0.9s ease ${0.2 + i * 0.15}s` }}>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 22, fontWeight: 600, margin: "0 0 16px", letterSpacing: "0.05em" }}>{item.title}</h3>
+            <p style={{ fontFamily: "'Lora', serif", fontStyle: "italic", color: "rgba(245,240,232,0.75)", fontSize: 14, lineHeight: 1.85, margin: 0 }}>{item.text}</p>
+          </div>
+        ))}
+      </div>
     </div>
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-      {[
-        { title: "Visión", text: "Ser embajadores del aceite de oliva chileno en el mundo, promoviendo calidad, trazabilidad y sabor natural.", icon: "🌍" },
-        { title: "Misión", text: "Producir, envasar, comercializar y exportar un aceite de oliva virgen extra de alta gama, respetando el medioambiente y las tradiciones olivícolas.", icon: "🫒" },
-      ].map((item) => (
-        <div key={item.title} style={{ background: "rgba(45,74,30,0.2)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 14, padding: "28px 24px" }}>
-          <div style={{ fontSize: 28, marginBottom: 12 }}>{item.icon}</div>
-          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 20, fontWeight: 600, margin: "0 0 12px" }}>{item.title}</h3>
-          <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.7)", fontSize: 14, lineHeight: 1.8, margin: 0 }}>{item.text}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+  );
+};
 
 const Contacto = () => (
   <div style={{ maxWidth: 560, margin: "0 auto", padding: "0 24px" }}>
@@ -1081,6 +1106,7 @@ export default function EssenzaPairingAI() {
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75) sepia(1) hue-rotate(10deg); opacity: 0.55; cursor: pointer; }
+        @media (max-width: 640px) { .nav-text { display: none; } .qs-cards { grid-template-columns: 1fr !important; gap: 32px !important; } }
         @media (max-width: 480px) { .nav-text { display: none; } }
       `}</style>
 
@@ -1150,8 +1176,8 @@ export default function EssenzaPairingAI() {
           </div>
         </section>
 
-        <section ref={(el) => { sectionsRef.current["quienes-somos"] = el; }} data-section="quienes-somos" style={{ padding: "0 0 80px" }}>
-          <Divider /><QuienesSomos />
+        <section ref={(el) => { sectionsRef.current["quienes-somos"] = el; }} data-section="quienes-somos" style={{ background: "#0d2214", borderTop: "1px solid rgba(201,168,76,0.12)", borderBottom: "1px solid rgba(201,168,76,0.12)" }}>
+          <QuienesSomos />
         </section>
 
         <section ref={(el) => { sectionsRef.current["contacto"] = el; }} data-section="contacto" style={{ padding: "0 0 80px" }}>
