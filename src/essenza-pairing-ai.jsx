@@ -3,6 +3,7 @@ import HeroSection from "./components/HeroSection";
 import BrandStory from "./components/BrandStory";
 import ProductsShowcase from "./components/ProductsShowcase";
 import Testimonials from "./components/Testimonials";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 const COLORS = {
   darkGreen: "#2d4a1e",
@@ -1119,6 +1120,7 @@ export default function EssenzaPairingAI() {
         {checkoutOpen && cart.length > 0 && <CheckoutModal cartItems={cart} onClose={() => setCheckoutOpen(false)} />}
         {detailProduct && <ProductDetailModal product={detailProduct} onClose={() => setDetailProduct(null)} onAddToCart={(id, qty) => { addToCart(id, qty); }} />}
         {showNewsletter && <NewsletterModal onClose={() => setShowNewsletter(false)} />}
+        <WhatsAppButton />}
 
         <HeroSection
           onShopClick={() => scrollToSection("tienda")}
