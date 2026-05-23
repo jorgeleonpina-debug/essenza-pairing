@@ -122,22 +122,24 @@ const styles = `
 
   .ps-card-img-wrap {
     width: 100%;
-    aspect-ratio: 3/4;
+    aspect-ratio: 1/1;
     overflow: hidden;
-    background: #0a1c0f;
+    background: #f7f4ee;
   }
 
   .ps-card-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
+    padding: 12px;
+    box-sizing: border-box;
     transition: transform 0.5s ease;
     display: block;
   }
 
   .ps-card-body {
-    padding: 20px 20px 24px;
+    padding: 18px 18px 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -151,37 +153,30 @@ const styles = `
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: rgba(201,168,76,0.65);
-    margin: 0 0 6px;
+    margin: 0 0 5px;
   }
 
   .ps-card-name {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 17px;
     color: #f5f0e8;
-    margin: 0 0 10px;
+    margin: 0 0 8px;
     line-height: 1.2;
   }
 
   .ps-card-desc {
     font-family: 'Jost', sans-serif;
     font-weight: 300;
-    font-size: 12px;
-    line-height: 1.7;
+    font-size: 11px;
+    line-height: 1.65;
     color: rgba(245,240,232,0.45);
-    margin: 0 0 20px;
+    margin: 0 0 14px;
     flex: 1;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-  }
-
-  .ps-card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
   }
 
   .ps-card-price {
@@ -190,21 +185,58 @@ const styles = `
     font-size: 22px;
     color: #c9a84c;
     letter-spacing: 0.02em;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .ps-card-qty {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .ps-qty-btn {
+    background: rgba(45,74,30,0.35);
+    border: 1px solid rgba(201,168,76,0.28);
+    color: #c9a84c;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    font-family: 'Jost', sans-serif;
+    transition: background 0.18s;
+    padding: 0;
+  }
+  .ps-qty-btn:hover:not(:disabled) { background: rgba(45,74,30,0.7); }
+  .ps-qty-btn:disabled { opacity: 0.28; cursor: default; }
+
+  .ps-qty-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #f5f0e8;
+    min-width: 22px;
+    text-align: center;
   }
 
   .ps-card-btn {
     font-family: 'Jost', sans-serif;
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: #0d2214;
     background: #c9a84c;
     border: none;
-    padding: 10px 18px;
+    padding: 11px 0;
+    width: 100%;
     cursor: pointer;
     transition: background 0.2s, transform 0.15s;
-    white-space: nowrap;
   }
   .ps-card-btn:hover { background: #e8c46a; transform: translateY(-1px); }
 
@@ -237,24 +269,84 @@ const styles = `
 
 const PRODUCTS = [
   {
-    id: 1, name: "Aceite Extra Virgen", volume: "250ml",
-    price: "$2.490", numericPrice: 2490, badge: null, image: "/images/bottle-250ml.jpeg",
-    description: "Botella de iniciación perfecta para descubrir Essenza. Prensado en frío, cosecha selectiva, acidez máxima 0.3%.",
+    id: 1,
+    name: "Aceite Extra Virgen 5L Premium",
+    volume: "Bidón 5L",
+    price: "$49.990",
+    numericPrice: 49990,
+    badge: null,
+    image: "/images/1.png",
+    description: "Acidez 0.3%, prensado en frío, libre de grasas trans. Ideal para cocinar, ensaladas, carnes y pastas.",
   },
   {
-    id: 2, name: "Aceite Extra Virgen", volume: "1L",
-    price: "$14.990", numericPrice: 14990, badge: "Más vendido", image: "/images/bottle-1l.jpeg",
-    description: "El favorito de nuestra comunidad. Cosecha selectiva, extracción en frío, acidez máxima 0.3%. Perfecto para cocinar y regalar.",
+    id: 2,
+    name: "Aceite Extra Virgen 2×5L Pack",
+    volume: "2 Bidones · 10L total",
+    price: "$81.990",
+    numericPrice: 81990,
+    badge: "Más Vendido",
+    image: "/images/2.png",
+    description: "2 bidones de 5L. 10 litros en total. Mejor precio por litro. Ideal para uso frecuente y cocina profesional.",
   },
   {
-    id: 3, name: "Bidón Extra Virgen", volume: "5L",
-    price: "$32.990", numericPrice: 32990, badge: null, image: "/images/bidon-5l.jpeg",
-    description: "Ideal para uso diario y cocina profesional. Primera presión en frío, acidez máxima 0.3%. Origen: Valle Central de Chile.",
+    id: 3,
+    name: "Aceite Extra Virgen Pack 4×1L",
+    volume: "4 Botellas · 4L total",
+    price: "$60.790",
+    numericPrice: 60790,
+    badge: null,
+    image: "/images/3.png",
+    description: "4 botellas de 1L. 12 cuotas sin interés. Ideal para aderezos, cocina gourmet y ensaladas.",
   },
   {
-    id: 4, name: "Pack Completo", volume: "Aceite + Aceto Balsámico",
-    price: "$47.990", numericPrice: 47990, badge: "Oferta especial", image: "/images/pack-completo.jpeg",
-    description: "El regalo perfecto. Aceite extra virgen Essenza y aceto balsámico premium en un pack exclusivo.",
+    id: 4,
+    name: "Aceite Extra Virgen Pack 4×5L",
+    volume: "20 Litros · $2.187/L",
+    price: "$174.990",
+    numericPrice: 174990,
+    badge: "Oferta",
+    image: "/images/4.png",
+    description: "20 litros. Mejor precio por litro $2.187. Ideal para cocina gourmet, ensaladas, frituras y preparaciones mediterráneas.",
+  },
+  {
+    id: 5,
+    name: "Pack 3 Botellas Balsámico",
+    volume: "Pack 3 unidades",
+    price: "$29.990",
+    numericPrice: 29990,
+    badge: null,
+    image: "/images/5.png",
+    description: "Aceto balsámico premium Essenza. Pack 3 unidades. Perfecto para ensaladas y terminaciones gourmet.",
+  },
+  {
+    id: 6,
+    name: "Pack 6 Botellas",
+    volume: "Pack 6 unidades",
+    price: "$54.990",
+    numericPrice: 54990,
+    badge: null,
+    image: "/images/6.png",
+    description: "Pack 6 unidades variado Essenza. El regalo perfecto para los amantes del buen aceite.",
+  },
+  {
+    id: 7,
+    name: "Aceite Extra Virgen Botella 1L",
+    volume: "Botella vidrio 1L",
+    price: "$14.990",
+    numericPrice: 14990,
+    badge: null,
+    image: "/images/9.png",
+    description: "Botella vidrio 1L. Cosecha selectiva, extracción en frío. Acidez máxima 0.3%.",
+  },
+  {
+    id: 8,
+    name: "Pack Completo Premium",
+    volume: "Aceite + Aceto Balsámico",
+    price: "$47.990",
+    numericPrice: 47990,
+    badge: null,
+    image: "/images/11.png",
+    description: "Aceite extra virgen + aceto balsámico. El regalo perfecto. Set premium Essenza en presentación especial.",
   },
 ];
 
@@ -276,6 +368,7 @@ function useVisible(ref, threshold = 0.18) {
 function ProductCard({ product, delay, onAddToCart, onDetail }) {
   const ref = useRef(null);
   const visible = useVisible(ref);
+  const [qty, setQty] = useState(1);
 
   return (
     <div
@@ -306,15 +399,31 @@ function ProductCard({ product, delay, onAddToCart, onDetail }) {
           {product.name}
         </h3>
         <p className="ps-card-desc">{product.description}</p>
-        <div className="ps-card-footer">
-          <span className="ps-card-price">{product.price}</span>
+        <span className="ps-card-price">{product.price}</span>
+        <div className="ps-card-qty">
           <button
-            className="ps-card-btn"
-            onClick={(e) => { e.stopPropagation(); onAddToCart(product.id, 1); }}
+            className="ps-qty-btn"
+            onClick={(e) => { e.stopPropagation(); setQty(q => Math.max(1, q - 1)); }}
+            disabled={qty <= 1}
+            aria-label="Restar"
           >
-            Agregar al carrito
+            −
+          </button>
+          <span className="ps-qty-num">{qty}</span>
+          <button
+            className="ps-qty-btn"
+            onClick={(e) => { e.stopPropagation(); setQty(q => q + 1); }}
+            aria-label="Sumar"
+          >
+            +
           </button>
         </div>
+        <button
+          className="ps-card-btn"
+          onClick={(e) => { e.stopPropagation(); onAddToCart(product.id, qty); }}
+        >
+          Agregar al carrito
+        </button>
       </div>
     </div>
   );
@@ -352,7 +461,7 @@ export default function ProductsShowcase({ onAddToCart, onDetail, onViewAll }) {
               <ProductCard
                 key={p.id}
                 product={p}
-                delay={i * 100}
+                delay={i * 80}
                 onAddToCart={onAddToCart}
                 onDetail={onDetail}
               />
