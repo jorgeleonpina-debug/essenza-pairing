@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import HeroSection from "./components/HeroSection";
+import BrandStory from "./components/BrandStory";
 
 const COLORS = {
   darkGreen: "#2d4a1e",
@@ -1115,6 +1117,13 @@ export default function EssenzaPairingAI() {
         {checkoutOpen && cart.length > 0 && <CheckoutModal cartItems={cart} onClose={() => setCheckoutOpen(false)} />}
         {detailProduct && <ProductDetailModal product={detailProduct} onClose={() => setDetailProduct(null)} onAddToCart={(id, qty) => { addToCart(id, qty); }} />}
         {showNewsletter && <NewsletterModal onClose={() => setShowNewsletter(false)} />}
+
+        <HeroSection
+          onShopClick={() => scrollToSection("tienda")}
+          onAiClick={() => scrollToSection("inicio")}
+        />
+
+        <BrandStory />
 
         <header style={{ textAlign: "center", padding: "52px 24px 36px", borderBottom: "1px solid rgba(201,168,76,0.1)" }}>
           <div style={{ margin: "0 auto 20px" }}><Logo size={80} /></div>
