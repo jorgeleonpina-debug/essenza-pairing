@@ -29,10 +29,10 @@ const styles = `
   .hero-bg-watermark {
     position: absolute;
     inset: 0;
-    background-image: url('/images/images%20web/logo-essenza-1200.png');
+    background-image: url('/images/images%20web/logo-transparent-hq.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 70%;
+    background-size: 65%;
     opacity: 0.07;
     pointer-events: none;
   }
