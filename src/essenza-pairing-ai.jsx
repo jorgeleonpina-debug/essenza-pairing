@@ -959,40 +959,84 @@ const LEGAL_LINKS = [
 ];
 
 // ── Footer ─────────────────────────────────────────────────────────────────────
-const Footer = ({ onNewsletter }) => (
-  <footer style={{ background: "#0d2214", borderTop: "1px solid rgba(201,168,76,0.18)", marginTop: 80, padding: "44px 24px" }}>
-    <div style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
-      <div style={{ display: "flex", gap: 24 }}>
-        {SOCIAL_LINKS.map((link) => {
-          const Icon = ICON_MAP[link.icon];
-          return (
-            <a key={link.label} href={link.href} target={link.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer" aria-label={link.label}
-              style={{ color: "rgba(201,168,76,0.5)", transition: "color 0.2s ease", display: "flex" }}
+const Footer = ({ onNewsletter, onNav }) => (
+  <footer style={{ background: "#0d2214", borderTop: "1px solid rgba(201,168,76,0.12)", padding: "80px 24px 48px" }}>
+    <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+
+      {/* Top gold line */}
+      <div style={{ width: "100%", height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.45), transparent)", marginBottom: 64 }} />
+
+      {/* Three-column body */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 48, alignItems: "start", marginBottom: 64 }}>
+
+        {/* Left — brand */}
+        <div>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 32, fontWeight: 400, color: COLORS.gold, letterSpacing: "0.04em", marginBottom: 14, lineHeight: 1 }}>Essenza</div>
+          <p style={{ fontFamily: "'Lora', serif", fontStyle: "italic", fontSize: 13, color: "rgba(245,240,232,0.5)", lineHeight: 1.8, margin: "0 0 20px", maxWidth: 220 }}>
+            Aceite de oliva extra virgen del Valle Central de Chile. Elegancia, origen y excelencia.
+          </p>
+          <div style={{ display: "flex", gap: 18, marginTop: 4 }}>
+            {SOCIAL_LINKS.map((link) => {
+              const Icon = ICON_MAP[link.icon];
+              return (
+                <a key={link.label} href={link.href} target={link.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer" aria-label={link.label}
+                  style={{ color: "rgba(201,168,76,0.45)", transition: "color 0.2s ease", display: "flex" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.gold; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(201,168,76,0.45)"; }}>
+                  <Icon size={18} />
+                </a>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Center — nav + diamonds */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(201,168,76,0.3)", fontSize: 9, marginBottom: 28 }}>
+            <span>◆</span><span>◆</span><span>◆</span>
+          </div>
+          {NAV_TABS.map((tab) => (
+            <button key={tab.id} onClick={() => onNav && onNav(tab.id)}
+              style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(201,168,76,0.5)", padding: "8px 0", transition: "color 0.2s ease", display: "block" }}
               onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.gold; }}
               onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(201,168,76,0.5)"; }}>
-              <Icon size={20} />
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Right — newsletter */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 16 }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(201,168,76,0.5)", marginBottom: 4 }}>Newsletter</div>
+          <p style={{ fontFamily: "'Lora', serif", fontStyle: "italic", fontSize: 13, color: "rgba(245,240,232,0.45)", lineHeight: 1.7, margin: 0, textAlign: "right", maxWidth: 200 }}>
+            Recibe recetas, novedades y un 15% de descuento en tu primera compra.
+          </p>
+          <button onClick={onNewsletter}
+            style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.35)", color: "rgba(201,168,76,0.7)", fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", padding: "12px 28px", cursor: "pointer", transition: "all 0.25s ease", marginTop: 4 }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = COLORS.gold; e.currentTarget.style.color = COLORS.gold; e.currentTarget.style.background = "rgba(201,168,76,0.06)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.35)"; e.currentTarget.style.color = "rgba(201,168,76,0.7)"; e.currentTarget.style.background = "transparent"; }}>
+            ◆ Quiero mi 15% OFF
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom divider + legal */}
+      <div style={{ borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: 28, display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.25)", fontSize: 11, letterSpacing: "0.12em", margin: 0 }}>
+          © 2025 Premium Olive Chile SpA · Todos los derechos reservados.
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 16px" }}>
+          {LEGAL_LINKS.map((link) => (
+            <a key={link.href} href={link.href}
+              style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.28)", fontSize: 11, letterSpacing: "0.1em", textDecoration: "none", transition: "color 0.2s ease" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(201,168,76,0.65)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(201,168,76,0.28)"; }}>
+              {link.label}
             </a>
-          );
-        })}
+          ))}
+        </div>
       </div>
-      <button onClick={onNewsletter} style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 20, color: "rgba(201,168,76,0.6)", fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", padding: "7px 18px", cursor: "pointer", transition: "all 0.2s ease" }}
-        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.6)"; e.currentTarget.style.color = COLORS.gold; }}
-        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.3)"; e.currentTarget.style.color = "rgba(201,168,76,0.6)"; }}>
-        ✦ Newsletter · 15% OFF
-      </button>
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px 20px" }}>
-        {LEGAL_LINKS.map((link) => (
-          <a key={link.href} href={link.href}
-            style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.4)", fontSize: 11, letterSpacing: "0.12em", textDecoration: "none", transition: "color 0.2s ease" }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.gold; }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(201,168,76,0.4)"; }}>
-            {link.label}
-          </a>
-        ))}
-      </div>
-      <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.3)", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", margin: 0, textAlign: "center" }}>
-        © 2025 Premium Olive Chile SpA · Todos los derechos reservados.
-      </p>
+
     </div>
   </footer>
 );
@@ -1203,7 +1247,7 @@ export default function EssenzaPairingAI() {
           <Contacto />
         </section>
 
-        <Footer onNewsletter={() => setShowNewsletter(true)} />
+        <Footer onNewsletter={() => setShowNewsletter(true)} onNav={scrollToSection} />
       </div>
     </>
   );
