@@ -42,7 +42,7 @@ module.exports = async function handler(req, res) {
   </div>
   <div style="${box}">
     <p style="${gold}font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 12px;">Dirección de despacho</p>
-    <p style="margin:0;line-height:1.8;">${customer.calle} ${customer.numero}<br>${customer.ciudad}<br>${shipping.regionName}</p>
+    <p style="margin:0;line-height:1.8;">${customer.calle} ${customer.numero}<br>${customer.comuna}<br>${shipping.regionName}</p>
   </div>
   <p style="line-height:1.8;margin-top:24px;">Te contactaremos pronto para coordinar el despacho. Consultas a <a href="mailto:contacto@premiumolivechile.com" style="${gold}">contacto@premiumolivechile.com</a> o <a href="https://wa.me/+56965902996" style="${gold}">WhatsApp</a>.</p>
   <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(201,168,76,0.12);text-align:center;">
@@ -65,7 +65,7 @@ module.exports = async function handler(req, res) {
   </div>
   <div style="${box}">
     <p style="${gold}font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 12px;">Dirección de despacho</p>
-    <p style="margin:0;line-height:1.8;">${customer.calle} ${customer.numero}<br>${customer.ciudad}<br>${shipping.regionName}</p>
+    <p style="margin:0;line-height:1.8;">${customer.calle} ${customer.numero}<br>${customer.comuna}<br>${shipping.regionName}</p>
   </div>
   <div style="${box}">
     <p style="${gold}font-size:12px;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 14px;">Pedido</p>

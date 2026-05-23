@@ -57,6 +57,25 @@ const REGIONS = [
   { id: "magallanes",  name: "Magallanes y la Antártica Chilena",  shipping: 7990 },
 ];
 
+const COMMUNES = {
+  arica:       ["Arica", "Camarones", "General Lagos", "Putre"],
+  tarapaca:    ["Alto Hospicio", "Camiña", "Colchane", "Huara", "Iquique", "Pica", "Pozo Almonte"],
+  antofagasta: ["Antofagasta", "Calama", "María Elena", "Mejillones", "Ollagüe", "San Pedro de Atacama", "Sierra Gorda", "Taltal", "Tocopilla"],
+  atacama:     ["Alto del Carmen", "Caldera", "Chañaral", "Copiapó", "Diego de Almagro", "Freirina", "Huasco", "Tierra Amarilla", "Vallenar"],
+  coquimbo:    ["Andacollo", "Canela", "Combarbalá", "Coquimbo", "Illapel", "La Higuera", "La Serena", "Los Vilos", "Monte Patria", "Ovalle", "Paiguano", "Punitaqui", "Río Hurtado", "Salamanca", "Vicuña"],
+  valparaiso:  ["Algarrobo", "Cabildo", "Calera", "Calle Larga", "Cartagena", "Casablanca", "Catemu", "Concón", "El Quisco", "El Tabo", "Hijuelas", "Isla de Pascua", "Juan Fernández", "La Cruz", "La Ligua", "Limache", "Llaillay", "Los Andes", "Nogales", "Olmué", "Panquehue", "Papudo", "Petorca", "Puchuncaví", "Putaendo", "Quillota", "Quilpué", "Quintero", "Rinconada", "San Antonio", "San Esteban", "San Felipe", "Santa María", "Santo Domingo", "Valparaíso", "Villa Alemana", "Viña del Mar", "Zapallar"],
+  rm:          ["Alhué", "Buin", "Calera de Tango", "Cerrillos", "Cerro Navia", "Colina", "Conchalí", "Curacaví", "El Bosque", "El Monte", "Estación Central", "Huechuraba", "Independencia", "Isla de Maipo", "La Cisterna", "La Florida", "La Granja", "La Pintana", "La Reina", "Lampa", "Las Condes", "Lo Barnechea", "Lo Espejo", "Lo Prado", "Macul", "Maipú", "María Pinto", "Melipilla", "Ñuñoa", "Padre Hurtado", "Paine", "Pedro Aguirre Cerda", "Peñaflor", "Peñalolén", "Pirque", "Providencia", "Pudahuel", "Puente Alto", "Quilicura", "Quinta Normal", "Recoleta", "Renca", "San Bernardo", "San Joaquín", "San José de Maipo", "San Miguel", "San Pedro", "San Ramón", "Santiago", "Talagante", "Tiltil", "Vitacura"],
+  ohiggins:    ["Chépica", "Chimbarongo", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "La Estrella", "Las Cabras", "Litueche", "Lolol", "Machalí", "Malloa", "Marchihue", "Mostazal", "Nancagua", "Navidad", "Olivar", "Palmilla", "Paredones", "Peralillo", "Peumo", "Pichidegua", "Pichilemu", "Placilla", "Pumanque", "Quinta de Tilcoco", "Rancagua", "Rengo", "Requínoa", "San Fernando", "San Vicente", "Santa Cruz"],
+  maule:       ["Cauquenes", "Chanco", "Colbún", "Constitución", "Curicó", "Curepto", "Empedrado", "Hualañé", "Licantén", "Linares", "Longaví", "Maule", "Molina", "Parral", "Pelarco", "Pelluhue", "Pencahue", "Rauco", "Retiro", "Río Claro", "Romeral", "Sagrada Familia", "San Clemente", "San Javier", "San Rafael", "Talca", "Teno", "Vichuquén", "Villa Alegre", "Yerbas Buenas"],
+  nuble:       ["Bulnes", "Chillán", "Chillán Viejo", "Cobquecura", "Coelemu", "Coihueco", "El Carmen", "Ninhue", "Ñiquén", "Pemuco", "Pinto", "Portezuelo", "Quillón", "Quirihue", "Ránquil", "San Carlos", "San Fabián", "San Ignacio", "San Nicolás", "Treguaco", "Yungay"],
+  biobio:      ["Alto Biobío", "Antuco", "Arauco", "Cabrero", "Cañete", "Chiguayante", "Concepción", "Contulmo", "Coronel", "Curanilahue", "Florida", "Hualpén", "Hualqui", "Laja", "Lebu", "Los Álamos", "Los Ángeles", "Lota", "Mulchén", "Nacimiento", "Negrete", "Penco", "Quilaco", "Quilleco", "San Pedro de la Paz", "San Rosendo", "Santa Bárbara", "Santa Juana", "Talcahuano", "Tirúa", "Tomé", "Tucapel", "Yumbel"],
+  araucania:   ["Angol", "Carahue", "Cholchol", "Collipulli", "Cunco", "Curacautín", "Curarrehue", "Ercilla", "Freire", "Galvarino", "Gorbea", "Lautaro", "Loncoche", "Lonquimay", "Los Sauces", "Lumaco", "Melipeuco", "Nueva Imperial", "Padre Las Casas", "Perquenco", "Pitrufquén", "Pucón", "Purén", "Renaico", "Saavedra", "Temuco", "Teodoro Schmidt", "Toltén", "Traiguén", "Victoria", "Vilcún", "Villarrica"],
+  losrios:     ["Corral", "Futrono", "La Unión", "Lago Ranco", "Lanco", "Los Lagos", "Máfil", "Mariquina", "Paillaco", "Panguipulli", "Río Bueno", "Valdivia"],
+  loslagos:    ["Ancud", "Calbuco", "Castro", "Chaitén", "Chonchi", "Cochamó", "Curaco de Vélez", "Dalcahue", "Fresia", "Frutillar", "Futaleufú", "Hualaihué", "Llanquihue", "Los Muermos", "Maullín", "Osorno", "Palena", "Puerto Montt", "Puerto Octay", "Puerto Varas", "Puqueldón", "Purranque", "Puyehue", "Queilén", "Quellón", "Quemchi", "Quinchao", "Río Negro", "San Juan de la Costa", "San Pablo"],
+  aysen:       ["Aysén", "Chile Chico", "Cisnes", "Cochrane", "Coihaique", "Guaitecas", "Lago Verde", "O'Higgins", "Río Ibáñez", "Tortel"],
+  magallanes:  ["Antártica", "Cabo de Hornos", "Laguna Blanca", "Natales", "Porvenir", "Primavera", "Punta Arenas", "Río Verde", "San Gregorio", "Timaukel", "Torres del Paine"],
+};
+
 const NAV_TABS = [
   { id: "inicio",        label: "Inicio" },
   { id: "tienda",        label: "Tienda" },
@@ -286,7 +305,7 @@ const fieldLabel = {
 const CheckoutModal = ({ product, onClose }) => {
   const [form, setForm] = useState({
     nombre: "", email: "", telefono: "",
-    calle: "", numero: "", ciudad: "", region: "",
+    calle: "", numero: "", region: "", comuna: "",
     tipoDoc: "boleta", rut: "", razonSocial: "",
   });
   const [errors, setErrors] = useState({});
@@ -307,8 +326,8 @@ const CheckoutModal = ({ product, onClose }) => {
     if (!form.telefono.trim()) e.telefono = "Requerido";
     if (!form.calle.trim()) e.calle = "Requerido";
     if (!form.numero.trim()) e.numero = "Requerido";
-    if (!form.ciudad.trim()) e.ciudad = "Requerido";
     if (!form.region) e.region = "Selecciona una región";
+    if (!form.comuna) e.comuna = "Selecciona una comuna";
     if (form.tipoDoc === "factura") {
       if (!form.rut.trim()) e.rut = "Requerido";
       if (!form.razonSocial.trim()) e.razonSocial = "Requerido";
@@ -417,16 +436,10 @@ const CheckoutModal = ({ product, onClose }) => {
           </div>
 
           <div style={{ marginBottom: 12 }}>
-            <label style={fieldLabel}>Ciudad</label>
-            <input type="text" value={form.ciudad} onChange={set("ciudad")} placeholder="Santiago" style={{ ...inputBase, borderColor: errors.ciudad ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
-            {errors.ciudad && <p style={errStyle}>{errors.ciudad}</p>}
-          </div>
-
-          <div style={{ marginBottom: 20 }}>
             <label style={fieldLabel}>Región</label>
             <select
               value={form.region}
-              onChange={set("region")}
+              onChange={(e) => setForm((f) => ({ ...f, region: e.target.value, comuna: "" }))}
               style={{
                 ...inputBase,
                 cursor: "pointer",
@@ -447,10 +460,39 @@ const CheckoutModal = ({ product, onClose }) => {
             {errors.region && <p style={errStyle}>{errors.region}</p>}
           </div>
 
+          <div style={{ marginBottom: 20 }}>
+            <label style={fieldLabel}>Comuna</label>
+            <select
+              value={form.comuna}
+              onChange={set("comuna")}
+              disabled={!form.region}
+              style={{
+                ...inputBase,
+                cursor: form.region ? "pointer" : "not-allowed",
+                opacity: form.region ? 1 : 0.4,
+                borderColor: errors.comuna ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)",
+                appearance: "none",
+                WebkitAppearance: "none",
+                backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "right 14px center",
+                paddingRight: 36,
+              }}
+            >
+              <option value="" style={{ background: "#111" }}>
+                {form.region ? "Selecciona tu comuna" : "Primero selecciona una región"}
+              </option>
+              {(COMMUNES[form.region] || []).map((c) => (
+                <option key={c} value={c} style={{ background: "#111" }}>{c}</option>
+              ))}
+            </select>
+            {errors.comuna && <p style={errStyle}>{errors.comuna}</p>}
+          </div>
+
           {/* Shipping cost badge */}
           {selectedRegion && (
             <div style={{ background: "rgba(45,74,30,0.25)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 10, padding: "12px 16px", marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.65)", fontSize: 13 }}>Costo de despacho a {selectedRegion.name}</span>
+              <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.65)", fontSize: 13 }}>Despacho a {form.comuna ? `${form.comuna}, ` : ""}{selectedRegion.name}</span>
               <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 18, fontWeight: 700 }}>{formatCLP(shippingCost)}</span>
             </div>
           )}
@@ -492,7 +534,9 @@ const CheckoutModal = ({ product, onClose }) => {
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", paddingBottom: 14, marginBottom: 14, borderBottom: "1px solid rgba(201,168,76,0.1)" }}>
               <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.55)", fontSize: 13 }}>
-                Despacho{selectedRegion ? ` — ${selectedRegion.name}` : ""}
+                {selectedRegion
+                  ? `Despacho — ${form.comuna ? `${form.comuna}, ` : ""}${selectedRegion.name}`
+                  : "Despacho"}
               </span>
               <span style={{ fontFamily: "'Lora', serif", color: selectedRegion ? COLORS.cream : "rgba(245,240,232,0.25)", fontSize: 13 }}>
                 {selectedRegion ? formatCLP(shippingCost) : "—"}
