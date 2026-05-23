@@ -6,43 +6,27 @@ const CATALOG = {
 };
 
 module.exports = async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   try {
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
-    const { productId, customer, shippingCost } = JSON.parse(
-      Buffer.concat(chunks).toString("utf8")
-    );
+    const { cartItems, customer, shippingCost } = JSON.parse(Buffer.concat(chunks).toString("utf8"));
 
-    const product = CATALOG[productId];
-    if (!product) {
-      return res.status(400).json({ error: "Producto no encontrado" });
+    if (!cartItems || !cartItems.length) {
+      return res.status(400).json({ error: "Carrito vacío" });
     }
 
-    const siteUrl =
-      process.env.SITE_URL || "https://essenza-pairing.vercel.app";
-
-    const items = [
-      {
-        id: String(productId),
-        title: product.title,
-        quantity: 1,
-        unit_price: product.unit_price,
-        currency_id: "CLP",
-      },
-    ];
+    const items = cartItems.map(({ productId, quantity }) => {
+      const p = CATALOG[productId];
+      if (!p) throw new Error(`Producto ${productId} no encontrado`);
+      return { id: String(productId), title: p.title, quantity: quantity || 1, unit_price: p.unit_price, currency_id: "CLP" };
+    });
 
     if (shippingCost > 0) {
-      items.push({
-        id: "shipping",
-        title: "Despacho a domicilio",
-        quantity: 1,
-        unit_price: shippingCost,
-        currency_id: "CLP",
-      });
+      items.push({ id: "shipping", title: "Despacho a domicilio", quantity: 1, unit_price: shippingCost, currency_id: "CLP" });
     }
+
+    const siteUrl = process.env.SITE_URL || "https://essenza-pairing.vercel.app";
 
     const preference = {
       items,
@@ -60,36 +44,21 @@ module.exports = async function handler(req, res) {
         name: parts[0] || "",
         surname: parts.slice(1).join(" ") || parts[0] || "",
         email: customer.email,
-        phone: {
-          area_code: "56",
-          number: customer.telefono?.replace(/\D/g, "").slice(-8) || "",
-        },
-        address: {
-          street_name: customer.calle || "",
-          street_number: parseInt(customer.numero, 10) || 0,
-          zip_code: "",
-        },
+        phone: { area_code: "56", number: customer.telefono?.replace(/\D/g, "").slice(-8) || "" },
+        address: { street_name: customer.calle || "", street_number: parseInt(customer.numero, 10) || 0, zip_code: "" },
       };
     }
 
-    const mpRes = await fetch(
-      "https://api.mercadopago.com/checkout/preferences",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
-        },
-        body: JSON.stringify(preference),
-      }
-    );
+    const mpRes = await fetch("https://api.mercadopago.com/checkout/preferences", {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}` },
+      body: JSON.stringify(preference),
+    });
 
     const data = await mpRes.json();
     if (!mpRes.ok) {
       console.error("MP error:", JSON.stringify(data));
-      return res
-        .status(mpRes.status)
-        .json({ error: data.message || "Error al crear preferencia" });
+      return res.status(mpRes.status).json({ error: data.message || "Error al crear preferencia" });
     }
 
     res.status(200).json({ init_point: data.init_point, id: data.id });
@@ -99,6 +68,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports.config = {
-  api: { bodyParser: false },
-};
+module.exports.config = { api: { bodyParser: false } };

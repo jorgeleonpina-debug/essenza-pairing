@@ -32,10 +32,26 @@ Reglas:
 - Si el usuario escribe algo que no es un plato o ingrediente, responde con {"error": "Describe un plato o ingrediente para continuar."}`;
 
 const PRODUCTS = [
-  { id: 1, name: "Aceite Extra Virgen", volume: "250ml",                    price: "$2.490",  numericPrice: 2490,  badge: null,              image: "/images/bottle-250ml.jpeg" },
-  { id: 2, name: "Aceite Extra Virgen", volume: "1L",                       price: "$14.990", numericPrice: 14990, badge: "Más vendido",     image: "/images/bottle-1l.jpeg" },
-  { id: 3, name: "Bidón Extra Virgen",  volume: "5L",                       price: "$32.990", numericPrice: 32990, badge: null,              image: "/images/bidon-5l.jpeg" },
-  { id: 4, name: "Pack Completo",       volume: "Aceite + Aceto Balsámico", price: "$47.990", numericPrice: 47990, badge: "Oferta especial", image: "/images/pack-completo.jpeg" },
+  {
+    id: 1, name: "Aceite Extra Virgen", volume: "250ml",
+    price: "$2.490", numericPrice: 2490, badge: null, image: "/images/bottle-250ml.jpeg",
+    description: "Botella de iniciación perfecta para descubrir Essenza. Aceite extra virgen prensado en frío, cosecha selectiva, acidez máxima 0.3%. Ideal para aliñar ensaladas y terminaciones gourmet.",
+  },
+  {
+    id: 2, name: "Aceite Extra Virgen", volume: "1L",
+    price: "$14.990", numericPrice: 14990, badge: "Más vendido", image: "/images/bottle-1l.jpeg",
+    description: "Aceite de oliva extra virgen premium, perfecto para aliñar, cocinar y regalar. Cosecha selectiva, extracción en frío. Acidez máxima 0.3%. Origen: Valle Central de Chile.",
+  },
+  {
+    id: 3, name: "Bidón Extra Virgen", volume: "5L",
+    price: "$32.990", numericPrice: 32990, badge: null, image: "/images/bidon-5l.jpeg",
+    description: "Aceite de oliva extra virgen de primera presión en frío. Ideal para uso diario, cocina gourmet y hostelería. Acidez máxima 0.3%. Origen: Valle Central de Chile.",
+  },
+  {
+    id: 4, name: "Pack Completo", volume: "Aceite + Aceto Balsámico",
+    price: "$47.990", numericPrice: 47990, badge: "Oferta especial", image: "/images/pack-completo.jpeg",
+    description: "Set completo Essenza con selección de nuestros mejores productos. Ideal como regalo corporativo o para disfrutar en casa. Incluye aceite extra virgen y aceto balsámico premium.",
+  },
 ];
 
 const REGIONS = [
@@ -84,10 +100,10 @@ const NAV_TABS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: "Instagram", href: "https://instagram.com/essenzaolive",     icon: "instagram" },
-  { label: "Facebook",  href: "https://facebook.com/essenzaolive",      icon: "facebook" },
-  { label: "WhatsApp",  href: "https://wa.me/+56965902996",             icon: "whatsapp" },
-  { label: "Email",     href: "mailto:contacto@premiumolivechile.com",  icon: "email" },
+  { label: "Instagram", href: "https://instagram.com/essenzaolive",    icon: "instagram" },
+  { label: "Facebook",  href: "https://facebook.com/essenzaolive",     icon: "facebook" },
+  { label: "WhatsApp",  href: "https://wa.me/+56965902996",            icon: "whatsapp" },
+  { label: "Email",     href: "mailto:contacto@premiumolivechile.com", icon: "email" },
 ];
 
 const formatCLP = (n) => `$${Number(n).toLocaleString("es-CL")}`;
@@ -95,28 +111,48 @@ const formatCLP = (n) => `$${Number(n).toLocaleString("es-CL")}`;
 // ── Icons ──────────────────────────────────────────────────────────────────────
 const IconInstagram = ({ size = 22 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-    <circle cx="12" cy="12" r="4"/>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/>
     <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
   </svg>
 );
-
 const IconFacebook = ({ size = 22 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
   </svg>
 );
-
 const IconWhatsApp = ({ size = 22 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </svg>
 );
-
 const IconEmail = ({ size = 22 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
     <polyline points="22,6 12,13 2,6"/>
+  </svg>
+);
+const IconCart = ({ size = 22 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <path d="M16 10a4 4 0 01-8 0"/>
+  </svg>
+);
+const IconUser = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+    <circle cx="12" cy="7" r="4"/>
+  </svg>
+);
+const IconMinus = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+);
+const IconPlus = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+);
+const IconTrash = ({ size = 15 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
   </svg>
 );
 
@@ -130,55 +166,53 @@ const LoadingDots = () => (
     ))}
   </span>
 );
-
 const SectionLabel = ({ children }) => (
-  <div style={{ fontSize: 10, letterSpacing: "0.35em", color: COLORS.gold, textTransform: "uppercase", marginBottom: 10, opacity: 0.8 }}>
-    {children}
-  </div>
+  <div style={{ fontSize: 10, letterSpacing: "0.35em", color: COLORS.gold, textTransform: "uppercase", marginBottom: 10, opacity: 0.8 }}>{children}</div>
 );
-
-const Divider = () => (
-  <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)", marginBottom: 60 }} />
-);
+const Divider = () => <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)", marginBottom: 60 }} />;
 
 // ── Logo ───────────────────────────────────────────────────────────────────────
 const Logo = ({ size = 72 }) => {
   const [error, setError] = useState(false);
   return (
     <div style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, rgba(45,74,30,0.6))`, border: "1px solid rgba(201,168,76,0.4)", borderRadius: "50%", width: size, height: size, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0 }}>
-      {!error
-        ? <img src="/images/logo.jpeg" alt="Essenza Chile" onError={() => setError(true)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        : <span style={{ fontSize: size * 0.44 }}>🫒</span>}
+      {!error ? <img src="/images/logo.jpeg" alt="Essenza Chile" onError={() => setError(true)} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: size * 0.44 }}>🫒</span>}
     </div>
   );
 };
 
 // ── NavBar ─────────────────────────────────────────────────────────────────────
-const NavBar = ({ active, onNav }) => (
-  <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(17,17,17,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(201,168,76,0.12)", display: "flex", justifyContent: "center", gap: 0 }}>
-    {NAV_TABS.map((tab) => (
-      <button
-        key={tab.id}
-        onClick={() => onNav(tab.id)}
-        style={{
-          background: "transparent",
-          border: "none",
-          borderBottom: active === tab.id ? `2px solid ${COLORS.gold}` : "2px solid transparent",
-          color: active === tab.id ? COLORS.gold : "rgba(245,240,232,0.45)",
-          fontFamily: "'Cormorant Garamond', serif",
-          fontSize: 13,
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          padding: "16px 20px 14px",
-          cursor: "pointer",
-          transition: "all 0.25s ease",
-        }}
-        onMouseEnter={(e) => { if (active !== tab.id) e.currentTarget.style.color = "rgba(245,240,232,0.75)"; }}
-        onMouseLeave={(e) => { if (active !== tab.id) e.currentTarget.style.color = "rgba(245,240,232,0.45)"; }}
-      >
-        {tab.label}
+const NavBar = ({ active, onNav, user, onLogin, onLogout, cartCount, onOpenCart }) => (
+  <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(13,34,20,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(201,168,76,0.12)", display: "flex", alignItems: "center", padding: "0 12px" }}>
+    <div style={{ flex: 1 }} />
+    <div style={{ display: "flex" }}>
+      {NAV_TABS.map((tab) => (
+        <button key={tab.id} onClick={() => onNav(tab.id)} style={{ background: "transparent", border: "none", borderBottom: active === tab.id ? `2px solid ${COLORS.gold}` : "2px solid transparent", color: active === tab.id ? COLORS.gold : "rgba(245,240,232,0.45)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", padding: "16px 18px 14px", cursor: "pointer", transition: "all 0.25s ease" }}
+          onMouseEnter={(e) => { if (active !== tab.id) e.currentTarget.style.color = "rgba(245,240,232,0.75)"; }}
+          onMouseLeave={(e) => { if (active !== tab.id) e.currentTarget.style.color = "rgba(245,240,232,0.45)"; }}>
+          {tab.label}
+        </button>
+      ))}
+    </div>
+    <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 6 }}>
+      {user ? (
+        <button onClick={onLogout} style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 16, color: "rgba(201,168,76,0.7)", fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.1em", padding: "5px 12px", cursor: "pointer", whiteSpace: "nowrap", maxWidth: 140, overflow: "hidden", textOverflow: "ellipsis" }}>
+          {user.nombre.split(" ")[0]} · Salir
+        </button>
+      ) : (
+        <button onClick={onLogin} title="Ingresar" style={{ background: "transparent", border: "none", color: "rgba(201,168,76,0.55)", cursor: "pointer", display: "flex", alignItems: "center", padding: 8 }}>
+          <IconUser size={18} />
+        </button>
+      )}
+      <button onClick={onOpenCart} aria-label="Carrito" style={{ background: "transparent", border: "none", color: COLORS.gold, cursor: "pointer", position: "relative", display: "flex", padding: 8 }}>
+        <IconCart size={20} />
+        {cartCount > 0 && (
+          <span style={{ position: "absolute", top: 2, right: 2, background: COLORS.gold, color: COLORS.black, borderRadius: "50%", minWidth: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, padding: "0 3px" }}>
+            {cartCount > 9 ? "9+" : cartCount}
+          </span>
+        )}
       </button>
-    ))}
+    </div>
   </nav>
 );
 
@@ -216,7 +250,7 @@ const ResultCard = ({ data }) => {
     <div style={{ animation: "fadeUp 0.6s ease forwards", background: "rgba(45,74,30,0.25)", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 16, padding: "32px 28px", marginTop: 24 }}>
       <div style={{ marginBottom: 24, textAlign: "center" }}>
         <div style={{ fontSize: 48, marginBottom: 8 }}>{data.emoji_plato}</div>
-        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 26, fontWeight: 600, margin: 0, letterSpacing: "0.02em" }}>{data.titulo}</h2>
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 26, fontWeight: 600, margin: 0 }}>{data.titulo}</h2>
       </div>
       <CompatibilityMeter value={data.compatibilidad} />
       <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.85)", fontSize: 15, lineHeight: 1.8, marginBottom: 24, fontStyle: "italic", borderLeft: `2px solid ${COLORS.gold}`, paddingLeft: 16 }}>{data.descripcion}</p>
@@ -238,91 +272,86 @@ const ResultCard = ({ data }) => {
   );
 };
 
-// ── Product components ─────────────────────────────────────────────────────────
+// ── Product Card ───────────────────────────────────────────────────────────────
 const ProductImage = ({ src, alt }) => {
   const [error, setError] = useState(false);
   return (
-    <div style={{ width: 90, height: 90, marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      {!error
-        ? <img src={src} alt={alt} onError={() => setError(true)} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-        : <span style={{ fontSize: 36 }}>🫒</span>}
+    <div style={{ width: 90, height: 90, marginBottom: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {!error ? <img src={src} alt={alt} onError={() => setError(true)} style={{ width: "100%", height: "100%", objectFit: "contain" }} /> : <span style={{ fontSize: 36 }}>🫒</span>}
     </div>
   );
 };
 
-const ProductCard = ({ product, onComprar }) => {
+const QtyBtn = ({ onClick, disabled, children }) => (
+  <button onClick={onClick} disabled={disabled} style={{ background: disabled ? "rgba(255,255,255,0.04)" : "rgba(45,74,30,0.4)", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 6, color: disabled ? "rgba(201,168,76,0.2)" : COLORS.gold, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: disabled ? "default" : "pointer", flexShrink: 0 }}>
+    {children}
+  </button>
+);
+
+const ProductCard = ({ product, onDetail, onAddToCart }) => {
   const [hovered, setHovered] = useState(false);
+  const [qty, setQty] = useState(1);
 
   return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{ position: "relative", background: hovered ? "rgba(45,74,30,0.35)" : "rgba(45,74,30,0.18)", border: `1px solid ${hovered ? "rgba(201,168,76,0.5)" : "rgba(201,168,76,0.2)"}`, borderRadius: 14, padding: "28px 20px 22px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", transition: "all 0.3s ease" }}
-    >
+    <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      style={{ position: "relative", background: hovered ? "rgba(45,74,30,0.35)" : "rgba(45,74,30,0.18)", border: `1px solid ${hovered ? "rgba(201,168,76,0.5)" : "rgba(201,168,76,0.2)"}`, borderRadius: 14, padding: "28px 16px 18px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", transition: "all 0.3s ease" }}>
       {product.badge && (
-        <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: COLORS.gold, color: COLORS.black, fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "3px 12px", borderRadius: 20, whiteSpace: "nowrap", fontFamily: "'Cormorant Garamond', serif" }}>
-          {product.badge}
-        </div>
+        <div style={{ position: "absolute", top: -11, left: "50%", transform: "translateX(-50%)", background: COLORS.gold, color: COLORS.black, fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "3px 12px", borderRadius: 20, whiteSpace: "nowrap", fontFamily: "'Cormorant Garamond', serif" }}>{product.badge}</div>
       )}
-      <ProductImage src={product.image} alt={product.name} />
-      <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 17, fontWeight: 600, marginBottom: 4, lineHeight: 1.2 }}>{product.name}</div>
-      <div style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.45)", fontSize: 13, fontStyle: "italic", marginBottom: 18 }}>{product.volume}</div>
-      <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 26, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.02em" }}>{product.price}</div>
+
+      <div onClick={() => onDetail(product)} style={{ cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <ProductImage src={product.image} alt={product.name} />
+        <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 16, fontWeight: 600, marginBottom: 2, lineHeight: 1.2 }}>{product.name}</div>
+        <div style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.45)", fontSize: 12, fontStyle: "italic", marginBottom: 10 }}>{product.volume}</div>
+      </div>
+
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 24, fontWeight: 700, marginBottom: 14, letterSpacing: "-0.02em" }}>{product.price}</div>
+
+      <div onClick={(e) => e.stopPropagation()} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <QtyBtn onClick={() => setQty((q) => Math.max(1, q - 1))} disabled={qty <= 1}><IconMinus /></QtyBtn>
+        <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 16, fontWeight: 600, minWidth: 20, textAlign: "center" }}>{qty}</span>
+        <QtyBtn onClick={() => setQty((q) => q + 1)}><IconPlus /></QtyBtn>
+      </div>
+
       <button
-        onClick={() => onComprar(product)}
-        style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${COLORS.gold}`, borderRadius: 8, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", padding: "10px 0", cursor: "pointer", width: "100%", transition: "all 0.25s ease" }}
-      >
-        Comprar
+        onClick={(e) => { e.stopPropagation(); onAddToCart(product.id, qty); setQty(1); }}
+        style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${COLORS.gold}`, borderRadius: 8, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", padding: "9px 0", cursor: "pointer", width: "100%", transition: "all 0.25s ease" }}>
+        Agregar · {formatCLP(product.numericPrice * qty)}
       </button>
     </div>
   );
 };
 
-// ── Checkout Modal ─────────────────────────────────────────────────────────────
+// ── Checkout Modal (cart-based) ────────────────────────────────────────────────
 const inputBase = {
-  width: "100%",
-  background: "rgba(0,0,0,0.35)",
-  border: "1px solid rgba(201,168,76,0.25)",
-  borderRadius: 8,
-  color: "#f5f0e8",
-  fontFamily: "'Lora', serif",
-  fontSize: 14,
-  padding: "10px 14px",
-  outline: "none",
-  boxSizing: "border-box",
+  width: "100%", background: "rgba(0,0,0,0.35)", border: "1px solid rgba(201,168,76,0.25)",
+  borderRadius: 8, color: "#f5f0e8", fontFamily: "'Lora', serif", fontSize: 14,
+  padding: "10px 14px", outline: "none", boxSizing: "border-box",
 };
-
 const fieldLabel = {
-  display: "block",
-  fontSize: 10,
-  letterSpacing: "0.2em",
-  color: "rgba(201,168,76,0.75)",
-  textTransform: "uppercase",
-  marginBottom: 6,
-  fontFamily: "'Cormorant Garamond', serif",
+  display: "block", fontSize: 10, letterSpacing: "0.2em", color: "rgba(201,168,76,0.75)",
+  textTransform: "uppercase", marginBottom: 6, fontFamily: "'Cormorant Garamond', serif",
 };
+const chevronUrl = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")";
 
-const CheckoutModal = ({ product, onClose }) => {
-  const [form, setForm] = useState({
-    nombre: "", email: "", telefono: "",
-    calle: "", numero: "", region: "", comuna: "",
-    tipoDoc: "boleta", rut: "", razonSocial: "",
-  });
+const CheckoutModal = ({ cartItems, onClose }) => {
+  const [form, setForm] = useState({ nombre: "", email: "", telefono: "", calle: "", numero: "", region: "", comuna: "", tipoDoc: "boleta", rut: "", razonSocial: "" });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const set = (field) => (e) =>
-    setForm((f) => ({ ...f, [field]: e.target.value }));
+  const set = (f) => (e) => setForm((p) => ({ ...p, [f]: e.target.value }));
 
   const selectedRegion = REGIONS.find((r) => r.id === form.region);
   const shippingCost = selectedRegion?.shipping || 0;
-  const total = product.numericPrice + shippingCost;
+  const cartSubtotal = cartItems.reduce((s, item) => {
+    const p = PRODUCTS.find((p) => p.id === item.productId);
+    return s + (p?.numericPrice || 0) * item.quantity;
+  }, 0);
+  const total = cartSubtotal + shippingCost;
 
   const validate = () => {
     const e = {};
     if (!form.nombre.trim()) e.nombre = "Requerido";
-    if (!form.email.trim() || !/^[^@]+@[^@]+\.[^@]+$/.test(form.email))
-      e.email = "Email inválido";
+    if (!form.email.trim() || !/^[^@]+@[^@]+\.[^@]+$/.test(form.email)) e.email = "Email inválido";
     if (!form.telefono.trim()) e.telefono = "Requerido";
     if (!form.calle.trim()) e.calle = "Requerido";
     if (!form.numero.trim()) e.numero = "Requerido";
@@ -340,156 +369,90 @@ const CheckoutModal = ({ product, onClose }) => {
     if (!validate() || loading) return;
     setLoading(true);
     try {
-      const orderData = {
-        customer: form,
-        product: {
-          name: product.name,
-          volume: product.volume,
-          price: product.price,
-          numericPrice: product.numericPrice,
-        },
-        shipping: { cost: shippingCost, regionName: selectedRegion?.name || "" },
-        total,
-      };
+      const products = cartItems.map((item) => {
+        const p = PRODUCTS.find((p) => p.id === item.productId);
+        return { name: `${p.name} ${p.volume}`, price: p.price, numericPrice: p.numericPrice, quantity: item.quantity };
+      });
+      const orderData = { customer: form, products, shipping: { cost: shippingCost, regionName: selectedRegion?.name || "" }, subtotal: cartSubtotal, total };
       localStorage.setItem("essenza_order", JSON.stringify(orderData));
 
       const res = await fetch("/api/create-preference", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: product.id, customer: form, shippingCost }),
+        body: JSON.stringify({ cartItems, customer: form, shippingCost }),
       });
       const data = await res.json();
-      if (data.init_point) {
-        window.location.href = data.init_point;
-      } else {
-        setLoading(false);
-      }
-    } catch {
-      setLoading(false);
-    }
+      if (data.init_point) { window.location.href = data.init_point; } else { setLoading(false); }
+    } catch { setLoading(false); }
   };
 
-  const errStyle = { color: "#f87171", fontSize: 11, margin: "4px 0 0", fontFamily: "'Lora', serif" };
+  const err = { color: "#f87171", fontSize: 11, margin: "4px 0 0", fontFamily: "'Lora', serif" };
+  const selectStyle = { ...inputBase, cursor: "pointer", appearance: "none", WebkitAppearance: "none", backgroundImage: chevronUrl, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center", paddingRight: 36 };
 
   return (
-    <div
-      style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.78)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, backdropFilter: "blur(4px)" }}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
-      <div style={{ background: "#111", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 18, width: "100%", maxWidth: 520, maxHeight: "92vh", overflowY: "auto", position: "relative" }}>
-
-        {/* Header */}
-        <div style={{ padding: "22px 26px 18px", borderBottom: "1px solid rgba(201,168,76,0.1)", display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "sticky", top: 0, background: "#111", zIndex: 10, borderRadius: "18px 18px 0 0" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.78)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, backdropFilter: "blur(4px)" }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{ background: "#111", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 18, width: "100%", maxWidth: 520, maxHeight: "92vh", overflowY: "auto" }}>
+        <div style={{ padding: "22px 26px 18px", borderBottom: "1px solid rgba(201,168,76,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center", position: "sticky", top: 0, background: "#111", zIndex: 10, borderRadius: "18px 18px 0 0" }}>
           <div>
             <div style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase", marginBottom: 4, fontFamily: "'Cormorant Garamond', serif" }}>Finalizar pedido</div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: "#f5f0e8", fontSize: 20, fontWeight: 600, margin: 0 }}>
-              {product.name}{" "}
-              <span style={{ color: "rgba(245,240,232,0.4)", fontWeight: 400, fontSize: 16 }}>{product.volume}</span>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: "#f5f0e8", fontSize: 18, fontWeight: 600, margin: 0 }}>
+              {cartItems.length} {cartItems.length === 1 ? "producto" : "productos"} · {formatCLP(cartSubtotal)}
             </h2>
           </div>
-          <button
-            onClick={onClose}
-            style={{ background: "transparent", border: "none", color: "rgba(245,240,232,0.35)", cursor: "pointer", fontSize: 20, lineHeight: 1, padding: "4px 4px 4px 12px", marginTop: 2 }}
-          >
-            ✕
-          </button>
+          <button onClick={onClose} style={{ background: "transparent", border: "none", color: "rgba(245,240,232,0.35)", cursor: "pointer", fontSize: 20, padding: "4px 4px 4px 12px" }}>✕</button>
         </div>
 
         <div style={{ padding: "22px 26px 28px" }}>
-
-          {/* Personal data */}
           <p style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", margin: "0 0 14px", fontFamily: "'Cormorant Garamond', serif" }}>Datos personales</p>
-
           <div style={{ marginBottom: 12 }}>
             <label style={fieldLabel}>Nombre completo</label>
             <input type="text" value={form.nombre} onChange={set("nombre")} placeholder="Juan Pérez" style={{ ...inputBase, borderColor: errors.nombre ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
-            {errors.nombre && <p style={errStyle}>{errors.nombre}</p>}
+            {errors.nombre && <p style={err}>{errors.nombre}</p>}
           </div>
-
-          <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
+          <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
             <div style={{ flex: 1 }}>
               <label style={fieldLabel}>Email</label>
               <input type="email" value={form.email} onChange={set("email")} placeholder="juan@email.com" style={{ ...inputBase, borderColor: errors.email ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
-              {errors.email && <p style={errStyle}>{errors.email}</p>}
+              {errors.email && <p style={err}>{errors.email}</p>}
             </div>
             <div style={{ flex: 1 }}>
               <label style={fieldLabel}>Teléfono</label>
               <input type="tel" value={form.telefono} onChange={set("telefono")} placeholder="+56 9 1234 5678" style={{ ...inputBase, borderColor: errors.telefono ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
-              {errors.telefono && <p style={errStyle}>{errors.telefono}</p>}
+              {errors.telefono && <p style={err}>{errors.telefono}</p>}
             </div>
           </div>
 
-          {/* Shipping address */}
-          <p style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", margin: "20px 0 14px", fontFamily: "'Cormorant Garamond', serif" }}>Dirección de despacho</p>
-
+          <p style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", margin: "0 0 14px", fontFamily: "'Cormorant Garamond', serif" }}>Dirección de despacho</p>
           <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
             <div style={{ flex: 2 }}>
               <label style={fieldLabel}>Calle</label>
               <input type="text" value={form.calle} onChange={set("calle")} placeholder="Av. Providencia" style={{ ...inputBase, borderColor: errors.calle ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
-              {errors.calle && <p style={errStyle}>{errors.calle}</p>}
+              {errors.calle && <p style={err}>{errors.calle}</p>}
             </div>
             <div style={{ flex: 1 }}>
               <label style={fieldLabel}>Número</label>
               <input type="text" value={form.numero} onChange={set("numero")} placeholder="1234" style={{ ...inputBase, borderColor: errors.numero ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
-              {errors.numero && <p style={errStyle}>{errors.numero}</p>}
+              {errors.numero && <p style={err}>{errors.numero}</p>}
             </div>
           </div>
-
           <div style={{ marginBottom: 12 }}>
             <label style={fieldLabel}>Región</label>
-            <select
-              value={form.region}
-              onChange={(e) => setForm((f) => ({ ...f, region: e.target.value, comuna: "" }))}
-              style={{
-                ...inputBase,
-                cursor: "pointer",
-                borderColor: errors.region ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)",
-                appearance: "none",
-                WebkitAppearance: "none",
-                backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "right 14px center",
-                paddingRight: 36,
-              }}
-            >
+            <select value={form.region} onChange={(e) => setForm((f) => ({ ...f, region: e.target.value, comuna: "" }))} style={{ ...selectStyle, borderColor: errors.region ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }}>
               <option value="" style={{ background: "#111" }}>Selecciona tu región</option>
-              {REGIONS.map((r) => (
-                <option key={r.id} value={r.id} style={{ background: "#111" }}>{r.name}</option>
-              ))}
+              {REGIONS.map((r) => <option key={r.id} value={r.id} style={{ background: "#111" }}>{r.name}</option>)}
             </select>
-            {errors.region && <p style={errStyle}>{errors.region}</p>}
+            {errors.region && <p style={err}>{errors.region}</p>}
           </div>
-
           <div style={{ marginBottom: 20 }}>
             <label style={fieldLabel}>Comuna</label>
-            <select
-              value={form.comuna}
-              onChange={set("comuna")}
-              disabled={!form.region}
-              style={{
-                ...inputBase,
-                cursor: form.region ? "pointer" : "not-allowed",
-                opacity: form.region ? 1 : 0.4,
-                borderColor: errors.comuna ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)",
-                appearance: "none",
-                WebkitAppearance: "none",
-                backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "right 14px center",
-                paddingRight: 36,
-              }}
-            >
-              <option value="" style={{ background: "#111" }}>
-                {form.region ? "Selecciona tu comuna" : "Primero selecciona una región"}
-              </option>
-              {(COMMUNES[form.region] || []).map((c) => (
-                <option key={c} value={c} style={{ background: "#111" }}>{c}</option>
-              ))}
+            <select value={form.comuna} onChange={set("comuna")} disabled={!form.region} style={{ ...selectStyle, borderColor: errors.comuna ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)", opacity: form.region ? 1 : 0.4, cursor: form.region ? "pointer" : "not-allowed" }}>
+              <option value="" style={{ background: "#111" }}>{form.region ? "Selecciona tu comuna" : "Primero selecciona una región"}</option>
+              {(COMMUNES[form.region] || []).map((c) => <option key={c} value={c} style={{ background: "#111" }}>{c}</option>)}
             </select>
-            {errors.comuna && <p style={errStyle}>{errors.comuna}</p>}
+            {errors.comuna && <p style={err}>{errors.comuna}</p>}
           </div>
 
-          {/* Shipping cost badge */}
           {selectedRegion && (
             <div style={{ background: "rgba(45,74,30,0.25)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 10, padding: "12px 16px", marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.65)", fontSize: 13 }}>Despacho a {form.comuna ? `${form.comuna}, ` : ""}{selectedRegion.name}</span>
@@ -497,68 +460,54 @@ const CheckoutModal = ({ product, onClose }) => {
             </div>
           )}
 
-          {/* Tax document */}
           <p style={{ fontSize: 9, letterSpacing: "0.28em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", margin: "0 0 14px", fontFamily: "'Cormorant Garamond', serif" }}>Documento tributario</p>
-          <div style={{ display: "flex", gap: 10, marginBottom: form.tipoDoc === "factura" ? 14 : 22 }}>
+          <div style={{ display: "flex", gap: 10, marginBottom: form.tipoDoc === "factura" ? 14 : 20 }}>
             {["boleta", "factura"].map((tipo) => (
-              <button
-                key={tipo}
-                onClick={() => setForm((f) => ({ ...f, tipoDoc: tipo }))}
-                style={{ flex: 1, background: form.tipoDoc === tipo ? "rgba(45,74,30,0.45)" : "transparent", border: `1px solid ${form.tipoDoc === tipo ? COLORS.gold : "rgba(201,168,76,0.22)"}`, borderRadius: 8, color: form.tipoDoc === tipo ? COLORS.gold : "rgba(245,240,232,0.45)", fontFamily: "'Cormorant Garamond', serif", fontSize: 14, letterSpacing: "0.12em", padding: "10px 0", cursor: "pointer", transition: "all 0.2s ease", textTransform: "capitalize" }}
-              >
+              <button key={tipo} onClick={() => setForm((f) => ({ ...f, tipoDoc: tipo }))} style={{ flex: 1, background: form.tipoDoc === tipo ? "rgba(45,74,30,0.45)" : "transparent", border: `1px solid ${form.tipoDoc === tipo ? COLORS.gold : "rgba(201,168,76,0.22)"}`, borderRadius: 8, color: form.tipoDoc === tipo ? COLORS.gold : "rgba(245,240,232,0.45)", fontFamily: "'Cormorant Garamond', serif", fontSize: 14, letterSpacing: "0.12em", padding: "10px 0", cursor: "pointer", transition: "all 0.2s ease", textTransform: "capitalize" }}>
                 {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
               </button>
             ))}
           </div>
-
           {form.tipoDoc === "factura" && (
-            <div style={{ marginBottom: 22 }}>
+            <div style={{ marginBottom: 20 }}>
               <div style={{ marginBottom: 12 }}>
                 <label style={fieldLabel}>RUT empresa</label>
                 <input type="text" value={form.rut} onChange={set("rut")} placeholder="12.345.678-9" style={{ ...inputBase, borderColor: errors.rut ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
-                {errors.rut && <p style={errStyle}>{errors.rut}</p>}
+                {errors.rut && <p style={err}>{errors.rut}</p>}
               </div>
               <div>
                 <label style={fieldLabel}>Razón Social</label>
                 <input type="text" value={form.razonSocial} onChange={set("razonSocial")} placeholder="Mi Empresa SpA" style={{ ...inputBase, borderColor: errors.razonSocial ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.25)" }} />
-                {errors.razonSocial && <p style={errStyle}>{errors.razonSocial}</p>}
+                {errors.razonSocial && <p style={err}>{errors.razonSocial}</p>}
               </div>
             </div>
           )}
 
-          {/* Order summary */}
-          <div style={{ background: "rgba(45,74,30,0.15)", border: "1px solid rgba(201,168,76,0.18)", borderRadius: 12, padding: "18px 16px", marginBottom: 20 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-              <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.55)", fontSize: 13 }}>{product.name} {product.volume}</span>
-              <span style={{ fontFamily: "'Lora', serif", color: COLORS.cream, fontSize: 13 }}>{product.price}</span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", paddingBottom: 14, marginBottom: 14, borderBottom: "1px solid rgba(201,168,76,0.1)" }}>
-              <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.55)", fontSize: 13 }}>
-                {selectedRegion
-                  ? `Despacho — ${form.comuna ? `${form.comuna}, ` : ""}${selectedRegion.name}`
-                  : "Despacho"}
-              </span>
-              <span style={{ fontFamily: "'Lora', serif", color: selectedRegion ? COLORS.cream : "rgba(245,240,232,0.25)", fontSize: 13 }}>
-                {selectedRegion ? formatCLP(shippingCost) : "—"}
-              </span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 15, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>Total</span>
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 26, fontWeight: 700 }}>
-                {selectedRegion ? formatCLP(total) : product.price}
-              </span>
+          <div style={{ background: "rgba(45,74,30,0.15)", border: "1px solid rgba(201,168,76,0.18)", borderRadius: 12, padding: "16px", marginBottom: 20 }}>
+            {cartItems.map((item) => {
+              const p = PRODUCTS.find((p) => p.id === item.productId);
+              return (
+                <div key={item.productId} style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                  <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.6)", fontSize: 13 }}>{p?.name} {p?.volume} × {item.quantity}</span>
+                  <span style={{ fontFamily: "'Lora', serif", color: COLORS.cream, fontSize: 13 }}>{formatCLP((p?.numericPrice || 0) * item.quantity)}</span>
+                </div>
+              );
+            })}
+            <div style={{ borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: 10, marginTop: 8 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.55)", fontSize: 13 }}>Despacho{selectedRegion ? ` — ${selectedRegion.name}` : ""}</span>
+                <span style={{ fontFamily: "'Lora', serif", color: selectedRegion ? COLORS.cream : "rgba(245,240,232,0.25)", fontSize: 13 }}>{selectedRegion ? formatCLP(shippingCost) : "—"}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 15, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em" }}>Total</span>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 26, fontWeight: 700 }}>{selectedRegion ? formatCLP(total) : formatCLP(cartSubtotal)}</span>
+              </div>
             </div>
           </div>
 
-          {/* Submit */}
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            style={{ width: "100%", background: loading ? "rgba(45,74,30,0.25)" : `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${loading ? "rgba(201,168,76,0.2)" : COLORS.gold}`, borderRadius: 10, color: loading ? "rgba(201,168,76,0.3)" : COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.25em", textTransform: "uppercase", padding: "14px 0", cursor: loading ? "default" : "pointer", transition: "all 0.25s ease", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}
-          >
+          <button onClick={handleSubmit} disabled={loading} style={{ width: "100%", background: loading ? "rgba(45,74,30,0.25)" : `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${loading ? "rgba(201,168,76,0.2)" : COLORS.gold}`, borderRadius: 10, color: loading ? "rgba(201,168,76,0.3)" : COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.25em", textTransform: "uppercase", padding: "14px 0", cursor: loading ? "default" : "pointer", transition: "all 0.25s ease", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
             {loading ? <><LoadingDots /><span>Procesando...</span></> : "Proceder al pago →"}
           </button>
-
           <div style={{ textAlign: "center", marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.25)", fontSize: 11, fontStyle: "italic" }}>Pago seguro con</span>
             <span style={{ color: "#009ee3", fontWeight: 700, fontSize: 11, opacity: 0.65 }}>Mercado Pago Chile</span>
@@ -571,23 +520,224 @@ const CheckoutModal = ({ product, onClose }) => {
 
 // ── Payment Banner ─────────────────────────────────────────────────────────────
 const PaymentBanner = ({ status, onClose }) => {
-  const isSuccess = status === "success";
+  const ok = status === "success";
   return (
-    <div style={{ position: "fixed", top: 70, left: "50%", transform: "translateX(-50%)", zIndex: 500, width: "calc(100% - 32px)", maxWidth: 500, background: isSuccess ? "rgba(30,60,20,0.97)" : "rgba(60,20,20,0.97)", border: `1px solid ${isSuccess ? "rgba(201,168,76,0.45)" : "rgba(248,113,113,0.4)"}`, borderRadius: 14, padding: "18px 22px", display: "flex", alignItems: "center", gap: 16, boxShadow: "0 8px 32px rgba(0,0,0,0.5)", animation: "fadeUp 0.4s ease" }}>
-      <span style={{ fontSize: 28, flexShrink: 0 }}>{isSuccess ? "✓" : "✕"}</span>
+    <div style={{ position: "fixed", top: 70, left: "50%", transform: "translateX(-50%)", zIndex: 500, width: "calc(100% - 32px)", maxWidth: 500, background: ok ? "rgba(30,60,20,0.97)" : "rgba(60,20,20,0.97)", border: `1px solid ${ok ? "rgba(201,168,76,0.45)" : "rgba(248,113,113,0.4)"}`, borderRadius: 14, padding: "18px 22px", display: "flex", alignItems: "center", gap: 16, boxShadow: "0 8px 32px rgba(0,0,0,0.5)", animation: "fadeUp 0.4s ease" }}>
+      <span style={{ fontSize: 28, flexShrink: 0 }}>{ok ? "✓" : "✕"}</span>
       <div style={{ flex: 1 }}>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", color: isSuccess ? COLORS.gold : "#f87171", fontSize: 16, fontWeight: 600, margin: "0 0 4px" }}>
-          {isSuccess ? "¡Pago confirmado!" : status === "pending" ? "Pago pendiente" : "Pago no completado"}
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", color: ok ? COLORS.gold : "#f87171", fontSize: 16, fontWeight: 600, margin: "0 0 4px" }}>
+          {ok ? "¡Pago confirmado!" : status === "pending" ? "Pago pendiente" : "Pago no completado"}
         </p>
         <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.65)", fontSize: 13, margin: 0, lineHeight: 1.5 }}>
-          {isSuccess
-            ? "Recibirás un email de confirmación. Te contactaremos para coordinar el despacho."
-            : status === "pending"
-            ? "Tu pago está siendo procesado. Te notificaremos cuando se confirme."
-            : "Puedes intentarlo nuevamente cuando quieras."}
+          {ok ? "Recibirás un email de confirmación. Te contactaremos para coordinar el despacho." : status === "pending" ? "Tu pago está siendo procesado." : "Puedes intentarlo nuevamente cuando quieras."}
         </p>
       </div>
       <button onClick={onClose} style={{ background: "transparent", border: "none", color: "rgba(245,240,232,0.35)", cursor: "pointer", fontSize: 18, padding: 4, flexShrink: 0 }}>✕</button>
+    </div>
+  );
+};
+
+// ── Auth Modal ─────────────────────────────────────────────────────────────────
+const AuthModal = ({ onClose, onLogin }) => {
+  const [tab, setTab] = useState("login");
+  const [form, setForm] = useState({ nombre: "", email: "", password: "", confirm: "" });
+  const [error, setError] = useState("");
+  const set = (f) => (e) => setForm((p) => ({ ...p, [f]: e.target.value }));
+
+  const handleLogin = () => {
+    const users = JSON.parse(localStorage.getItem("essenza_users") || "[]");
+    const found = users.find((u) => u.email === form.email && u.password === form.password);
+    if (!found) { setError("Email o contraseña incorrectos."); return; }
+    onLogin({ nombre: found.nombre, email: found.email });
+    onClose();
+  };
+
+  const handleRegister = () => {
+    if (!form.nombre.trim()) { setError("Ingresa tu nombre."); return; }
+    if (!/^[^@]+@[^@]+\.[^@]+$/.test(form.email)) { setError("Email inválido."); return; }
+    if (form.password.length < 6) { setError("Contraseña mínimo 6 caracteres."); return; }
+    if (form.password !== form.confirm) { setError("Las contraseñas no coinciden."); return; }
+    const users = JSON.parse(localStorage.getItem("essenza_users") || "[]");
+    if (users.find((u) => u.email === form.email)) { setError("Este email ya está registrado."); return; }
+    const newUser = { nombre: form.nombre, email: form.email, password: form.password };
+    localStorage.setItem("essenza_users", JSON.stringify([...users, newUser]));
+    onLogin({ nombre: form.nombre, email: form.email });
+    onClose();
+  };
+
+  const aI = { ...inputBase, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 12 };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.82)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, backdropFilter: "blur(6px)" }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{ background: "#0d2214", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 18, width: "100%", maxWidth: 380, animation: "fadeUp 0.35s ease" }}>
+        <div style={{ padding: "24px 28px 20px", borderBottom: "1px solid rgba(201,168,76,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 0 }}>
+            {[["login", "Ingresar"], ["register", "Registrarse"]].map(([id, label]) => (
+              <button key={id} onClick={() => { setTab(id); setError(""); }} style={{ background: "transparent", border: "none", borderBottom: tab === id ? `2px solid ${COLORS.gold}` : "2px solid transparent", color: tab === id ? COLORS.gold : "rgba(245,240,232,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 14, letterSpacing: "0.12em", padding: "4px 16px 8px", cursor: "pointer" }}>{label}</button>
+            ))}
+          </div>
+          <button onClick={onClose} style={{ background: "transparent", border: "none", color: "rgba(245,240,232,0.3)", cursor: "pointer", fontSize: 18 }}>✕</button>
+        </div>
+        <div style={{ padding: "24px 28px 28px" }}>
+          {tab === "register" && (
+            <input type="text" value={form.nombre} onChange={set("nombre")} placeholder="Nombre completo" style={aI} />
+          )}
+          <input type="email" value={form.email} onChange={set("email")} placeholder="Email" style={aI} />
+          <input type="password" value={form.password} onChange={set("password")} placeholder="Contraseña" style={aI} />
+          {tab === "register" && (
+            <input type="password" value={form.confirm} onChange={set("confirm")} placeholder="Confirmar contraseña" style={{ ...aI, marginBottom: 0 }} />
+          )}
+          {error && <p style={{ color: "#f87171", fontSize: 12, margin: "10px 0 0", fontFamily: "'Lora', serif", fontStyle: "italic" }}>{error}</p>}
+          <button onClick={tab === "login" ? handleLogin : handleRegister}
+            style={{ width: "100%", marginTop: 20, background: COLORS.gold, border: "none", borderRadius: 9, color: COLORS.black, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", padding: "14px 0", cursor: "pointer" }}>
+            {tab === "login" ? "Ingresar" : "Crear cuenta"}
+          </button>
+          <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.25)", fontSize: 11, textAlign: "center", marginTop: 14, lineHeight: 1.6 }}>
+            Los invitados también pueden comprar sin registrarse.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── Cart Drawer ────────────────────────────────────────────────────────────────
+const CartDrawer = ({ cart, onClose, onCheckout, onUpdateQty, onRemove }) => {
+  const subtotal = cart.reduce((s, item) => {
+    const p = PRODUCTS.find((p) => p.id === item.productId);
+    return s + (p?.numericPrice || 0) * item.quantity;
+  }, 0);
+  const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 900 }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "100%", maxWidth: 380, background: "#0d2214", borderLeft: "1px solid rgba(201,168,76,0.25)", display: "flex", flexDirection: "column", animation: "slideInRight 0.28s ease" }}>
+        <div style={{ padding: "20px 22px 16px", borderBottom: "1px solid rgba(201,168,76,0.12)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 20, fontWeight: 600, margin: 0 }}>Tu Carrito</h2>
+            {totalItems > 0 && <p style={{ fontFamily: "'Lora', serif", color: "rgba(201,168,76,0.6)", fontSize: 12, margin: "2px 0 0" }}>{totalItems} {totalItems === 1 ? "producto" : "productos"}</p>}
+          </div>
+          <button onClick={onClose} style={{ background: "transparent", border: "none", color: "rgba(245,240,232,0.35)", cursor: "pointer", fontSize: 20 }}>✕</button>
+        </div>
+
+        <div style={{ flex: 1, overflowY: "auto", padding: "16px 22px" }}>
+          {cart.length === 0 ? (
+            <div style={{ textAlign: "center", paddingTop: 60 }}>
+              <div style={{ fontSize: 48, marginBottom: 16 }}>🛒</div>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(245,240,232,0.5)", fontSize: 18 }}>Tu carrito está vacío</p>
+              <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.3)", fontSize: 13, fontStyle: "italic" }}>Explora nuestra tienda</p>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {cart.map((item) => {
+                const p = PRODUCTS.find((p) => p.id === item.productId);
+                if (!p) return null;
+                return (
+                  <div key={item.productId} style={{ background: "rgba(45,74,30,0.2)", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 12, padding: "14px 14px" }}>
+                    <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                      <div style={{ width: 56, height: 56, flexShrink: 0, background: "rgba(0,0,0,0.2)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                        <img src={p.image} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} onError={(e) => { e.target.style.display = "none"; }} />
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 15, fontWeight: 600, lineHeight: 1.2 }}>{p.name}</div>
+                        <div style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.4)", fontSize: 11, fontStyle: "italic", marginBottom: 8 }}>{p.volume}</div>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <QtyBtn onClick={() => onUpdateQty(item.productId, -1)} disabled={item.quantity <= 1}><IconMinus /></QtyBtn>
+                            <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 15, fontWeight: 600, minWidth: 18, textAlign: "center" }}>{item.quantity}</span>
+                            <QtyBtn onClick={() => onUpdateQty(item.productId, 1)}><IconPlus /></QtyBtn>
+                          </div>
+                          <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 16, fontWeight: 700 }}>{formatCLP(p.numericPrice * item.quantity)}</span>
+                        </div>
+                      </div>
+                      <button onClick={() => onRemove(item.productId)} style={{ background: "transparent", border: "none", color: "rgba(245,240,232,0.25)", cursor: "pointer", padding: 4, flexShrink: 0 }}>
+                        <IconTrash size={15} />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {cart.length > 0 && (
+          <div style={{ padding: "16px 22px 24px", borderTop: "1px solid rgba(201,168,76,0.12)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+              <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.55)", fontSize: 13 }}>Subtotal</span>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 18, fontWeight: 700 }}>{formatCLP(subtotal)}</span>
+            </div>
+            <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.3)", fontSize: 11, fontStyle: "italic", margin: "0 0 16px" }}>Envío calculado al finalizar</p>
+            <button onClick={onCheckout} style={{ width: "100%", background: COLORS.gold, border: "none", borderRadius: 10, color: COLORS.black, fontFamily: "'Cormorant Garamond', serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", padding: "15px 0", cursor: "pointer", transition: "opacity 0.2s" }}>
+              Ir al checkout →
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ── Product Detail Modal ───────────────────────────────────────────────────────
+const CERTS = ["Extra Virgen", "Extracción en Frío", "Sin Aditivos"];
+
+const ProductDetailModal = ({ product, onClose, onAddToCart }) => {
+  const [qty, setQty] = useState(1);
+  const [added, setAdded] = useState(false);
+  const [imgError, setImgError] = useState(false);
+
+  const handleAdd = () => {
+    onAddToCart(product.id, qty);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.82)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, backdropFilter: "blur(5px)" }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{ background: "#0d2214", border: "1px solid rgba(201,168,76,0.28)", borderRadius: 20, width: "100%", maxWidth: 460, maxHeight: "92vh", overflowY: "auto", animation: "fadeUp 0.35s ease" }}>
+        <div style={{ position: "sticky", top: 0, background: "#0d2214", zIndex: 10, padding: "16px 20px 12px", borderBottom: "1px solid rgba(201,168,76,0.1)", display: "flex", justifyContent: "flex-end" }}>
+          <button onClick={onClose} style={{ background: "transparent", border: "none", color: "rgba(245,240,232,0.3)", cursor: "pointer", fontSize: 20 }}>✕</button>
+        </div>
+
+        <div style={{ padding: "0 28px 32px" }}>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+            <div style={{ width: 160, height: 160, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {!imgError
+                ? <img src={product.image} alt={product.name} onError={() => setImgError(true)} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                : <span style={{ fontSize: 64 }}>🫒</span>}
+            </div>
+          </div>
+
+          {product.badge && (
+            <div style={{ display: "inline-block", background: COLORS.gold, color: COLORS.black, fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "3px 12px", borderRadius: 20, marginBottom: 10, fontFamily: "'Cormorant Garamond', serif" }}>{product.badge}</div>
+          )}
+
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 26, fontWeight: 700, margin: "0 0 4px", lineHeight: 1.1 }}>{product.name}</h2>
+          <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.4)", fontSize: 14, fontStyle: "italic", margin: "0 0 12px" }}>{product.volume}</p>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 30, fontWeight: 700, margin: "0 0 18px" }}>{product.price}</p>
+
+          <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.75)", fontSize: 14, lineHeight: 1.8, margin: "0 0 20px" }}>{product.description}</p>
+
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
+            {CERTS.map((c) => (
+              <span key={c} style={{ background: "rgba(45,74,30,0.5)", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 20, color: "rgba(201,168,76,0.8)", fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", padding: "5px 12px" }}>{c}</span>
+            ))}
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+            <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.55)", fontSize: 13 }}>Cantidad:</span>
+            <QtyBtn onClick={() => setQty((q) => Math.max(1, q - 1))} disabled={qty <= 1}><IconMinus /></QtyBtn>
+            <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 18, fontWeight: 600, minWidth: 24, textAlign: "center" }}>{qty}</span>
+            <QtyBtn onClick={() => setQty((q) => q + 1)}><IconPlus /></QtyBtn>
+          </div>
+
+          <button onClick={handleAdd} style={{ width: "100%", background: added ? "rgba(45,74,30,0.7)" : `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${added ? "rgba(201,168,76,0.4)" : COLORS.gold}`, borderRadius: 10, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", padding: "14px 0", cursor: "pointer", transition: "all 0.25s ease" }}>
+            {added ? "✓ Agregado al carrito" : `Agregar al carrito · ${formatCLP(product.numericPrice * qty)}`}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
@@ -606,38 +756,11 @@ const IconOliveBranch = () => (
   </svg>
 );
 
-const NEWSLETTER_PREFS = [
-  "Aceite de oliva extra virgen",
-  "Pastas artesanales",
-  "Sets de regalo",
-  "Todo Essenza",
-];
-
+const NEWSLETTER_PREFS = ["Aceite de oliva extra virgen", "Pastas artesanales", "Sets de regalo", "Todo Essenza"];
 const DISCOUNT_CODE = "ESSENZA15";
 
-const nlInputBase = {
-  width: "100%",
-  background: "rgba(255,255,255,0.06)",
-  border: "1px solid rgba(201,168,76,0.2)",
-  borderRadius: 8,
-  color: "#f5f0e8",
-  fontFamily: "'Lora', serif",
-  fontSize: 14,
-  padding: "11px 14px",
-  outline: "none",
-  boxSizing: "border-box",
-};
-
-const nlFieldLabel = {
-  display: "block",
-  fontSize: 10,
-  letterSpacing: "0.2em",
-  color: "rgba(201,168,76,0.7)",
-  textTransform: "uppercase",
-  marginBottom: 5,
-  fontFamily: "'Cormorant Garamond', serif",
-};
-
+const nlInputBase = { width: "100%", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 8, color: "#f5f0e8", fontFamily: "'Lora', serif", fontSize: 14, padding: "11px 14px", outline: "none", boxSizing: "border-box" };
+const nlFieldLabel = { display: "block", fontSize: 10, letterSpacing: "0.2em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", marginBottom: 5, fontFamily: "'Cormorant Garamond', serif" };
 const chevronSvg = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")";
 
 const NewsletterModal = ({ onClose }) => {
@@ -646,8 +769,7 @@ const NewsletterModal = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [copied, setCopied] = useState(false);
-
-  const set = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+  const set = (f) => (e) => setForm((p) => ({ ...p, [f]: e.target.value }));
 
   const validate = () => {
     const e = {};
@@ -661,11 +783,7 @@ const NewsletterModal = ({ onClose }) => {
     if (!validate() || loading) return;
     setLoading(true);
     try {
-      await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      await fetch("/api/newsletter", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       localStorage.setItem("essenza_subscribed", "1");
       setSuccess(true);
     } catch {}
@@ -673,29 +791,18 @@ const NewsletterModal = ({ onClose }) => {
   };
 
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(DISCOUNT_CODE);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } catch {}
+    try { await navigator.clipboard.writeText(DISCOUNT_CODE); setCopied(true); setTimeout(() => setCopied(false), 2500); } catch {}
   };
 
   const nlErr = { color: "#f87171", fontSize: 11, margin: "3px 0 0", fontFamily: "'Lora', serif" };
 
   return (
-    <div
-      style={{ position: "fixed", inset: 0, zIndex: 1100, background: "rgba(0,0,0,0.86)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, backdropFilter: "blur(7px)" }}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
+    <div style={{ position: "fixed", inset: 0, zIndex: 1100, background: "rgba(0,0,0,0.86)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, backdropFilter: "blur(7px)" }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div style={{ background: "#0d2214", border: "1px solid rgba(201,168,76,0.32)", borderRadius: 22, width: "100%", maxWidth: 480, maxHeight: "94vh", overflowY: "auto", animation: "fadeUp 0.4s ease", position: "relative" }}>
-        <button
-          onClick={onClose}
-          style={{ position: "absolute", top: 16, right: 18, background: "transparent", border: "none", color: "rgba(245,240,232,0.3)", cursor: "pointer", fontSize: 20, lineHeight: 1, zIndex: 2, padding: 6 }}
-        >✕</button>
-
+        <button onClick={onClose} style={{ position: "absolute", top: 16, right: 18, background: "transparent", border: "none", color: "rgba(245,240,232,0.3)", cursor: "pointer", fontSize: 20, zIndex: 2, padding: 6 }}>✕</button>
         {!success ? (
           <div style={{ padding: "40px 36px 32px" }}>
-            {/* Icon + badge */}
             <div style={{ textAlign: "center", marginBottom: 22 }}>
               <div style={{ marginBottom: 14 }}><IconOliveBranch /></div>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.32)", borderRadius: 20, padding: "5px 16px" }}>
@@ -704,19 +811,13 @@ const NewsletterModal = ({ onClose }) => {
                 <span style={{ fontSize: 9, color: COLORS.gold }}>✦</span>
               </div>
             </div>
-
-            {/* Headline */}
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 31, fontWeight: 700, lineHeight: 1.08, textAlign: "center", marginBottom: 14, background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 60%, ${COLORS.gold} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", textTransform: "uppercase", letterSpacing: "-0.01em" }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 31, fontWeight: 700, lineHeight: 1.08, textAlign: "center", marginBottom: 14, background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 60%, ${COLORS.gold} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", textTransform: "uppercase" }}>
               15% OFF<br />y Envío Gratis<br />en tu primera compra
             </h2>
-
             <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.48)", fontSize: 13.5, lineHeight: 1.7, textAlign: "center", marginBottom: 26, fontStyle: "italic" }}>
               Regístrate para recibir tu descuento exclusivo,<br />novedades y ofertas de Essenza Chile.
             </p>
-
             <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)", marginBottom: 22 }} />
-
-            {/* Form */}
             <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
               <div style={{ flex: 1 }}>
                 <label style={nlFieldLabel}>Nombre</label>
@@ -728,13 +829,11 @@ const NewsletterModal = ({ onClose }) => {
                 <input type="text" value={form.apellido} onChange={set("apellido")} placeholder="González" style={nlInputBase} />
               </div>
             </div>
-
             <div style={{ marginBottom: 12 }}>
               <label style={nlFieldLabel}>Email</label>
               <input type="email" value={form.email} onChange={set("email")} placeholder="maria@email.com" style={{ ...nlInputBase, borderColor: errors.email ? "rgba(248,113,113,0.6)" : "rgba(201,168,76,0.2)" }} />
               {errors.email && <p style={nlErr}>{errors.email}</p>}
             </div>
-
             <div style={{ display: "flex", gap: 10, marginBottom: 24 }}>
               <div style={{ flex: 1 }}>
                 <label style={nlFieldLabel}>Fecha de nacimiento</label>
@@ -748,41 +847,29 @@ const NewsletterModal = ({ onClose }) => {
                 </select>
               </div>
             </div>
-
-            <button
-              onClick={handleSubmit}
-              disabled={loading}
-              style={{ width: "100%", background: loading ? "rgba(201,168,76,0.5)" : COLORS.gold, border: "none", borderRadius: 10, color: COLORS.black, fontFamily: "'Cormorant Garamond', serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.26em", textTransform: "uppercase", padding: "16px 0", cursor: loading ? "default" : "pointer", transition: "all 0.25s ease", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 16 }}
-            >
+            <button onClick={handleSubmit} disabled={loading} style={{ width: "100%", background: loading ? "rgba(201,168,76,0.5)" : COLORS.gold, border: "none", borderRadius: 10, color: COLORS.black, fontFamily: "'Cormorant Garamond', serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.26em", textTransform: "uppercase", padding: "16px 0", cursor: loading ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 16 }}>
               {loading ? <><LoadingDots /><span style={{ color: COLORS.darkGreen }}>Enviando...</span></> : "Quiero mi descuento"}
             </button>
-
             <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.2)", fontSize: 10.5, lineHeight: 1.6, textAlign: "center" }}>
-              Al registrarte aceptas nuestra{" "}
-              <a href="mailto:contacto@premiumolivechile.com" style={{ color: "rgba(201,168,76,0.4)", textDecoration: "underline" }}>Política de Privacidad</a>.
-              {" "}Puedes cancelar en cualquier momento.
+              Al registrarte aceptas nuestra <a href="mailto:contacto@premiumolivechile.com" style={{ color: "rgba(201,168,76,0.4)", textDecoration: "underline" }}>Política de Privacidad</a>. Puedes cancelar en cualquier momento.
             </p>
           </div>
         ) : (
           <div style={{ padding: "52px 36px", textAlign: "center" }}>
             <div style={{ width: 58, height: 58, borderRadius: "50%", background: "rgba(45,74,30,0.5)", border: "1px solid rgba(201,168,76,0.4)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 24, color: COLORS.gold }}>✓</div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 26, fontWeight: 600, margin: "0 0 8px", lineHeight: 1.2 }}>¡Ya eres parte de Essenza!</h2>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 26, fontWeight: 600, margin: "0 0 8px" }}>¡Ya eres parte de Essenza!</h2>
             <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.45)", fontSize: 13, lineHeight: 1.7, marginBottom: 30, fontStyle: "italic" }}>Hemos enviado tu código exclusivo a tu email.</p>
-
             <div style={{ background: "rgba(201,168,76,0.09)", border: "1px solid rgba(201,168,76,0.32)", borderRadius: 14, padding: "26px 20px", marginBottom: 22 }}>
               <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.6)", fontSize: 10, letterSpacing: "0.26em", textTransform: "uppercase", margin: "0 0 14px" }}>Tu código exclusivo</p>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginBottom: 12 }}>
                 <span style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.goldLight, fontSize: 38, fontWeight: 700, letterSpacing: "0.14em" }}>{DISCOUNT_CODE}</span>
-                <button onClick={handleCopy} style={{ background: copied ? "rgba(45,74,30,0.6)" : "rgba(201,168,76,0.14)", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 8, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", padding: "7px 14px", cursor: "pointer", transition: "all 0.2s ease" }}>
+                <button onClick={handleCopy} style={{ background: copied ? "rgba(45,74,30,0.6)" : "rgba(201,168,76,0.14)", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 8, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", padding: "7px 14px", cursor: "pointer" }}>
                   {copied ? "✓ Copiado" : "Copiar"}
                 </button>
               </div>
               <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.4)", fontSize: 12, margin: 0, fontStyle: "italic" }}>15% de descuento + envío gratis en tu primera compra</p>
             </div>
-
-            <button onClick={onClose} style={{ width: "100%", background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${COLORS.gold}`, borderRadius: 10, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", padding: "13px 0", cursor: "pointer", transition: "all 0.25s ease" }}>
-              Ir a la tienda →
-            </button>
+            <button onClick={onClose} style={{ width: "100%", background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${COLORS.gold}`, borderRadius: 10, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", padding: "13px 0", cursor: "pointer" }}>Ir a la tienda →</button>
           </div>
         )}
       </div>
@@ -790,7 +877,7 @@ const NewsletterModal = ({ onClose }) => {
   );
 };
 
-// ── Section: Quiénes Somos ─────────────────────────────────────────────────────
+// ── Sections ───────────────────────────────────────────────────────────────────
 const QuienesSomos = () => (
   <div style={{ maxWidth: 720, margin: "0 auto", padding: "0 24px" }}>
     <div style={{ textAlign: "center", marginBottom: 48 }}>
@@ -809,7 +896,7 @@ const QuienesSomos = () => (
       ].map((item) => (
         <div key={item.title} style={{ background: "rgba(45,74,30,0.2)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 14, padding: "28px 24px" }}>
           <div style={{ fontSize: 28, marginBottom: 12 }}>{item.icon}</div>
-          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 20, fontWeight: 600, margin: "0 0 12px", letterSpacing: "0.05em" }}>{item.title}</h3>
+          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 20, fontWeight: 600, margin: "0 0 12px" }}>{item.title}</h3>
           <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.7)", fontSize: 14, lineHeight: 1.8, margin: 0 }}>{item.text}</p>
         </div>
       ))}
@@ -817,32 +904,24 @@ const QuienesSomos = () => (
   </div>
 );
 
-// ── Section: Contacto ──────────────────────────────────────────────────────────
 const Contacto = () => (
   <div style={{ maxWidth: 560, margin: "0 auto", padding: "0 24px" }}>
     <div style={{ textAlign: "center", marginBottom: 48 }}>
       <SectionLabel>Escríbenos</SectionLabel>
-      <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 36, fontWeight: 700, margin: 0, lineHeight: 1.1 }}>Contacto</h2>
+      <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 36, fontWeight: 700, margin: 0 }}>Contacto</h2>
     </div>
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {SOCIAL_LINKS.map((link) => {
         const Icon = ICON_MAP[link.icon];
         return (
-          <a
-            key={link.label}
-            href={link.href}
-            target={link.href.startsWith("mailto") ? undefined : "_blank"}
-            rel="noopener noreferrer"
+          <a key={link.label} href={link.href} target={link.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer"
             style={{ display: "flex", alignItems: "center", gap: 18, background: "rgba(45,74,30,0.2)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 12, padding: "18px 22px", color: COLORS.gold, textDecoration: "none", transition: "all 0.25s ease" }}
             onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(45,74,30,0.35)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.45)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(45,74,30,0.2)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)"; }}
-          >
+            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(45,74,30,0.2)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)"; }}>
             <span style={{ color: COLORS.gold, flexShrink: 0 }}><Icon size={22} /></span>
             <div>
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(201,168,76,0.6)", marginBottom: 3 }}>{link.label}</div>
-              <div style={{ fontFamily: "'Lora', serif", fontSize: 14, color: COLORS.cream }}>
-                {link.href.replace("https://", "").replace("mailto:", "").replace("wa.me/", "wa.me/")}
-              </div>
+              <div style={{ fontFamily: "'Lora', serif", fontSize: 14, color: COLORS.cream }}>{link.href.replace("https://", "").replace("mailto:", "")}</div>
             </div>
           </a>
         );
@@ -853,32 +932,27 @@ const Contacto = () => (
 
 // ── Footer ─────────────────────────────────────────────────────────────────────
 const Footer = ({ onNewsletter }) => (
-  <footer style={{ background: "rgba(0,0,0,0.5)", borderTop: "1px solid rgba(201,168,76,0.1)", marginTop: 80, padding: "40px 24px" }}>
-    <div style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+  <footer style={{ background: "#0d2214", borderTop: "1px solid rgba(201,168,76,0.18)", marginTop: 80, padding: "44px 24px" }}>
+    <div style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
       <div style={{ display: "flex", gap: 24 }}>
         {SOCIAL_LINKS.map((link) => {
           const Icon = ICON_MAP[link.icon];
           return (
-            <a key={link.label} href={link.href} target={link.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer"
-              aria-label={link.label}
+            <a key={link.label} href={link.href} target={link.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer" aria-label={link.label}
               style={{ color: "rgba(201,168,76,0.5)", transition: "color 0.2s ease", display: "flex" }}
               onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.gold; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(201,168,76,0.5)"; }}
-            >
+              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(201,168,76,0.5)"; }}>
               <Icon size={20} />
             </a>
           );
         })}
       </div>
-      <button
-        onClick={onNewsletter}
-        style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 20, color: "rgba(201,168,76,0.5)", fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", padding: "7px 18px", cursor: "pointer", transition: "all 0.2s ease" }}
-        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.55)"; e.currentTarget.style.color = COLORS.gold; }}
-        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.25)"; e.currentTarget.style.color = "rgba(201,168,76,0.5)"; }}
-      >
+      <button onClick={onNewsletter} style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 20, color: "rgba(201,168,76,0.6)", fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", padding: "7px 18px", cursor: "pointer", transition: "all 0.2s ease" }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.6)"; e.currentTarget.style.color = COLORS.gold; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.3)"; e.currentTarget.style.color = "rgba(201,168,76,0.6)"; }}>
         ✦ Newsletter · 15% OFF
       </button>
-      <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(245,240,232,0.2)", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", margin: 0, textAlign: "center" }}>
+      <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(201,168,76,0.3)", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", margin: 0, textAlign: "center" }}>
         © 2025 Essenza Chile · Premium Olive Chile SPA
       </p>
     </div>
@@ -892,11 +966,50 @@ export default function EssenzaPairingAI() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("inicio");
-  const [checkoutProduct, setCheckoutProduct] = useState(null);
+
+  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("essenza_user") || "null"));
+  const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem("essenza_cart") || "[]"));
+  const [showAuth, setShowAuth] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [detailProduct, setDetailProduct] = useState(null);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [showNewsletter, setShowNewsletter] = useState(false);
+
   const textareaRef = useRef(null);
   const sectionsRef = useRef({});
+
+  const saveCart = (next) => { localStorage.setItem("essenza_cart", JSON.stringify(next)); return next; };
+
+  const addToCart = (productId, qty) => {
+    setCart((prev) => {
+      const existing = prev.find((i) => i.productId === productId);
+      const next = existing
+        ? prev.map((i) => i.productId === productId ? { ...i, quantity: i.quantity + qty } : i)
+        : [...prev, { productId, quantity: qty }];
+      return saveCart(next);
+    });
+  };
+
+  const updateCartQty = (productId, delta) => {
+    setCart((prev) => saveCart(prev.map((i) => i.productId === productId ? { ...i, quantity: Math.max(1, i.quantity + delta) } : i)));
+  };
+
+  const removeFromCart = (productId) => {
+    setCart((prev) => saveCart(prev.filter((i) => i.productId !== productId)));
+  };
+
+  const login = (userData) => {
+    setUser(userData);
+    localStorage.setItem("essenza_user", JSON.stringify(userData));
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("essenza_user");
+  };
+
+  const cartCount = cart.reduce((s, i) => s + i.quantity, 0);
 
   useEffect(() => {
     if (!localStorage.getItem("essenza_subscribed")) {
@@ -916,17 +1029,24 @@ export default function EssenzaPairingAI() {
         if (stored) {
           try {
             const orderData = JSON.parse(stored);
-            fetch("/api/send-order-email", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ ...orderData, paymentId }),
-            }).catch(console.error);
+            fetch("/api/send-order-email", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...orderData, paymentId }) }).catch(console.error);
           } catch {}
           localStorage.removeItem("essenza_order");
         }
+        setCart([]);
+        localStorage.removeItem("essenza_cart");
       }
       window.history.replaceState({}, "", "/");
     }
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => { entries.forEach((e) => { if (e.isIntersecting) setActiveTab(e.target.dataset.section); }); },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    Object.values(sectionsRef.current).forEach((el) => { if (el) observer.observe(el); });
+    return () => observer.disconnect();
   }, []);
 
   const scrollToSection = (id) => {
@@ -934,40 +1054,21 @@ export default function EssenzaPairingAI() {
     sectionsRef.current[id]?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveTab(entry.target.dataset.section);
-        });
-      },
-      { rootMargin: "-40% 0px -55% 0px" }
-    );
-    Object.values(sectionsRef.current).forEach((el) => { if (el) observer.observe(el); });
-    return () => observer.disconnect();
-  }, []);
-
-  const suggestions = ["Pulpo a la gallega", "Ensalada caprese", "Lomo de merluza al horno", "Pasta al pesto", "Pan artesanal tostado", "Ceviche chileno"];
-
   const handleSubmit = async () => {
     if (!input.trim() || loading) return;
     setLoading(true); setResult(null); setError(null);
     try {
-      const response = await fetch("/api/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system: SYSTEM_PROMPT, messages: [{ role: "user", content: input }] }),
-      });
+      const response = await fetch("/api/messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system: SYSTEM_PROMPT, messages: [{ role: "user", content: input }] }) });
       const data = await response.json();
       const text = data.content?.map((b) => b.text || "").join("") || "";
       const parsed = JSON.parse(text.replace(/```json|```/g, "").trim());
-      if (parsed.error) setError(parsed.error);
-      else setResult(parsed);
+      if (parsed.error) setError(parsed.error); else setResult(parsed);
     } catch { setError("Algo salió mal. Por favor intenta de nuevo."); }
     finally { setLoading(false); }
   };
 
   const handleKey = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSubmit(); } };
+  const suggestions = ["Pulpo a la gallega", "Ensalada caprese", "Lomo de merluza al horno", "Pasta al pesto", "Pan artesanal tostado", "Ceviche chileno"];
 
   return (
     <>
@@ -975,8 +1076,9 @@ export default function EssenzaPairingAI() {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;1,400&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: ${COLORS.black}; }
-        @keyframes pulse { 0%,100% { opacity:0.3; transform:scale(0.8); } 50% { opacity:1; transform:scale(1.2); } }
-        @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes pulse { 0%,100%{opacity:0.3;transform:scale(0.8);}50%{opacity:1;transform:scale(1.2);} }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+        @keyframes slideInRight { from{transform:translateX(100%);}to{transform:translateX(0);} }
         textarea:focus { outline: none; }
         textarea::placeholder { color: rgba(245,240,232,0.3); }
         input::placeholder { color: rgba(245,240,232,0.25); }
@@ -984,42 +1086,28 @@ export default function EssenzaPairingAI() {
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
-        @media (max-width: 480px) { .qs-grid { grid-template-columns: 1fr !important; } }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.75) sepia(1) hue-rotate(10deg); opacity: 0.55; cursor: pointer; }
+        @media (max-width: 480px) { .nav-text { display: none; } }
       `}</style>
 
       <div style={{ minHeight: "100vh", background: `radial-gradient(ellipse at 20% 0%, rgba(45,74,30,0.4) 0%, transparent 60%), radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.08) 0%, transparent 50%), ${COLORS.black}`, fontFamily: "'Cormorant Garamond', serif" }}>
 
-        {paymentStatus && (
-          <PaymentBanner status={paymentStatus} onClose={() => setPaymentStatus(null)} />
-        )}
+        {paymentStatus && <PaymentBanner status={paymentStatus} onClose={() => setPaymentStatus(null)} />}
+        {showAuth && <AuthModal onClose={() => setShowAuth(false)} onLogin={login} />}
+        {showCart && <CartDrawer cart={cart} onClose={() => setShowCart(false)} onCheckout={() => { setShowCart(false); setCheckoutOpen(true); }} onUpdateQty={updateCartQty} onRemove={removeFromCart} />}
+        {checkoutOpen && cart.length > 0 && <CheckoutModal cartItems={cart} onClose={() => setCheckoutOpen(false)} />}
+        {detailProduct && <ProductDetailModal product={detailProduct} onClose={() => setDetailProduct(null)} onAddToCart={(id, qty) => { addToCart(id, qty); }} />}
+        {showNewsletter && <NewsletterModal onClose={() => setShowNewsletter(false)} />}
 
-        {checkoutProduct && (
-          <CheckoutModal product={checkoutProduct} onClose={() => setCheckoutProduct(null)} />
-        )}
-
-        {showNewsletter && (
-          <NewsletterModal onClose={() => setShowNewsletter(false)} />
-        )}
-
-        {/* ── Header ── */}
         <header style={{ textAlign: "center", padding: "52px 24px 36px", borderBottom: "1px solid rgba(201,168,76,0.1)" }}>
-          <div style={{ margin: "0 auto 20px" }}>
-            <Logo size={80} />
-          </div>
+          <div style={{ margin: "0 auto 20px" }}><Logo size={80} /></div>
           <SectionLabel>Essenza Chile</SectionLabel>
-          <h1 style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.1, marginBottom: 12, background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            Pairing AI
-          </h1>
-          <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.5)", fontSize: 15, fontStyle: "italic", maxWidth: 320, margin: "0 auto", lineHeight: 1.6 }}>
-            Descubre cómo nuestro aceite extra virgen chileno eleva cada plato
-          </p>
+          <h1 style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.1, marginBottom: 12, background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Pairing AI</h1>
+          <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.5)", fontSize: 15, fontStyle: "italic", maxWidth: 320, margin: "0 auto", lineHeight: 1.6 }}>Descubre cómo nuestro aceite extra virgen chileno eleva cada plato</p>
         </header>
 
-        {/* ── Nav ── */}
-        <NavBar active={activeTab} onNav={scrollToSection} />
+        <NavBar active={activeTab} onNav={scrollToSection} user={user} onLogin={() => setShowAuth(true)} onLogout={logout} cartCount={cartCount} onOpenCart={() => setShowCart(true)} />
 
-        {/* ── Section: Inicio ── */}
         <section ref={(el) => { sectionsRef.current["inicio"] = el; }} data-section="inicio" style={{ padding: "60px 0 80px" }}>
           <div style={{ maxWidth: 480, margin: "0 auto", padding: "0 20px" }}>
             <div style={{ background: "rgba(45,74,30,0.15)", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 14, padding: "20px", marginBottom: 16 }}>
@@ -1038,8 +1126,7 @@ export default function EssenzaPairingAI() {
                 <p style={{ fontSize: 10, letterSpacing: "0.2em", color: "rgba(201,168,76,0.4)", textTransform: "uppercase", marginBottom: 10 }}>Sugerencias</p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                   {suggestions.map((s) => (
-                    <button key={s} onClick={() => setInput(s)}
-                      style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 20, color: "rgba(245,240,232,0.5)", fontFamily: "'Lora', serif", fontSize: 13, padding: "6px 14px", cursor: "pointer", fontStyle: "italic", transition: "all 0.2s ease" }}
+                    <button key={s} onClick={() => setInput(s)} style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 20, color: "rgba(245,240,232,0.5)", fontFamily: "'Lora', serif", fontSize: 13, padding: "6px 14px", cursor: "pointer", fontStyle: "italic", transition: "all 0.2s ease" }}
                       onMouseEnter={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.5)"; e.target.style.color = COLORS.cream; }}
                       onMouseLeave={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.2)"; e.target.style.color = "rgba(245,240,232,0.5)"; }}>
                       {s}
@@ -1051,15 +1138,13 @@ export default function EssenzaPairingAI() {
             {error && <div style={{ background: "rgba(180,50,50,0.15)", border: "1px solid rgba(180,50,50,0.3)", borderRadius: 10, padding: "14px 18px", marginTop: 16, color: "#f87171", fontFamily: "'Lora', serif", fontSize: 14, fontStyle: "italic" }}>{error}</div>}
             {result && <ResultCard data={result} />}
             {result && (
-              <button onClick={() => { setResult(null); setInput(""); setError(null); }}
-                style={{ display: "block", margin: "20px auto 0", background: "transparent", border: "none", color: "rgba(201,168,76,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", padding: "8px 16px" }}>
+              <button onClick={() => { setResult(null); setInput(""); setError(null); }} style={{ display: "block", margin: "20px auto 0", background: "transparent", border: "none", color: "rgba(201,168,76,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", padding: "8px 16px" }}>
                 ← Nuevo maridaje
               </button>
             )}
           </div>
         </section>
 
-        {/* ── Section: Tienda ── */}
         <section ref={(el) => { sectionsRef.current["tienda"] = el; }} data-section="tienda" style={{ padding: "0 0 80px" }}>
           <Divider />
           <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 20px" }}>
@@ -1068,26 +1153,29 @@ export default function EssenzaPairingAI() {
               <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 36, fontWeight: 700, margin: "0 0 10px", lineHeight: 1.1 }}>Lleva Essenza a tu cocina</h2>
               <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.4)", fontSize: 14, fontStyle: "italic", margin: 0 }}>100% chileno · Prensado en frío · Máximo 0.3% acidez</p>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 20 }}>
-              {PRODUCTS.map((p) => <ProductCard key={p.id} product={p} onComprar={setCheckoutProduct} />)}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 20 }}>
+              {PRODUCTS.map((p) => <ProductCard key={p.id} product={p} onDetail={setDetailProduct} onAddToCart={addToCart} />)}
             </div>
-            <div style={{ textAlign: "center", marginTop: 28, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            {cartCount > 0 && (
+              <div style={{ textAlign: "center", marginTop: 28 }}>
+                <button onClick={() => setShowCart(true)} style={{ background: `linear-gradient(135deg, ${COLORS.darkGreen}, ${COLORS.darkGreenLight})`, border: `1px solid ${COLORS.gold}`, borderRadius: 10, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", padding: "12px 28px", cursor: "pointer" }}>
+                  Ver carrito ({cartCount}) →
+                </button>
+              </div>
+            )}
+            <div style={{ textAlign: "center", marginTop: 20, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
               <span style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.3)", fontSize: 12, fontStyle: "italic" }}>Pago seguro con</span>
               <span style={{ color: "#009ee3", fontWeight: 700, fontSize: 12, opacity: 0.7 }}>Mercado Pago Chile</span>
             </div>
           </div>
         </section>
 
-        {/* ── Section: Quiénes Somos ── */}
         <section ref={(el) => { sectionsRef.current["quienes-somos"] = el; }} data-section="quienes-somos" style={{ padding: "0 0 80px" }}>
-          <Divider />
-          <QuienesSomos />
+          <Divider /><QuienesSomos />
         </section>
 
-        {/* ── Section: Contacto ── */}
         <section ref={(el) => { sectionsRef.current["contacto"] = el; }} data-section="contacto" style={{ padding: "0 0 80px" }}>
-          <Divider />
-          <Contacto />
+          <Divider /><Contacto />
         </section>
 
         <Footer onNewsletter={() => setShowNewsletter(true)} />
