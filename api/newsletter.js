@@ -9,11 +9,6 @@ module.exports = async function handler(req, res) {
   if (!nombre || !email) return res.status(400).json({ error: "Datos requeridos" });
 
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error("RESEND_API_KEY not set");
-    return res.status(500).json({ error: "Email service not configured" });
-  }
-
   const nombreCompleto = apellido ? `${nombre} ${apellido}` : nombre;
   const gold = "color:#c9a84c;";
   const muted = "color:rgba(245,240,232,0.6);";
@@ -107,19 +102,21 @@ module.exports = async function handler(req, res) {
   };
 
   try {
-    await Promise.all([
-      sendEmail(email, `Tu código exclusivo ${DISCOUNT_CODE} | Essenza Chile`, subscriberHtml),
-      sendEmail("contacto@premiumolivechile.com", `Nuevo suscriptor: ${nombreCompleto}`, storeHtml),
-      supabase.from("newsletter_subscribers").upsert(
-        {
-          name: nombreCompleto,
-          email,
-          birthdate: fechaNacimiento || null,
-          preference: preferencia || null,
-        },
-        { onConflict: "email", ignoreDuplicates: true }
-      ),
-    ]);
+    // Always save to DB first
+    const { error: dbError } = await supabase.from("newsletter_subscribers").upsert(
+      { name: nombreCompleto, email, birthdate: fechaNacimiento || null, preference: preferencia || null },
+      { onConflict: "email", ignoreDuplicates: true }
+    );
+    if (dbError) throw dbError;
+
+    // Send emails only if RESEND_API_KEY is configured
+    if (apiKey) {
+      await Promise.all([
+        sendEmail(email, `Tu código exclusivo ${DISCOUNT_CODE} | Essenza Chile`, subscriberHtml),
+        sendEmail("contacto@premiumolivechile.com", `Nuevo suscriptor: ${nombreCompleto}`, storeHtml),
+      ]).catch((err) => console.error("newsletter email error:", err.message));
+    }
+
     res.status(200).json({ ok: true });
   } catch (err) {
     console.error("newsletter error:", err.message);

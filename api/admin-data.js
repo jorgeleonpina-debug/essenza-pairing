@@ -15,19 +15,28 @@ module.exports = async function handler(req, res) {
     const weekStart = new Date(now); weekStart.setDate(now.getDate() - 7);
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const [ordersRes, customerCountRes, newsletterCountRes] = await Promise.all([
-      supabase
-        .from('orders')
-        .select('*, customers(name, email, phone)')
-        .order('created_at', { ascending: false })
-        .limit(200),
+    // Query orders and customers separately to avoid PostgREST relationship cache dependency
+    const [ordersRes, customersRes, customerCountRes, newsletterCountRes] = await Promise.all([
+      supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(200),
+      supabase.from('customers').select('id, name, email, phone'),
       supabase.from('customers').select('*', { count: 'exact', head: true }),
       supabase.from('newsletter_subscribers').select('*', { count: 'exact', head: true }),
     ]);
 
     if (ordersRes.error) throw ordersRes.error;
+    if (customersRes.error) throw customersRes.error;
 
-    const orders = ordersRes.data || [];
+    // Build customer lookup map
+    const customerMap = {};
+    for (const c of (customersRes.data || [])) {
+      customerMap[c.id] = c;
+    }
+
+    // Attach customer data to each order
+    const orders = (ordersRes.data || []).map((o) => ({
+      ...o,
+      customers: customerMap[o.customer_id] || null,
+    }));
 
     const salesToday = orders
       .filter((o) => new Date(o.created_at) >= todayStart)
