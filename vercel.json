@@ -29,6 +29,9 @@
     },
     "api/debug-openapi.js": {
       "maxDuration": 10
+    },
+    "api/debug-auth.js": {
+      "maxDuration": 10
     }
   },
   "rewrites": [
