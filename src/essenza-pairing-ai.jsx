@@ -906,31 +906,54 @@ const QuienesSomos = () => {
   );
 };
 
-const Contacto = () => (
-  <div style={{ maxWidth: 560, margin: "0 auto", padding: "0 24px" }}>
-    <div style={{ textAlign: "center", marginBottom: 48 }}>
-      <SectionLabel>Escríbenos</SectionLabel>
-      <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.cream, fontSize: 36, fontWeight: 700, margin: 0 }}>Contacto</h2>
+const Contacto = () => {
+  const containerRef = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} style={{ maxWidth: 680, margin: "0 auto", padding: "80px 24px", textAlign: "center", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(32px)", transition: "opacity 0.9s ease, transform 0.9s ease" }}>
+      <div style={{ marginBottom: 56 }}>
+        <div style={{ fontSize: 10, letterSpacing: "0.35em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", marginBottom: 20 }}>Escríbenos</div>
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: "clamp(40px, 6vw, 56px)", fontWeight: 400, margin: "0 0 24px", lineHeight: 1 }}>Contacto</h2>
+        <div style={{ width: 80, height: 1, background: "linear-gradient(90deg, transparent, #c9a84c, transparent)", margin: "0 auto" }} />
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 52, color: "rgba(201,168,76,0.45)", fontSize: 11 }}>
+        <span>◆</span><span>◆</span><span>◆</span>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+        {SOCIAL_LINKS.map((link, i) => {
+          const Icon = ICON_MAP[link.icon];
+          return (
+            <a key={link.label} href={link.href} target={link.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer"
+              style={{ display: "flex", alignItems: "center", gap: 24, borderTop: i === 0 ? "1px solid rgba(201,168,76,0.25)" : "none", borderBottom: "1px solid rgba(201,168,76,0.25)", padding: "28px 8px", color: COLORS.gold, textDecoration: "none", transition: "all 0.3s ease", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(16px)", transitionDelay: `${0.15 + i * 0.1}s` }}
+              onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "20px"; e.currentTarget.style.color = "#e8c46a"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "8px"; e.currentTarget.style.color = COLORS.gold; }}>
+              <span style={{ color: "rgba(201,168,76,0.55)", flexShrink: 0 }}><Icon size={18} /></span>
+              <div style={{ flex: 1, textAlign: "left" }}>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(201,168,76,0.5)", marginBottom: 4 }}>{link.label}</div>
+                <div style={{ fontFamily: "'Lora', serif", fontStyle: "italic", fontSize: 15, color: "rgba(245,240,232,0.85)" }}>{link.href.replace("https://", "").replace("mailto:", "")}</div>
+              </div>
+              <span style={{ color: "rgba(201,168,76,0.3)", fontSize: 12 }}>◆</span>
+            </a>
+          );
+        })}
+      </div>
     </div>
-    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      {SOCIAL_LINKS.map((link) => {
-        const Icon = ICON_MAP[link.icon];
-        return (
-          <a key={link.label} href={link.href} target={link.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer"
-            style={{ display: "flex", alignItems: "center", gap: 18, background: "rgba(45,74,30,0.2)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 12, padding: "18px 22px", color: COLORS.gold, textDecoration: "none", transition: "all 0.25s ease" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(45,74,30,0.35)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.45)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(45,74,30,0.2)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)"; }}>
-            <span style={{ color: COLORS.gold, flexShrink: 0 }}><Icon size={22} /></span>
-            <div>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(201,168,76,0.6)", marginBottom: 3 }}>{link.label}</div>
-              <div style={{ fontFamily: "'Lora', serif", fontSize: 14, color: COLORS.cream }}>{link.href.replace("https://", "").replace("mailto:", "")}</div>
-            </div>
-          </a>
-        );
-      })}
-    </div>
-  </div>
-);
+  );
+};
 
 const LEGAL_LINKS = [
   { label: "Despacho y Devolución", href: "/politicas-despacho" },
@@ -1180,8 +1203,8 @@ export default function EssenzaPairingAI() {
           <QuienesSomos />
         </section>
 
-        <section ref={(el) => { sectionsRef.current["contacto"] = el; }} data-section="contacto" style={{ padding: "0 0 80px" }}>
-          <Divider /><Contacto />
+        <section ref={(el) => { sectionsRef.current["contacto"] = el; }} data-section="contacto" style={{ background: "#0d2214", borderTop: "1px solid rgba(201,168,76,0.12)" }}>
+          <Contacto />
         </section>
 
         <Footer onNewsletter={() => setShowNewsletter(true)} />
