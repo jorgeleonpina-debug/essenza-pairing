@@ -15,11 +15,11 @@ module.exports = async function handler(req, res) {
   // Hit PostgREST with service role key
   const results = {};
 
-  for (const table of ['orders', 'customers', 'newsletter_subscribers']) {
+  for (const table of ['orders', 'customers', 'newsletter_subscribers', 'newsletter']) {
     const r = await fetch(`${url}/rest/v1/${table}?limit=1`, {
-      headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, Accept: 'application/json' },
+      headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, Accept: 'application/json', Prefer: 'return=representation' },
     });
-    results[table] = { status: r.status, body: (await r.text()).slice(0, 250) };
+    results[table] = { status: r.status, body: (await r.text()).slice(0, 400) };
   }
 
   // Check information_schema via rpc if available
