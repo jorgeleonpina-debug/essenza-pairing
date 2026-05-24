@@ -22,11 +22,22 @@ module.exports = async function handler(req, res) {
     results[table] = { status: r.status, body: (await r.text()).slice(0, 400) };
   }
 
-  // Check information_schema via rpc if available
+  // Fetch OpenAPI spec with service role key to see actual column names
+  let schema = {};
+  try {
+    const spec = await (await fetch(`${url}/rest/v1/`, {
+      headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, Accept: 'application/json' },
+    })).json();
+    for (const [path, def] of Object.entries(spec.definitions || {})) {
+      schema[path] = Object.keys(def.properties || {});
+    }
+  } catch {}
+
   res.json({
     url,
     serviceKey: { set: !!serviceKey, length: serviceKey?.length, isJwt: serviceKey?.startsWith('eyJ'), role: servicePayload?.role },
     anonKey: { set: !!anonKey, length: anonKey?.length, isJwt: anonKey?.startsWith('eyJ'), role: anonPayload?.role },
     tableAccess: results,
+    schema,
   });
 };
