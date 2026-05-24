@@ -32,6 +32,9 @@
     },
     "api/debug-auth.js": {
       "maxDuration": 10
+    },
+    "api/debug-service.js": {
+      "maxDuration": 10
     }
   },
   "rewrites": [
