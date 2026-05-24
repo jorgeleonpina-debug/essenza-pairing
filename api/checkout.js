@@ -32,23 +32,21 @@ module.exports = async function handler(req, res) {
 
     if (customerError) throw customerError;
 
-    // Save order using actual DB column names
+    // Save order — plain insert, ignore duplicate payment IDs
     const { error: orderError } = await supabase
       .from('orders')
-      .upsert(
-        {
-          customer_id: customerData.id,
-          producto: JSON.stringify(products || []),
-          precio: subtotal || 0,
-          envio: shipping?.cost || 0,
-          total: total || 0,
-          estado: 'aprobado',
-          mp_payment_id: paymentId || null,
-        },
-        { onConflict: 'mp_payment_id', ignoreDuplicates: true }
-      );
+      .insert({
+        customer_id: customerData.id,
+        producto: JSON.stringify(products || []),
+        precio: subtotal || 0,
+        envio: shipping?.cost || 0,
+        total: total || 0,
+        estado: 'aprobado',
+        mp_payment_id: paymentId || null,
+      });
 
-    if (orderError) throw orderError;
+    // Ignore duplicate payment ID errors (idempotent retry)
+    if (orderError && !orderError.message.includes('duplicate')) throw orderError;
 
     res.status(200).json({ ok: true });
   } catch (err) {
