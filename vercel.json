@@ -20,6 +20,9 @@
     },
     "api/admin-data.js": {
       "maxDuration": 15
+    },
+    "api/ship-order.js": {
+      "maxDuration": 15
     }
   },
   "rewrites": [

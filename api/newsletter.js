@@ -1,6 +1,27 @@
 const DISCOUNT_CODE = "ESSENZA15";
 const supabase = require('./_supabase');
 
+const socialFooter = `
+  <div style="background:#0d2214;padding:28px 40px 32px;text-align:center;border-top:1px solid rgba(201,168,76,0.12);">
+    <p style="font-family:Georgia,serif;font-size:9px;letter-spacing:0.28em;color:rgba(201,168,76,0.55);text-transform:uppercase;margin:0 0 16px;">Síguenos</p>
+    <div style="margin-bottom:18px;">
+      <a href="https://instagram.com/essenzaolive" style="display:inline-block;margin:0 10px;text-decoration:none;">
+        <span style="font-family:Georgia,serif;font-size:12px;color:rgba(201,168,76,0.75);letter-spacing:0.08em;">Instagram</span><br>
+        <span style="font-family:Georgia,serif;font-size:11px;color:rgba(245,240,232,0.4);">@essenzaolive</span>
+      </a>
+      <a href="https://facebook.com/essenzaolive" style="display:inline-block;margin:0 10px;text-decoration:none;">
+        <span style="font-family:Georgia,serif;font-size:12px;color:rgba(201,168,76,0.75);letter-spacing:0.08em;">Facebook</span><br>
+        <span style="font-family:Georgia,serif;font-size:11px;color:rgba(245,240,232,0.4);">@essenzaolive</span>
+      </a>
+      <a href="mailto:contacto@premiumolivechile.com" style="display:inline-block;margin:0 10px;text-decoration:none;">
+        <span style="font-family:Georgia,serif;font-size:12px;color:rgba(201,168,76,0.75);letter-spacing:0.08em;">Email</span><br>
+        <span style="font-family:Georgia,serif;font-size:11px;color:rgba(245,240,232,0.4);">contacto@premiumolivechile.com</span>
+      </a>
+    </div>
+    <p style="font-family:Georgia,serif;font-size:10px;letter-spacing:0.15em;color:rgba(201,168,76,0.35);text-transform:uppercase;margin:0 0 10px;">Essenza Chile · Premium Olive Chile SPA</p>
+    <p style="font-family:Georgia,serif;font-size:11px;color:rgba(245,240,232,0.2);margin:0;line-height:1.7;">Recibiste este email porque te suscribiste en essenzachile.vercel.app.<br>Para cancelar, responde con "CANCELAR".</p>
+  </div>`;
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
@@ -12,7 +33,7 @@ module.exports = async function handler(req, res) {
   const nombreCompleto = apellido ? `${nombre} ${apellido}` : nombre;
   const gold = "color:#c9a84c;";
   const muted = "color:rgba(245,240,232,0.6);";
-  const siteUrl = process.env.SITE_URL || "https://essenza-pairing.vercel.app";
+  const siteUrl = process.env.SITE_URL || "https://essenzachile.vercel.app";
 
   const subscriberHtml = `<!DOCTYPE html>
 <html>
@@ -20,23 +41,28 @@ module.exports = async function handler(req, res) {
 <body style="background:#111111;margin:0;padding:0;font-family:Georgia,serif;color:#f5f0e8;">
 <div style="max-width:560px;margin:0 auto;">
 
-  <div style="background:#0d2214;padding:44px 40px 36px;text-align:center;border-bottom:1px solid rgba(201,168,76,0.18);">
-    <p style="font-size:10px;letter-spacing:0.28em;${gold}text-transform:uppercase;margin:0 0 16px;">Essenza Chile</p>
-    <h1 style="font-size:30px;${gold}margin:0;line-height:1.1;font-weight:700;text-transform:uppercase;">Bienvenid@ a<br>la familia Essenza</h1>
+  <!-- Header -->
+  <div style="background:#1a3a2a;padding:44px 40px 36px;text-align:center;border-bottom:1px solid rgba(201,168,76,0.2);">
+    <p style="font-size:10px;letter-spacing:0.3em;${gold}text-transform:uppercase;margin:0 0 14px;">Essenza Chile</p>
+    <h1 style="font-size:28px;${gold}margin:0 0 10px;line-height:1.2;font-weight:700;">Bienvenido/a a<br>la familia Essenza 🫒</h1>
+    <p style="font-size:12px;color:rgba(245,240,232,0.45);font-style:italic;margin:0;">Extra Virgen · Extracción en Frío · Chile</p>
   </div>
 
+  <!-- Body -->
   <div style="background:#111111;padding:40px 40px 32px;">
     <p style="font-size:15px;line-height:1.85;color:rgba(245,240,232,0.85);margin:0 0 30px;">
-      Hola <strong>${nombreCompleto}</strong>,<br>
+      Hola <strong style="${gold}">${nombreCompleto}</strong>,<br>
       ¡Gracias por unirte! Como bienvenida, aquí está tu regalo exclusivo:
     </p>
 
+    <!-- Discount code -->
     <div style="background:rgba(45,74,30,0.3);border:2px solid rgba(201,168,76,0.38);border-radius:14px;padding:32px 24px;text-align:center;margin:0 0 36px;">
       <p style="font-size:10px;letter-spacing:0.26em;color:rgba(201,168,76,0.6);text-transform:uppercase;margin:0 0 14px;">Tu código exclusivo</p>
       <p style="font-size:46px;font-weight:700;color:#e8c46a;letter-spacing:0.12em;margin:0 0 14px;font-family:Courier New,monospace;">${DISCOUNT_CODE}</p>
       <p style="font-size:14px;${muted}margin:0;line-height:1.6;">15% de descuento + envío gratis<br>en tu primera compra en Essenza Chile</p>
     </div>
 
+    <!-- How to use -->
     <p style="font-size:10px;letter-spacing:0.22em;${gold}text-transform:uppercase;margin:0 0 14px;">¿Cómo usarlo?</p>
     <p style="font-size:14px;color:rgba(245,240,232,0.75);line-height:2.1;margin:0 0 32px;">
       <strong style="${gold}">1.</strong>&nbsp; Visita nuestra tienda y elige tu producto favorito<br>
@@ -49,10 +75,7 @@ module.exports = async function handler(req, res) {
     </div>
   </div>
 
-  <div style="background:#0d2214;padding:28px 40px;text-align:center;border-top:1px solid rgba(201,168,76,0.1);">
-    <p style="font-size:10px;letter-spacing:0.15em;color:rgba(201,168,76,0.45);text-transform:uppercase;margin:0 0 8px;">Essenza Chile · Premium Olive Chile SPA</p>
-    <p style="font-size:11px;color:rgba(245,240,232,0.2);margin:0;line-height:1.7;">Recibiste este email porque te suscribiste en essenza-pairing.vercel.app.<br>Para cancelar, responde con "CANCELAR".</p>
-  </div>
+  ${socialFooter}
 
 </div>
 </body>
