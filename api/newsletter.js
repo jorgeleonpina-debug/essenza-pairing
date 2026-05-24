@@ -102,9 +102,9 @@ module.exports = async function handler(req, res) {
   };
 
   try {
-    // Always save to DB first
+    // Always save to DB first — using actual column names from the DB schema
     const { error: dbError } = await supabase.from("newsletter_subscribers").upsert(
-      { name: nombreCompleto, email, birthdate: fechaNacimiento || null, preference: preferencia || null },
+      { nombre: nombreCompleto, email, descuento_enviado: false },
       { onConflict: "email", ignoreDuplicates: true }
     );
     if (dbError) throw dbError;

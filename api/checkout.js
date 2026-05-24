@@ -10,11 +10,21 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // Find or create customer
+    // Upsert customer using actual DB column names
     const { data: customerData, error: customerError } = await supabase
       .from('customers')
       .upsert(
-        { name: customer.nombre, email: customer.email, phone: customer.telefono || null },
+        {
+          nombre: customer.nombre,
+          email: customer.email,
+          telefono: customer.telefono || null,
+          direccion: customer.calle ? `${customer.calle} ${customer.numero || ''}`.trim() : null,
+          comuna: customer.comuna || null,
+          region: shipping?.regionName || null,
+          documento: customer.tipoDoc || 'boleta',
+          rut: customer.rut || null,
+          razon_social: customer.razonSocial || null,
+        },
         { onConflict: 'email' }
       )
       .select('id')
@@ -22,26 +32,20 @@ module.exports = async function handler(req, res) {
 
     if (customerError) throw customerError;
 
-    // Save order (ignore duplicate payment_id)
+    // Save order using actual DB column names
     const { error: orderError } = await supabase
       .from('orders')
       .upsert(
         {
           customer_id: customerData.id,
-          items: products || [],
-          subtotal: subtotal || 0,
-          shipping_cost: shipping?.cost || 0,
+          producto: JSON.stringify(products || []),
+          precio: subtotal || 0,
+          envio: shipping?.cost || 0,
           total: total || 0,
-          region: shipping?.regionName || null,
-          commune: customer.comuna || null,
-          address: customer.calle ? `${customer.calle} ${customer.numero || ''}`.trim() : null,
-          document_type: customer.tipoDoc || 'boleta',
-          rut: customer.rut || null,
-          razon_social: customer.razonSocial || null,
-          payment_id: paymentId || null,
-          payment_status: 'approved',
+          estado: 'aprobado',
+          mp_payment_id: paymentId || null,
         },
-        { onConflict: 'payment_id', ignoreDuplicates: true }
+        { onConflict: 'mp_payment_id', ignoreDuplicates: true }
       );
 
     if (orderError) throw orderError;
