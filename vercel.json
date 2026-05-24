@@ -20,21 +20,6 @@
     },
     "api/admin-data.js": {
       "maxDuration": 15
-    },
-    "api/check-tables.js": {
-      "maxDuration": 10
-    },
-    "api/debug-supabase.js": {
-      "maxDuration": 10
-    },
-    "api/debug-openapi.js": {
-      "maxDuration": 10
-    },
-    "api/debug-auth.js": {
-      "maxDuration": 10
-    },
-    "api/debug-service.js": {
-      "maxDuration": 10
     }
   },
   "rewrites": [

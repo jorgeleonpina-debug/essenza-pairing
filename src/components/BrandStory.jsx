@@ -131,7 +131,7 @@ const styles = `
 
 const STATS = [
   { ornament: "◆", display: "0.3%",     label: "Acidez Máxima",  sub: "Extra virgen certificado", numeric: null },
-  { ornament: "◆", display: "Primera",  label: "Presión en Frío", sub: "Sin calor ni solventes",   numeric: null },
+  { ornament: "◆", display: "Extracción", label: "en Frío",        sub: "Sin calor ni solventes",   numeric: null },
   { ornament: "◆", display: "100%",     label: "Extra Virgen",    sub: "Máxima calidad",           numeric: 100, suffix: "%", countTo: 100, decimals: 0 },
   { ornament: "◆", display: "Cosecha",  label: "Selectiva",       sub: "Valle Central, Chile",     numeric: null },
 ];

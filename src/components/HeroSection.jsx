@@ -272,7 +272,7 @@ export default function HeroSection({ onShopClick, onAiClick }) {
         <div className="hero-line-bottom" aria-hidden />
 
         <div className="hero-content">
-          <p className="hero-eyebrow">Valle Central de Chile · Prensado en frío</p>
+          <p className="hero-eyebrow">Valle Central de Chile · Extracción en frío</p>
           <div className="hero-eyebrow-line" aria-hidden />
 
           <h1 className="hero-headline">

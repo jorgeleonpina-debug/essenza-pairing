@@ -400,7 +400,7 @@ export default function ProductsShowcase({ onAddToCart, onDetail, onViewAll }) {
             <span>◆</span><span>◆</span><span>◆</span>
           </div>
           <p ref={subRef} className={`ps-sub${subVisible ? " visible" : ""}`}>
-            100% chileno · Prensado en frío · Máximo 0.3% acidez
+            100% chileno · Extracción en frío · Máximo 0.3% acidez
           </p>
         </div>
 

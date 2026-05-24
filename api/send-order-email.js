@@ -25,7 +25,7 @@ module.exports = async function handler(req, res) {
   const customerHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="${base}">
   <div style="text-align:center;margin-bottom:32px;">
     <h1 style="${gold}font-size:28px;margin:0 0 8px;">¡Tu pedido fue confirmado!</h1>
-    <p style="${muted}font-size:13px;font-style:italic;margin:0;">Essenza Chile · Extra Virgen · Prensado en Frío</p>
+    <p style="${muted}font-size:13px;font-style:italic;margin:0;">Essenza Chile · Extra Virgen · Extracción en Frío</p>
   </div>
   <p style="line-height:1.8;">Hola <strong>${customer.nombre}</strong>,<br>Gracias por tu compra. Tu pago fue procesado exitosamente.</p>
   <div style="${box}">

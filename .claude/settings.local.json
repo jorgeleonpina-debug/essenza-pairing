@@ -15,7 +15,12 @@
       "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); [System.IO.File]::WriteAllText\\(\"$env:TEMP\\\\test_body.json\", '{\"model\":\"claude-haiku-4-5-20251001\",\"max_tokens\":32,\"messages\":[{\"role\":\"user\",\"content\":\"ping\"}]}', [System.Text.Encoding]::ASCII\\); cd C:\\\\Users\\\\jorge\\\\essenza-pairing; vercel curl \"https://essenza-pairing-lss0eil4u-premium-olive-chile.vercel.app/api/messages\" --request POST --header \"content-type: application/json\" --data \"@$env:TEMP\\\\test_body.json\")",
       "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); cd C:\\\\Users\\\\jorge\\\\essenza-pairing; git log --oneline -5; Write-Host \"---\"; git ls-files public/images/; Write-Host \"---\"; Get-ChildItem public\\\\images\\\\ | Select-Object Name, Length)",
       "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); cd C:\\\\Users\\\\jorge\\\\essenza-pairing; Write-Host \"=== Files on disk ===\"; Get-ChildItem public\\\\images\\\\ | Select-Object Name, Length; Write-Host \"`n=== Git tracked files in public/images ===\"; git ls-files public/images/; Write-Host \"`n=== Git status ===\"; git status --short)",
-      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); cd C:\\\\Users\\\\jorge\\\\essenza-pairing; git status --short)"
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); cd C:\\\\Users\\\\jorge\\\\essenza-pairing; git status --short)",
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(vercel *)",
+      "Bash(git push *)"
     ]
   }
 }
