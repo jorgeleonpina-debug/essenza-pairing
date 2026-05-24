@@ -10,27 +10,38 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // Upsert customer using actual DB column names
-    const { data: customerData, error: customerError } = await supabase
+    // Insert customer, fall back to select if email already exists
+    const customerPayload = {
+      nombre: customer.nombre,
+      email: customer.email,
+      telefono: customer.telefono || null,
+      direccion: customer.calle ? `${customer.calle} ${customer.numero || ''}`.trim() : null,
+      comuna: customer.comuna || null,
+      region: shipping?.regionName || null,
+      documento: customer.tipoDoc || 'boleta',
+      rut: customer.rut || null,
+      razon_social: customer.razonSocial || null,
+    };
+
+    let customerData;
+    const { data: inserted, error: insertErr } = await supabase
       .from('customers')
-      .upsert(
-        {
-          nombre: customer.nombre,
-          email: customer.email,
-          telefono: customer.telefono || null,
-          direccion: customer.calle ? `${customer.calle} ${customer.numero || ''}`.trim() : null,
-          comuna: customer.comuna || null,
-          region: shipping?.regionName || null,
-          documento: customer.tipoDoc || 'boleta',
-          rut: customer.rut || null,
-          razon_social: customer.razonSocial || null,
-        },
-        { onConflict: 'email' }
-      )
+      .insert(customerPayload)
       .select('id')
       .single();
 
-    if (customerError) throw customerError;
+    if (insertErr) {
+      // On duplicate email, fetch existing record
+      const { data: existing, error: selectErr } = await supabase
+        .from('customers')
+        .select('id')
+        .eq('email', customer.email)
+        .single();
+      if (selectErr) throw selectErr;
+      customerData = existing;
+    } else {
+      customerData = inserted;
+    }
 
     // Save order — plain insert, ignore duplicate payment IDs
     const { error: orderError } = await supabase
