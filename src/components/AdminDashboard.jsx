@@ -514,7 +514,7 @@ function VistaMarketing({ tipo, metaConversions=[], metaVisits=[], whatsapp=[] }
             <div className="adm-kpi-label">Verificar en Meta</div>
             <div className="adm-kpi-value" style={{color:C.oro,fontSize:14}}>Events Manager</div>
             <div className="adm-kpi-sub">
-              <a href="https://business.facebook.com/events_manager" target="_blank"
+              <a href="https://business.facebook.com/events_manager" target="_blank" rel="noreferrer"
                 style={{color:C.oro,fontSize:11,letterSpacing:"1px"}}>
                 Abrir Events Manager →
               </a>
