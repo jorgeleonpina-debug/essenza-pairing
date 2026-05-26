@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { trackEvent } from "./utils/metaPixel";
+import { trackEvent, trackLead } from "./utils/metaPixel";
 import HeroSection from "./components/HeroSection";
 import BrandStory from "./components/BrandStory";
 import ProductsShowcase from "./components/ProductsShowcase";
@@ -793,6 +793,7 @@ const NewsletterModal = ({ onClose }) => {
     try {
       await fetch("/api/newsletter", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       localStorage.setItem("essenza_subscribed", "1");
+      trackLead(form.email);
       setSuccess(true);
     } catch {}
     setLoading(false);

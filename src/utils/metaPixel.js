@@ -4,6 +4,12 @@ const fbq = (...args) => {
   }
 };
 
+export const trackLead = (email) => {
+  if (typeof window !== "undefined" && typeof window.fbq === "function") {
+    window.fbq("track", "Lead", { content_name: "Newsletter Subscription", email });
+  }
+};
+
 export const trackEvent = (eventName, data = {}) => {
   if (eventName === "Purchase") {
     fbq("track", "Purchase", {
