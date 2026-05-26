@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { trackEvent } from "./utils/metaPixel";
 import HeroSection from "./components/HeroSection";
 import BrandStory from "./components/BrandStory";
 import ProductsShowcase from "./components/ProductsShowcase";
@@ -1099,6 +1100,7 @@ export default function EssenzaPairingAI() {
   const saveCart = (next) => { localStorage.setItem("essenza_cart", JSON.stringify(next)); return next; };
 
   const addToCart = (productId, qty) => {
+    trackEvent("AddToCart", { content_ids: [productId], content_type: "product", quantity: qty });
     setCart((prev) => {
       const existing = prev.find((i) => i.productId === productId);
       const next = existing
@@ -1141,6 +1143,7 @@ export default function EssenzaPairingAI() {
     if (payment === "success" || payment === "failure" || payment === "pending") {
       setPaymentStatus(payment);
       if (payment === "success") {
+        trackEvent("Purchase", { currency: "CLP" });
         const paymentId = params.get("payment_id") || params.get("collection_id") || "";
         const stored = localStorage.getItem("essenza_order");
         if (stored) {
@@ -1216,7 +1219,7 @@ export default function EssenzaPairingAI() {
 
         {paymentStatus && <PaymentBanner status={paymentStatus} onClose={() => setPaymentStatus(null)} />}
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} onLogin={login} />}
-        {showCart && <CartDrawer cart={cart} onClose={() => setShowCart(false)} onCheckout={() => { setShowCart(false); setCheckoutOpen(true); }} onUpdateQty={updateCartQty} onRemove={removeFromCart} />}
+        {showCart && <CartDrawer cart={cart} onClose={() => setShowCart(false)} onCheckout={() => { setShowCart(false); setCheckoutOpen(true); trackEvent("InitiateCheckout"); }} onUpdateQty={updateCartQty} onRemove={removeFromCart} />}
         {checkoutOpen && cart.length > 0 && <CheckoutModal cartItems={cart} onClose={() => setCheckoutOpen(false)} />}
         {detailProduct && <ProductDetailModal product={detailProduct} onClose={() => setDetailProduct(null)} onAddToCart={(id, qty) => { addToCart(id, qty); }} />}
         {showNewsletter && <NewsletterModal onClose={() => setShowNewsletter(false)} />}
@@ -1232,7 +1235,7 @@ export default function EssenzaPairingAI() {
         <div ref={(el) => { sectionsRef.current["tienda"] = el; }} data-section="tienda">
           <ProductsShowcase
             onAddToCart={addToCart}
-            onDetail={setDetailProduct}
+            onDetail={(p) => { trackEvent("ViewContent", { content_ids: [p.id], content_name: p.name, content_type: "product" }); setDetailProduct(p); }}
             onViewAll={() => scrollToSection("tienda")}
           />
         </div>
