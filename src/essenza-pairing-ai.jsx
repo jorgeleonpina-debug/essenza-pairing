@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { trackEvent, trackLead } from "./utils/metaPixel";
+import { trackEvent, trackLead, trackContact } from "./utils/metaPixel";
 import HeroSection from "./components/HeroSection";
 import BrandStory from "./components/BrandStory";
 import ProductsShowcase from "./components/ProductsShowcase";
@@ -970,6 +970,7 @@ const Contacto = () => {
           const Icon = ICON_MAP[link.icon];
           return (
             <a key={link.label} href={link.href} target={link.href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer"
+              onClick={() => { if (link.icon === "whatsapp" || link.icon === "email") trackContact({}); }}
               style={{ display: "flex", alignItems: "center", gap: 24, borderTop: i === 0 ? "1px solid rgba(201,168,76,0.25)" : "none", borderBottom: "1px solid rgba(201,168,76,0.25)", padding: "28px 8px", color: COLORS.gold, textDecoration: "none", transition: "all 0.3s ease", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(16px)", transitionDelay: `${0.15 + i * 0.1}s` }}
               onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "20px"; e.currentTarget.style.color = "#e8c46a"; }}
               onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "8px"; e.currentTarget.style.color = COLORS.gold; }}>

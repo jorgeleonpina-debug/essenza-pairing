@@ -4,6 +4,16 @@ const fbq = (...args) => {
   }
 };
 
+export const trackContact = (data = {}) => {
+  if (typeof window !== "undefined" && typeof window.fbq === "function") {
+    window.fbq("track", "Contact", {
+      content_name: "Contact Form",
+      email: data.email || "",
+      phone: data.phone || "",
+    });
+  }
+};
+
 export const trackLead = (email) => {
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
     window.fbq("track", "Lead", { content_name: "Newsletter Subscription", email });
