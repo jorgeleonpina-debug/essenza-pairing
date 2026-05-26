@@ -449,7 +449,7 @@ const PRODUCTS = [
     desc: "Formato familiar ideal para uso diario. Extracción en frío, acidez máxima 0.3%.",
     price: 49990,
     badge: null,
-    image: null,
+    image: "/images/images web/1.png",
   },
   {
     id: 2,
@@ -458,7 +458,7 @@ const PRODUCTS = [
     desc: "Ahorro garantizado para el hogar. Dos bidones de extracción en frío.",
     price: 81990,
     badge: null,
-    image: null,
+    image: "/images/images web/2.png",
   },
   {
     id: 3,
@@ -467,7 +467,7 @@ const PRODUCTS = [
     desc: "Ideal para familias grandes o para regalar. Envío con seguro incluido.",
     price: 109990,
     badge: null,
-    image: null,
+    image: "/images/images web/3.png",
   },
   {
     id: 4,
@@ -476,7 +476,7 @@ const PRODUCTS = [
     desc: "El mejor precio por litro de toda la colección. Formato restaurante.",
     price: 174990,
     badge: "Oferta",
-    image: null,
+    image: "/images/images web/4.png",
   },
   {
     id: 5,
@@ -485,7 +485,7 @@ const PRODUCTS = [
     desc: "El preferido de nuestros clientes. Ideal para ensaladas y cocina gourmet.",
     price: 14990,
     badge: "Más Vendido",
-    image: null,
+    image: "/images/images web/7.jpeg",
   },
   {
     id: 6,
@@ -494,7 +494,7 @@ const PRODUCTS = [
     desc: "Perfecto para regalar o abastecer la despensa con el mejor aceite.",
     price: 74990,
     badge: null,
-    image: null,
+    image: "/images/images web/6.png",
   },
   {
     id: 7,
@@ -503,7 +503,7 @@ const PRODUCTS = [
     desc: "Maridaje perfecto: aceite extra virgen y aceto balsámico premium.",
     price: 7990,
     badge: null,
-    image: null,
+    image: "/images/images web/5.png",
   },
   {
     id: 8,
@@ -512,7 +512,7 @@ const PRODUCTS = [
     desc: "Tamaño práctico para descubrir Essenza. El regalo perfecto.",
     price: 8990,
     badge: null,
-    image: null,
+    image: "/images/images web/8.png",
   },
 ];
 
