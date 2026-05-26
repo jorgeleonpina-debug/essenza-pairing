@@ -469,14 +469,56 @@ function VistaMarketing({ tipo, metaConversions=[], metaVisits=[], whatsapp=[] }
     return (
       <>
         <div className="adm-info-box">
-          El <strong>Pixel de Meta Ads</strong> permite rastrear conversiones y construir audiencias.
-          Para activarlo dile a Claude Code: <strong>"Instala el pixel de Meta Ads con ID XXXXXXX"</strong>
+          El <strong>Pixel de Meta Ads</strong> está instalado y activo en el sitio.
+          ID: <strong style={{fontFamily:"monospace",letterSpacing:"1px"}}>1648204836065387</strong>
         </div>
-        <div className="adm-kpi-grid" style={{gridTemplateColumns:"1fr"}}>
+        <div className="adm-kpi-grid" style={{gridTemplateColumns:"repeat(2,1fr)"}}>
           <div className="adm-kpi">
             <div className="adm-kpi-label">Estado del pixel</div>
-            <div className="adm-kpi-value" style={{color:C.warning}}>No configurado</div>
-            <div className="adm-kpi-sub">Eventos: PageView · ViewContent · AddToCart · InitiateCheckout · Purchase</div>
+            <div className="adm-kpi-value" style={{color:C.success}}>Activo ✓</div>
+            <div className="adm-kpi-sub">Instalado en public/index.html</div>
+          </div>
+          <div className="adm-kpi">
+            <div className="adm-kpi-label">Conversions API</div>
+            <div className="adm-kpi-value" style={{color:C.success}}>Activa ✓</div>
+            <div className="adm-kpi-sub">Servidor-side via api/meta-conversions.js</div>
+          </div>
+        </div>
+        <div className="adm-kpi-grid" style={{gridTemplateColumns:"repeat(3,1fr)"}}>
+          <div className="adm-kpi">
+            <div className="adm-kpi-label">PageView</div>
+            <div className="adm-kpi-value" style={{color:C.success,fontSize:18}}>✓ Activo</div>
+            <div className="adm-kpi-sub">Al cargar cualquier página</div>
+          </div>
+          <div className="adm-kpi">
+            <div className="adm-kpi-label">ViewContent + AddToCart</div>
+            <div className="adm-kpi-value" style={{color:C.success,fontSize:18}}>✓ Activo</div>
+            <div className="adm-kpi-sub">Al ver y agregar productos</div>
+          </div>
+          <div className="adm-kpi">
+            <div className="adm-kpi-label">InitiateCheckout + Purchase</div>
+            <div className="adm-kpi-value" style={{color:C.success,fontSize:18}}>✓ Activo</div>
+            <div className="adm-kpi-sub">Al pagar + compra completada</div>
+          </div>
+          <div className="adm-kpi">
+            <div className="adm-kpi-label">Lead (Newsletter)</div>
+            <div className="adm-kpi-value" style={{color:C.success,fontSize:18}}>✓ Activo</div>
+            <div className="adm-kpi-sub">Al suscribirse al newsletter</div>
+          </div>
+          <div className="adm-kpi">
+            <div className="adm-kpi-label">Contact (WhatsApp/Email)</div>
+            <div className="adm-kpi-value" style={{color:C.success,fontSize:18}}>✓ Activo</div>
+            <div className="adm-kpi-sub">Al hacer clic en contacto</div>
+          </div>
+          <div className="adm-kpi">
+            <div className="adm-kpi-label">Verificar en Meta</div>
+            <div className="adm-kpi-value" style={{color:C.oro,fontSize:14}}>Events Manager</div>
+            <div className="adm-kpi-sub">
+              <a href="https://business.facebook.com/events_manager" target="_blank"
+                style={{color:C.oro,fontSize:11,letterSpacing:"1px"}}>
+                Abrir Events Manager →
+              </a>
+            </div>
           </div>
         </div>
       </>
