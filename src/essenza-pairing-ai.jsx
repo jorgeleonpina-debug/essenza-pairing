@@ -1143,12 +1143,19 @@ export default function EssenzaPairingAI() {
     if (payment === "success" || payment === "failure" || payment === "pending") {
       setPaymentStatus(payment);
       if (payment === "success") {
-        trackEvent("Purchase", { currency: "CLP" });
         const paymentId = params.get("payment_id") || params.get("collection_id") || "";
         const stored = localStorage.getItem("essenza_order");
         if (stored) {
           try {
             const orderData = JSON.parse(stored);
+            const productNames = (orderData.products || []).map((p) => p.name).join(", ");
+            const itemCount = (orderData.products || []).reduce((s, p) => s + (p.quantity || 1), 0);
+            trackEvent("Purchase", {
+              total: orderData.total || 0,
+              items: productNames,
+              order_id: paymentId,
+              quantity: itemCount,
+            });
             const payload = JSON.stringify({ ...orderData, paymentId });
             fetch("/api/send-order-email", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload }).catch(console.error);
             fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload }).catch(console.error);
