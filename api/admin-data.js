@@ -1,5 +1,5 @@
 const supabase = require('./_supabase');
-const ADMIN_PASSWORD = 'Essenza2025!';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
@@ -24,6 +24,8 @@ module.exports = async function handler(req, res) {
 
     if (ordersRes.error) throw ordersRes.error;
     if (customersRes.error) throw customersRes.error;
+    if (customerCountRes.error) throw customerCountRes.error;
+    if (newsletterCountRes.error) throw newsletterCountRes.error;
 
     // Build customer lookup map and normalize to expected field names
     const customerMap = {};

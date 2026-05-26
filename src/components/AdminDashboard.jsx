@@ -417,7 +417,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [fetchError, setFetchError] = useState("");
-  const [savedPw, setSavedPw] = useState("");
+  const [savedPw, setSavedPw] = useState(() => sessionStorage.getItem("esz_pw") || "");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [shippingOrder, setShippingOrder] = useState(null);
 
@@ -450,8 +450,14 @@ export default function AdminDashboard() {
   const handleLogin = () => {
     if (!password.trim()) return;
     setSavedPw(password);
+    sessionStorage.setItem("esz_pw", password);
     fetchData(password);
   };
+
+  useEffect(() => {
+    const pw = sessionStorage.getItem("esz_pw");
+    if (pw) fetchData(pw);
+  }, []);
 
   if (!isLoggedIn) {
     return (
@@ -514,7 +520,7 @@ export default function AdminDashboard() {
             <button onClick={() => exportCSV(orders)} style={{ background: "rgba(201,168,76,0.12)", border: "1px solid rgba(201,168,76,0.35)", borderRadius: 8, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", padding: "7px 16px", cursor: "pointer" }}>
               Exportar CSV
             </button>
-            <button onClick={() => { setIsLoggedIn(false); setData(null); setPassword(""); }} style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 8, color: "rgba(245,240,232,0.35)", fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", padding: "7px 16px", cursor: "pointer" }}>
+            <button onClick={() => { setIsLoggedIn(false); setData(null); setPassword(""); sessionStorage.removeItem("esz_pw"); }} style={{ background: "transparent", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 8, color: "rgba(245,240,232,0.35)", fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", padding: "7px 16px", cursor: "pointer" }}>
               Salir
             </button>
           </div>

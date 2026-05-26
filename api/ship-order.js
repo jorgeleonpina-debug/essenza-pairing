@@ -1,5 +1,5 @@
 const supabase = require('./_supabase');
-const ADMIN_PASSWORD = 'Essenza2025!';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 const socialFooter = `
   <div style="background:#0d2214;padding:28px 40px 32px;text-align:center;border-top:1px solid rgba(201,168,76,0.12);">
