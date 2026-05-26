@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { trackEvent, trackLead, trackContact } from "./utils/metaPixel";
+import { trackEvent, trackLead, trackContact, serverEvent } from "./utils/metaPixel";
 import HeroSection from "./components/HeroSection";
 import BrandStory from "./components/BrandStory";
 import ProductsShowcase from "./components/ProductsShowcase";
@@ -1157,6 +1157,15 @@ export default function EssenzaPairingAI() {
               items: productNames,
               order_id: paymentId,
               quantity: itemCount,
+            });
+            serverEvent("Purchase", {
+              value: orderData.total || 0,
+              currency: "CLP",
+              content_ids: [paymentId],
+              num_items: itemCount,
+            }, {
+              email: orderData.customer?.email || "",
+              phone: orderData.customer?.telefono || "",
             });
             const payload = JSON.stringify({ ...orderData, paymentId });
             fetch("/api/send-order-email", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload }).catch(console.error);

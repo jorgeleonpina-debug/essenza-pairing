@@ -4,6 +4,18 @@ const fbq = (...args) => {
   }
 };
 
+export const serverEvent = async (eventName, eventData = {}, userData = {}) => {
+  try {
+    await fetch("/api/meta-conversions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ eventName, eventData, userData }),
+    });
+  } catch (err) {
+    console.error("server event error:", err);
+  }
+};
+
 export const trackContact = (data = {}) => {
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
     window.fbq("track", "Contact", {
@@ -18,6 +30,7 @@ export const trackLead = (email) => {
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
     window.fbq("track", "Lead", { content_name: "Newsletter Subscription", email });
   }
+  serverEvent("Lead", { content_name: "Newsletter" }, { email });
 };
 
 export const trackEvent = (eventName, data = {}) => {
