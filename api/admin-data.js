@@ -15,11 +15,11 @@ module.exports = async function handler(req, res) {
     const weekStart = new Date(now); weekStart.setDate(now.getDate() - 7);
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const [ordersRes, customersRes, customerCountRes, newsletterCountRes, metaConvRes, metaVisitsRes, whatsappRes] = await Promise.all([
+    const [ordersRes, customersRes, customerCountRes, newsletterRes, metaConvRes, metaVisitsRes, whatsappRes] = await Promise.all([
       supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(200),
       supabase.from('customers').select('id, nombre, email, telefono, direccion, comuna, region, documento, rut, razon_social'),
       supabase.from('customers').select('*', { count: 'exact', head: true }),
-      supabase.from('newsletter_subscribers').select('*', { count: 'exact', head: true }),
+      supabase.from('newsletter_subscribers').select('*').order('created_at', { ascending: false }),
       supabase.from('marketing_meta_conversions').select('*').order('created_at', { ascending: false }),
       supabase.from('marketing_meta_visits').select('*').order('created_at', { ascending: false }),
       supabase.from('marketing_whatsapp').select('*').order('created_at', { ascending: false }),
@@ -28,7 +28,7 @@ module.exports = async function handler(req, res) {
     if (ordersRes.error) throw ordersRes.error;
     if (customersRes.error) throw customersRes.error;
     if (customerCountRes.error) throw customerCountRes.error;
-    if (newsletterCountRes.error) throw newsletterCountRes.error;
+    if (newsletterRes.error) throw newsletterRes.error;
     if (metaConvRes.error) throw metaConvRes.error;
     if (metaVisitsRes.error) throw metaVisitsRes.error;
     if (whatsappRes.error) throw whatsappRes.error;
@@ -86,7 +86,8 @@ module.exports = async function handler(req, res) {
     res.json({
       orders,
       customerCount: customerCountRes.count || 0,
-      newsletterCount: newsletterCountRes.count || 0,
+      newsletterCount: newsletterRes.data?.length || 0,
+      newsletter: newsletterRes.data || [],
       salesToday,
       salesWeek,
       salesMonth,
