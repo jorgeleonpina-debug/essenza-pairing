@@ -681,7 +681,7 @@ export default function AdminDashboard() {
     );
   }
 
-  const {orders=[],customerCount=0,newsletterCount=0,salesToday=0,salesWeek=0,salesMonth=0,customers=[],metaConversions=[],metaVisits=[],whatsapp=[]} = data||{};
+  const {orders=[],customerCount=0,newsletterCount=0,salesToday=0,salesWeek=0,salesMonth=0,customers=[],metaConversions=[],metaVisits=[],whatsapp=[],newsletter=[]} = data||{};
 
   const getBadge = (key) => {
     if (key==="today") return salesToday>0?formatCLP(salesToday):"$0";
@@ -696,7 +696,7 @@ export default function AdminDashboard() {
     if (["today","week","month"].includes(vista))
       return <VistaVentas orders={orders} periodo={vista} salesToday={salesToday} salesWeek={salesWeek} salesMonth={salesMonth}/>;
     if (vista==="registrados") return <VistaClientes clientes={customers||[]} tipo="registrados"/>;
-    if (vista==="newsletter")  return <VistaClientes clientes={[]} tipo="newsletter"/>;
+    if (vista==="newsletter")  return <VistaClientes clientes={newsletter} tipo="newsletter"/>;
     if (vista==="pedidos") return (
       <>
         <div className="adm-sec-header">
