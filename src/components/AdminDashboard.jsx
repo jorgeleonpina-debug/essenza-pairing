@@ -464,44 +464,108 @@ function VistaClientes({ clientes, tipo }) {
   );
 }
 
-function VistaMarketing({ tipo }) {
-  const configs = {
-    meta_conv:   {title:"Meta Ads · con conversión",   desc:"Visitantes desde Meta Ads que completaron una compra.",             cols:["Nombre","Email","Producto","Fecha","Valor"]},
-    meta_noconv: {title:"Meta Ads · sin conversión",   desc:"Visitantes desde Meta Ads que no compraron. Candidatos retargeting.",cols:["Email","Fuente","Fecha","Página visitada"]},
-    whatsapp:    {title:"WhatsApp · con conversión",   desc:"Clientes que contactaron por WhatsApp y convirtieron en compra.",   cols:["Nombre","Teléfono","Email","Producto","Fecha"]},
-    retargeting: {title:"Retargeting",                 desc:"Visitantes sin conversión listos para campañas de reimpacto.",      cols:["Email","Visitas","Último contacto","Canal"]},
-    pixel:       {title:"Pixel Meta Ads",              desc:null,                                                                cols:[]},
-  };
-  const cfg = configs[tipo];
-  if (tipo==="pixel") {
+function VistaMarketing({ tipo, metaConversions=[], metaVisits=[], whatsapp=[] }) {
+  if (tipo === "pixel") {
     return (
       <>
         <div className="adm-info-box">
-          El <strong>Pixel de Meta Ads</strong> permite rastrear conversiones y construir audiencias. Para activarlo agrega tu Pixel ID en <strong>public/index.html</strong>. Dile a Claude Code: <strong>"Instala el pixel de Meta Ads con ID XXXXXXX"</strong>
+          El <strong>Pixel de Meta Ads</strong> permite rastrear conversiones y construir audiencias.
+          Para activarlo dile a Claude Code: <strong>"Instala el pixel de Meta Ads con ID XXXXXXX"</strong>
         </div>
         <div className="adm-kpi-grid" style={{gridTemplateColumns:"1fr"}}>
           <div className="adm-kpi">
             <div className="adm-kpi-label">Estado del pixel</div>
             <div className="adm-kpi-value" style={{color:C.warning}}>No configurado</div>
-            <div className="adm-kpi-sub">Eventos a configurar: PageView · ViewContent · AddToCart · InitiateCheckout · Purchase</div>
+            <div className="adm-kpi-sub">Eventos: PageView · ViewContent · AddToCart · InitiateCheckout · Purchase</div>
           </div>
         </div>
       </>
     );
   }
+
+  const configs = {
+    meta_conv: {
+      title:"Meta Ads · con conversión",
+      desc:"Visitantes desde Meta Ads que completaron una compra.",
+      data: metaConversions,
+      cols:["Nombre","Email","Producto","Valor","Fecha"],
+      exportHeaders:["Nombre","Email","Producto","Valor","Campaign ID","Fecha"],
+      exportMapper:(r)=>[r.nombre||"",r.email||"",r.producto||"",r.valor||0,r.campaign_id||"",formatDate(r.created_at)].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(";"),
+      mapper:(r)=>(
+        <tr key={r.id}>
+          <td className="td-name">{r.nombre||"—"}</td>
+          <td>{r.email||"—"}</td>
+          <td>{r.producto||"—"}</td>
+          <td className="td-price">{r.valor?`$${Number(r.valor).toLocaleString("es-CL")}`:"—"}</td>
+          <td style={{fontSize:11,color:"rgba(245,240,232,0.4)"}}>{formatDate(r.created_at)}</td>
+        </tr>
+      ),
+    },
+    meta_noconv: {
+      title:"Meta Ads · sin conversión",
+      desc:"Visitantes desde Meta Ads que no compraron. Candidatos para retargeting.",
+      data: metaVisits,
+      cols:["Email","Fuente","Página visitada","Fecha"],
+      exportHeaders:["Email","Fuente","Página visitada","Campaign ID","Fecha"],
+      exportMapper:(r)=>[r.email||"",r.fuente||"",r.pagina_visitada||"",r.campaign_id||"",formatDate(r.created_at)].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(";"),
+      mapper:(r)=>(
+        <tr key={r.id}>
+          <td className="td-name">{r.email||"—"}</td>
+          <td>{r.fuente||"meta_ads"}</td>
+          <td>{r.pagina_visitada||"—"}</td>
+          <td style={{fontSize:11,color:"rgba(245,240,232,0.4)"}}>{formatDate(r.created_at)}</td>
+        </tr>
+      ),
+    },
+    whatsapp: {
+      title:"WhatsApp · con conversión",
+      desc:"Clientes que contactaron por WhatsApp y convirtieron en compra.",
+      data: whatsapp,
+      cols:["Nombre","Teléfono","Email","Producto","Fecha"],
+      exportHeaders:["Nombre","Teléfono","Email","Producto","Notas","Fecha"],
+      exportMapper:(r)=>[r.nombre||"",r.telefono||"",r.email||"",r.producto||"",r.notas||"",formatDate(r.created_at)].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(";"),
+      mapper:(r)=>(
+        <tr key={r.id}>
+          <td className="td-name">{r.nombre||"—"}</td>
+          <td>{r.telefono||"—"}</td>
+          <td>{r.email||"—"}</td>
+          <td>{r.producto||"—"}</td>
+          <td style={{fontSize:11,color:"rgba(245,240,232,0.4)"}}>{formatDate(r.created_at)}</td>
+        </tr>
+      ),
+    },
+    retargeting: {
+      title:"Retargeting",
+      desc:"Visitantes sin conversión listos para campañas de reimpacto.",
+      data: metaVisits.filter(r=>!r.convertido),
+      cols:["Email","Canal","Página visitada","Último contacto"],
+      exportHeaders:["Email","Canal","Página visitada","Último contacto"],
+      exportMapper:(r)=>[r.email||"",r.fuente||"",r.pagina_visitada||"",formatDate(r.created_at)].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(";"),
+      mapper:(r)=>(
+        <tr key={r.id}>
+          <td className="td-name">{r.email||"—"}</td>
+          <td>{r.fuente||"meta_ads"}</td>
+          <td>{r.pagina_visitada||"—"}</td>
+          <td style={{fontSize:11,color:"rgba(245,240,232,0.4)"}}>{formatDate(r.created_at)}</td>
+        </tr>
+      ),
+    },
+  };
+
+  const cfg = configs[tipo];
+  const filas = cfg?.data || [];
+
   return (
     <>
-      <div className="adm-info-box">
-        {cfg.desc} <strong>Requiere crear las tablas en Supabase.</strong> Ejecuta el SQL de configuración para activar esta sección.
-      </div>
       <div className="adm-kpi-grid" style={{gridTemplateColumns:"repeat(2,1fr)"}}>
         <div className="adm-kpi">
           <div className="adm-kpi-label">{cfg.title}</div>
-          <div className="adm-kpi-value" style={{color:C.muted}}>—</div>
-          <div className="adm-kpi-sub">Tabla pendiente de crear</div>
+          <div className="adm-kpi-value">{filas.length}</div>
+          <div className="adm-kpi-sub">{cfg.desc}</div>
         </div>
         <div className="adm-kpi" style={{display:"flex",alignItems:"center",justifyContent:"flex-end"}}>
-          <button className="adm-btn" style={{opacity:0.4}} disabled>
+          <button className="adm-btn primary" disabled={filas.length===0}
+            onClick={()=>exportToCSV(filas,`essenza-${tipo}`,cfg.exportHeaders,cfg.exportMapper)}>
             <i className="ti ti-file-spreadsheet" style={{fontSize:13}} aria-hidden="true"></i>
             Exportar Excel
           </button>
@@ -510,7 +574,12 @@ function VistaMarketing({ tipo }) {
       <div className="adm-table-wrap">
         <table>
           <thead><tr>{cfg.cols.map(h=><th key={h}>{h}</th>)}</tr></thead>
-          <tbody><tr><td colSpan={cfg.cols.length} className="td-empty">Ejecuta el SQL de configuración para activar esta sección</td></tr></tbody>
+          <tbody>
+            {filas.length===0
+              ? <tr><td colSpan={cfg.cols.length} className="td-empty">Sin registros aún — los datos aparecerán aquí automáticamente</td></tr>
+              : filas.map(cfg.mapper)
+            }
+          </tbody>
         </table>
       </div>
     </>
@@ -612,7 +681,7 @@ export default function AdminDashboard() {
     );
   }
 
-  const {orders=[],customerCount=0,newsletterCount=0,salesToday=0,salesWeek=0,salesMonth=0,customers=[]} = data||{};
+  const {orders=[],customerCount=0,newsletterCount=0,salesToday=0,salesWeek=0,salesMonth=0,customers=[],metaConversions=[],metaVisits=[],whatsapp=[]} = data||{};
 
   const getBadge = (key) => {
     if (key==="today") return salesToday>0?formatCLP(salesToday):"$0";
@@ -640,7 +709,7 @@ export default function AdminDashboard() {
         <TablaOrdenes orders={orders}/>
       </>
     );
-    return <VistaMarketing tipo={vista}/>;
+    return <VistaMarketing tipo={vista} metaConversions={metaConversions} metaVisits={metaVisits} whatsapp={whatsapp}/>;
   };
 
   const titleParts = (TITLES[vista]||"").split("·");
