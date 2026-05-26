@@ -142,7 +142,7 @@ const formatDate = (d) =>
 function exportToCSV(rows, filename, headers, mapper) {
   const csvRows = rows.map(mapper);
   const csv = ["sep=;", headers.join(";"), ...csvRows].join("\r\n");
-  const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -403,7 +403,7 @@ function VistaVentas({ orders, periodo, salesToday, salesWeek, salesMonth }) {
   );
 }
 
-function TablaOrdenes({ orders }) {
+function TablaOrdenes({ orders, setSelectedOrder, setShippingOrder }) {
   const [selOrder, setSelOrder] = useState(null);
   const [shipOrder, setShipOrder] = useState(null);
   const savedPw = sessionStorage.getItem("esz_pw") || "";
