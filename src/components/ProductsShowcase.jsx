@@ -1,330 +1,518 @@
 import { useEffect, useRef, useState } from "react";
 
 const styles = `
-  .ps-root {
-    background: #0d2214;
-    padding: 96px 0 104px;
-    overflow: hidden;
-    border-top: 1px solid rgba(201,168,76,0.12);
-    border-bottom: 1px solid rgba(201,168,76,0.12);
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+  :root {
+    --es-negro:    #0A0A0A;
+    --es-negro2:   #0F130F;
+    --es-verde:    #0D2014;
+    --es-verde2:   #122918;
+    --es-verde3:   #1A3820;
+    --es-borde:    #1C2E1E;
+    --es-oro:      #C9A84C;
+    --es-oro2:     #E8C46A;
+    --es-oro-dim:  #7A6530;
+    --es-crema:    #F5F0E8;
+    --es-muted:    rgba(245,240,232,0.45);
+    --es-serif:    'Cormorant Garamond', Georgia, serif;
   }
 
+  .ps-root {
+    background: var(--es-negro);
+    padding: 0 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ps-root::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--es-oro-dim) 30%, var(--es-oro) 50%, var(--es-oro-dim) 70%, transparent 100%);
+  }
+
+  /* ── HEADER ── */
   .ps-header {
+    background: var(--es-negro2);
+    border-bottom: 0.5px solid var(--es-borde);
+    padding: 64px 48px 48px;
     text-align: center;
-    padding: 0 24px;
-    margin-bottom: 64px;
+    position: relative;
   }
 
   .ps-kicker {
-    font-family: 'Cormorant Garamond', serif;
     font-size: 10px;
-    letter-spacing: 0.35em;
+    letter-spacing: 5px;
     text-transform: uppercase;
-    color: rgba(201,168,76,0.7);
-    margin: 0 0 20px;
+    color: var(--es-oro);
+    margin-bottom: 18px;
     opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
   .ps-kicker.visible { opacity: 1; transform: translateY(0); }
 
   .ps-headline {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    font-size: clamp(40px, 6vw, 56px);
-    line-height: 1;
-    color: #c9a84c;
-    margin: 0 0 24px;
+    font-family: var(--es-serif);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--es-crema);
+    margin-bottom: 16px;
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.8s ease 0.12s, transform 0.8s ease 0.12s;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
   }
+  .ps-headline em { font-style: italic; color: var(--es-oro); }
   .ps-headline.visible { opacity: 1; transform: translateY(0); }
 
   .ps-gold-line {
-    width: 80px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #c9a84c, transparent);
-    margin: 0 auto 40px;
+    width: 48px; height: 1px;
+    background: var(--es-oro);
+    margin: 0 auto 20px;
     opacity: 0;
-    transition: opacity 0.8s ease 0.2s;
+    transition: opacity 0.6s ease 0.2s, width 0.6s ease 0.2s;
   }
   .ps-gold-line.visible { opacity: 1; }
 
-  .ps-diamonds {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 56px;
-    color: rgba(201,168,76,0.4);
-    font-size: 11px;
-    opacity: 0;
-    transition: opacity 0.8s ease 0.3s;
-  }
-  .ps-diamonds.visible { opacity: 1; }
-
   .ps-sub {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: clamp(15px, 2vw, 17px);
-    letter-spacing: 0.04em;
-    color: rgba(245,240,232,0.6);
-    margin: 0;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    line-height: 1.8;
+    color: var(--es-muted);
+    max-width: 480px;
+    margin: 0 auto;
     opacity: 0;
-    transition: opacity 0.8s ease 0.25s;
+    transition: opacity 0.7s ease 0.3s;
   }
   .ps-sub.visible { opacity: 1; }
 
-  /* Track */
-  .ps-track-wrap {
-    position: relative;
+  /* ── TRUST BAR ── */
+  .ps-trust {
+    background: var(--es-verde);
+    border-top: 0.5px solid var(--es-borde);
+    border-bottom: 0.5px solid var(--es-borde);
+    padding: 14px 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .ps-trust-item {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--es-muted);
     padding: 0 24px;
+    border-right: 0.5px solid var(--es-borde);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .ps-trust-item:last-child { border-right: none; }
+  .ps-trust-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--es-oro);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  /* ── GRID ── */
+  .ps-grid-wrap {
+    padding: 40px 32px 0;
+  }
+
+  .ps-grid-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--es-oro-dim);
+    margin-bottom: 24px;
   }
 
   .ps-track {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    max-width: 1160px;
-    margin: 0 auto;
+    gap: 0;
+    border: 0.5px solid var(--es-borde);
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     .ps-track { grid-template-columns: repeat(2, 1fr); }
   }
-  @media (max-width: 520px) {
-    .ps-track { grid-template-columns: 1fr; max-width: 340px; }
+  @media (max-width: 580px) {
+    .ps-track { grid-template-columns: 1fr; }
+    .ps-grid-wrap { padding: 32px 16px 0; }
+    .ps-header { padding: 48px 24px 36px; }
   }
 
-  /* Card */
+  /* ── CARD ── */
   .ps-card {
+    background: var(--es-negro2);
+    border-right: 0.5px solid var(--es-borde);
+    border-bottom: 0.5px solid var(--es-borde);
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease, background 0.2s ease;
+    cursor: pointer;
     position: relative;
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(201,168,76,0.12);
-    border-top: 2px solid rgba(201,168,76,0.35);
+    overflow: hidden;
+  }
+  .ps-card:nth-child(4n) { border-right: none; }
+  @media (max-width: 1100px) {
+    .ps-card:nth-child(2n) { border-right: none; }
+    .ps-card:nth-child(4n) { border-right: 0.5px solid var(--es-borde); }
+  }
+  @media (max-width: 580px) {
+    .ps-card { border-right: none !important; }
+  }
+
+  .ps-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--es-oro), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .ps-card:hover { background: var(--es-verde2); }
+  .ps-card:hover::after { opacity: 1; }
+  .ps-card.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── CARD IMAGE ── */
+  .ps-card-img-wrap {
+    aspect-ratio: 1 / 1;
+    background: var(--es-verde);
     display: flex;
     flex-direction: column;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(32px);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s ease,
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-  .ps-card.visible { opacity: 1; transform: translateY(0); }
-  .ps-card:hover {
-    border-color: rgba(201,168,76,0.5);
-    border-top-color: #c9a84c;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
-  }
-  .ps-card:hover .ps-card-img {
-    transform: scale(1.04);
-  }
-
-  .ps-badge {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    z-index: 2;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #0d2214;
-    background: #c9a84c;
-    padding: 4px 10px;
-  }
-
-  .ps-card-img-wrap {
-    width: 100%;
-    aspect-ratio: 1/1;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-bottom: 0.5px solid var(--es-borde);
     overflow: hidden;
-    background: #f7f4ee;
+  }
+
+  .ps-card-img-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%);
   }
 
   .ps-card-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    object-position: center;
-    padding: 12px;
-    box-sizing: border-box;
-    transition: transform 0.5s ease;
-    display: block;
+    padding: 24px;
+    position: relative;
+    z-index: 1;
   }
 
-  .ps-card-body {
-    padding: 18px 18px 20px;
-    flex: 1;
+  /* placeholder elegante cuando no hay imagen */
+  .ps-img-placeholder {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+  }
+  .ps-placeholder-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--es-verde3);
   }
 
-  .ps-card-volume {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 10px;
-    letter-spacing: 0.3em;
+  /* ── BADGE ── */
+  .ps-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    font-size: 9px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(201,168,76,0.55);
-    margin: 0 0 6px;
+    padding: 5px 11px;
+    font-weight: 500;
+  }
+  .ps-badge-oferta {
+    background: var(--es-oro);
+    color: var(--es-negro);
+  }
+  .ps-badge-vendido {
+    background: transparent;
+    border: 0.5px solid var(--es-oro);
+    color: var(--es-oro);
+  }
+
+  /* ── CARD BODY ── */
+  .ps-card-body {
+    padding: 20px 20px 22px;
+  }
+
+  .ps-card-varietal {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--es-oro-dim);
+    margin-bottom: 7px;
   }
 
   .ps-card-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    font-size: 18px;
-    color: #f5f0e8;
-    margin: 0 0 8px;
-    line-height: 1.25;
+    font-family: var(--es-serif);
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--es-crema);
+    line-height: 1.2;
+    margin-bottom: 6px;
   }
 
   .ps-card-desc {
-    font-family: 'Lora', serif;
-    font-style: italic;
-    font-size: 11px;
-    line-height: 1.7;
-    color: rgba(245,240,232,0.4);
-    margin: 0 0 14px;
-    flex: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 12px;
+    color: var(--es-muted);
+    line-height: 1.65;
+    margin-bottom: 18px;
+    min-height: 38px;
+  }
+
+  .ps-card-footer {
+    border-top: 0.5px solid var(--es-borde);
+    padding-top: 16px;
+  }
+
+  .ps-card-price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
   }
 
   .ps-card-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: 24px;
-    color: #c9a84c;
-    letter-spacing: 0.02em;
-    display: block;
-    margin-bottom: 12px;
+    font-family: var(--es-serif);
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--es-oro);
+    line-height: 1;
   }
 
+  .ps-card-unit {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--es-muted);
+  }
+
+  /* ── QTY ── */
   .ps-card-qty {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 0;
+    border: 0.5px solid var(--es-borde);
+    width: fit-content;
+    margin-bottom: 12px;
   }
-
   .ps-qty-btn {
     background: transparent;
-    border: 1px solid rgba(201,168,76,0.3);
-    color: #c9a84c;
-    width: 28px;
-    height: 28px;
+    border: none;
+    color: var(--es-oro);
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.15s;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
-    font-family: 'Cormorant Garamond', serif;
-    transition: background 0.18s, border-color 0.18s;
-    padding: 0;
+    font-family: var(--es-serif);
   }
-  .ps-qty-btn:hover:not(:disabled) { background: rgba(201,168,76,0.1); border-color: #c9a84c; }
-  .ps-qty-btn:disabled { opacity: 0.25; cursor: default; }
-
+  .ps-qty-btn:hover { background: var(--es-verde3); }
   .ps-qty-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #f5f0e8;
-    min-width: 22px;
+    font-size: 13px;
+    color: var(--es-crema);
+    width: 32px;
     text-align: center;
+    font-weight: 500;
+    border-left: 0.5px solid var(--es-borde);
+    border-right: 0.5px solid var(--es-borde);
+    height: 32px;
+    line-height: 32px;
   }
 
+  /* ── BUTTONS ── */
   .ps-card-btn {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #0d2214;
-    background: #c9a84c;
-    border: none;
-    padding: 12px 0;
     width: 100%;
+    padding: 11px 0;
+    background: var(--es-oro);
+    color: var(--es-negro);
+    border: none;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
+    font-family: inherit;
+    font-weight: 500;
+    transition: background 0.2s ease;
   }
-  .ps-card-btn:hover { background: #e8c46a; transform: translateY(-1px); }
+  .ps-card-btn:hover { background: var(--es-oro2); }
 
-  /* Bottom CTA */
+  .ps-card-detail-btn {
+    width: 100%;
+    padding: 9px 0;
+    background: transparent;
+    color: var(--es-muted);
+    border: 0.5px solid var(--es-borde);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 7px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .ps-card-detail-btn:hover {
+    color: var(--es-oro);
+    border-color: var(--es-oro-dim);
+  }
+
+  /* ── ENVÍOS ── */
+  .ps-envios {
+    margin: 40px 32px 0;
+    border: 0.5px solid var(--es-borde);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 700px) {
+    .ps-envios { grid-template-columns: 1fr; margin: 32px 16px 0; }
+  }
+  .ps-envio-item {
+    padding: 22px 24px;
+    border-right: 0.5px solid var(--es-borde);
+    background: var(--es-negro2);
+  }
+  .ps-envio-item:last-child { border-right: none; }
+  .ps-envio-region {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--es-muted);
+    margin-bottom: 8px;
+  }
+  .ps-envio-precio {
+    font-family: var(--es-serif);
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--es-oro);
+    margin-bottom: 4px;
+  }
+  .ps-envio-desc {
+    font-size: 11px;
+    color: var(--es-verde3);
+  }
+
+  /* ── CTA ── */
   .ps-cta-wrap {
     text-align: center;
-    margin-top: 64px;
-    padding: 0 24px;
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    padding: 56px 32px 0;
   }
-  .ps-cta-wrap.visible { opacity: 1; transform: translateY(0); }
-
   .ps-cta-btn {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: #c9a84c;
     background: transparent;
-    border: 1px solid rgba(201,168,76,0.4);
-    padding: 16px 52px;
+    border: 0.5px solid rgba(201,168,76,0.4);
+    color: var(--es-oro);
+    padding: 15px 48px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: border-color 0.25s, color 0.25s, transform 0.2s;
+    font-family: inherit;
+    transition: background 0.2s, border-color 0.2s;
   }
-  .ps-cta-btn:hover { border-color: #c9a84c; transform: translateY(-2px); }
+  .ps-cta-btn:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--es-oro);
+  }
 `;
 
 const PRODUCTS = [
   {
-    id: 1, name: "Bidón Extra Virgen 5L", volume: "Bidón plástico 5L",
-    price: "$49.990", numericPrice: 49990, badge: null, image: "/images/1.png",
-    description: "Bidón plástico 5L. Acidez 0.3%, primera extracción en frío. Ideal para cocinar, ensaladas, carnes y pastas.",
+    id: 1,
+    name: "Bidón Extra Virgen 5L",
+    varietal: "Extra Virgen · 5 Litros",
+    desc: "Formato familiar ideal para uso diario. Extracción en frío, acidez máxima 0.3%.",
+    price: 49990,
+    badge: null,
+    image: null,
   },
   {
-    id: 2, name: "Pack 2 Bidones 5L", volume: "2 Bidones · 10L total",
-    price: "$81.990", numericPrice: 81990, badge: null, image: "/images/2.png",
-    description: "2 bidones de 5L = 10 litros. Mejor precio por litro. Ideal para uso frecuente y cocina profesional.",
+    id: 2,
+    name: "Pack 2 Bidones 5L",
+    varietal: "Pack · 10 Litros",
+    desc: "Ahorro garantizado para el hogar. Dos bidones de extracción en frío.",
+    price: 81990,
+    badge: null,
+    image: null,
   },
   {
-    id: 3, name: "Pack 3 Bidones 5L", volume: "3 Bidones · 15L total",
-    price: "$109.990", numericPrice: 109990, badge: null, image: "/images/3.png",
-    description: "3 bidones de 5L = 15 litros. Máximo ahorro por litro. Ideal para restaurantes y cocina gourmet.",
+    id: 3,
+    name: "Pack 3 Bidones 5L",
+    varietal: "Pack · 15 Litros",
+    desc: "Ideal para familias grandes o para regalar. Envío con seguro incluido.",
+    price: 109990,
+    badge: null,
+    image: null,
   },
   {
-    id: 4, name: "Pack 4 Bidones 5L", volume: "4 Bidones · 20L total",
-    price: "$174.990", numericPrice: 174990, badge: "Oferta", image: "/images/4.png",
-    description: "4 bidones de 5L = 20 litros. Mejor precio por litro $8.750. Ideal para cocina gourmet, ensaladas, frituras y preparaciones mediterráneas.",
+    id: 4,
+    name: "Pack 4 Bidones 5L",
+    varietal: "Pack · 20 Litros",
+    desc: "El mejor precio por litro de toda la colección. Formato restaurante.",
+    price: 174990,
+    badge: "Oferta",
+    image: null,
   },
   {
-    id: 5, name: "Aceite Extra Virgen Botella 1L", volume: "Botella vidrio 1L",
-    price: "$14.990", numericPrice: 14990, badge: "Más Vendido", image: "/images/5.png",
-    description: "Botella vidrio 1L. Cosecha selectiva, extracción en frío. Acidez máxima 0.3%.",
+    id: 5,
+    name: "Botella Extra Virgen 1L",
+    varietal: "Extra Virgen · 1 Litro",
+    desc: "El preferido de nuestros clientes. Ideal para ensaladas y cocina gourmet.",
+    price: 14990,
+    badge: "Más Vendido",
+    image: null,
   },
   {
-    id: 6, name: "Pack 6 Botellas 1L", volume: "6 Botellas · 6L total",
-    price: "$74.990", numericPrice: 74990, badge: null, image: "/images/6.png",
-    description: "6 botellas de 1L = 6 litros. 12 cuotas sin interés. Ideal para aderezos, cocina gourmet y ensaladas.",
+    id: 6,
+    name: "Pack 6 Botellas 1L",
+    varietal: "Pack · 6 Litros",
+    desc: "Perfecto para regalar o abastecer la despensa con el mejor aceite.",
+    price: 74990,
+    badge: null,
+    image: null,
   },
   {
-    id: 7, name: "Pack Aceite + Aceto 250ml", volume: "Pack regalo 250ml",
-    price: "$7.990", numericPrice: 7990, badge: null, image: "/images/7.jpeg",
-    description: "Pack premium aceite extra virgen + aceto balsámico 250ml. El regalo perfecto.",
+    id: 7,
+    name: "Pack Aceite + Aceto 250ml",
+    varietal: "Gourmet · Pack Dúo",
+    desc: "Maridaje perfecto: aceite extra virgen y aceto balsámico premium.",
+    price: 7990,
+    badge: null,
+    image: null,
   },
   {
-    id: 8, name: "Aceite Extra Virgen Botella 500ml", volume: "Botella vidrio 500ml",
-    price: "$8.990", numericPrice: 8990, badge: null, image: "/images/8.png",
-    description: "Botella vidrio 500ml. Cosecha selectiva, extracción en frío. Acidez máxima 0.3%.",
+    id: 8,
+    name: "Botella Extra Virgen 500ml",
+    varietal: "Extra Virgen · 500ml",
+    desc: "Tamaño práctico para descubrir Essenza. El regalo perfecto.",
+    price: 8990,
+    badge: null,
+    image: null,
   },
 ];
 
@@ -334,7 +522,12 @@ function useVisible(ref, threshold = 0.18) {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
       { threshold }
     );
     obs.observe(el);
@@ -343,79 +536,200 @@ function useVisible(ref, threshold = 0.18) {
   return visible;
 }
 
-function ProductCard({ product, delay, onAddToCart, onDetail }) {
-  const ref = useRef(null);
-  const visible = useVisible(ref);
+/* Botella SVG placeholder */
+function BottlePlaceholder({ size = 56 }) {
+  return (
+    <svg width={size} height={Math.round(size * 2.6)} viewBox="0 0 56 148" fill="none" aria-hidden="true">
+      <rect x="20" y="4" width="16" height="14" rx="2" fill="#C9A84C" opacity="0.5"/>
+      <path
+        d="M17 28 Q12 48 11 72 L11 128 Q11 140 22 140 L34 140 Q45 140 45 128 L45 72 Q44 48 39 28 Z"
+        fill="#0D2014"
+        stroke="#C9A84C"
+        strokeWidth="0.7"
+      />
+      <path
+        d="M17 28 L39 28 L43 42 L13 42 Z"
+        fill="#0D2014"
+        stroke="#C9A84C"
+        strokeWidth="0.5"
+        opacity="0.7"
+      />
+      <rect x="16" y="62" width="24" height="32" rx="1" fill="#091510" stroke="#C9A84C" strokeWidth="0.4" opacity="0.8"/>
+      <text x="28" y="75" textAnchor="middle" fill="#C9A84C" fontSize="4.5" letterSpacing="2" fontFamily="Georgia,serif" opacity="0.9">ESSENZA</text>
+      <text x="28" y="84" textAnchor="middle" fill="#7A6530" fontSize="3.5" letterSpacing="1" fontFamily="sans-serif">EXTRA VIRGEN</text>
+      <text x="28" y="90" textAnchor="middle" fill="#7A6530" fontSize="3.5" letterSpacing="1" fontFamily="sans-serif">CHILE</text>
+    </svg>
+  );
+}
+
+function ProductCard({ product, onAddToCart, onDetail, animDelay }) {
   const [qty, setQty] = useState(1);
+  const ref = useRef(null);
+  const visible = useVisible(ref, 0.1);
+
+  const fmtPrice = (n) =>
+    "$" + n.toLocaleString("es-CL");
 
   return (
-    <div ref={ref} className={`ps-card${visible ? " visible" : ""}`} style={{ transitionDelay: `${delay}ms` }}>
-      {product.badge && <span className="ps-badge">{product.badge}</span>}
-      <div className="ps-card-img-wrap" onClick={() => onDetail && onDetail(product)} style={{ cursor: "pointer" }}>
-        <img src={product.image} alt={`${product.name} ${product.volume}`} className="ps-card-img" loading="lazy" />
+    <div
+      ref={ref}
+      className={`ps-card${visible ? " visible" : ""}`}
+      style={{ transitionDelay: `${animDelay}ms` }}
+    >
+      <div className="ps-card-img-wrap">
+        {product.badge && (
+          <span className={`ps-badge ${product.badge === "Oferta" ? "ps-badge-oferta" : "ps-badge-vendido"}`}>
+            {product.badge}
+          </span>
+        )}
+        {product.image ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="ps-card-img"
+          />
+        ) : (
+          <div className="ps-img-placeholder">
+            <BottlePlaceholder size={52} />
+            <span className="ps-placeholder-label">foto del producto</span>
+          </div>
+        )}
       </div>
+
       <div className="ps-card-body">
-        <p className="ps-card-volume">{product.volume}</p>
-        <h3 className="ps-card-name" onClick={() => onDetail && onDetail(product)} style={{ cursor: "pointer" }}>
-          {product.name}
-        </h3>
-        <p className="ps-card-desc">{product.description}</p>
-        <span className="ps-card-price">{product.price}</span>
-        <div className="ps-card-qty">
-          <button className="ps-qty-btn" onClick={(e) => { e.stopPropagation(); setQty(q => Math.max(1, q - 1)); }} disabled={qty <= 1} aria-label="Restar">−</button>
-          <span className="ps-qty-num">{qty}</span>
-          <button className="ps-qty-btn" onClick={(e) => { e.stopPropagation(); setQty(q => q + 1); }} aria-label="Sumar">+</button>
+        <div className="ps-card-varietal">{product.varietal}</div>
+        <div className="ps-card-name">{product.name}</div>
+        <div className="ps-card-desc">{product.desc}</div>
+
+        <div className="ps-card-footer">
+          <div className="ps-card-price-row">
+            <div className="ps-card-price">{fmtPrice(product.price)}</div>
+            <div className="ps-card-unit">/ unidad</div>
+          </div>
+
+          <div className="ps-card-qty">
+            <button
+              className="ps-qty-btn"
+              onClick={() => setQty((q) => Math.max(1, q - 1))}
+              aria-label="Disminuir cantidad"
+            >−</button>
+            <div className="ps-qty-num">{qty}</div>
+            <button
+              className="ps-qty-btn"
+              onClick={() => setQty((q) => q + 1)}
+              aria-label="Aumentar cantidad"
+            >+</button>
+          </div>
+
+          <button
+            className="ps-card-btn"
+            onClick={() => onAddToCart && onAddToCart(product.id, qty)}
+          >
+            Agregar al carro
+          </button>
+          <button
+            className="ps-card-detail-btn"
+            onClick={() => onDetail && onDetail(product)}
+          >
+            Ver detalle
+          </button>
         </div>
-        <button className="ps-card-btn" onClick={(e) => { e.stopPropagation(); onAddToCart(product.id, qty); }}>
-          Agregar al carrito
-        </button>
       </div>
     </div>
   );
 }
 
 export default function ProductsShowcase({ onAddToCart, onDetail, onViewAll }) {
-  const kickerRef = useRef(null);
   const headerRef = useRef(null);
-  const lineRef = useRef(null);
-  const diamondsRef = useRef(null);
-  const subRef = useRef(null);
-  const ctaRef = useRef(null);
-  const kickerVisible = useVisible(kickerRef);
-  const headerVisible = useVisible(headerRef);
-  const lineVisible = useVisible(lineRef);
-  const diamondsVisible = useVisible(diamondsRef);
-  const subVisible = useVisible(subRef);
-  const ctaVisible = useVisible(ctaRef);
+  const headerVisible = useVisible(headerRef, 0.2);
 
   return (
-    <>
+    <section className="ps-root">
       <style>{styles}</style>
-      <section className="ps-root" aria-label="Nuestros productos">
-        <div className="ps-header">
-          <p ref={kickerRef} className={`ps-kicker${kickerVisible ? " visible" : ""}`}>Tienda Essenza</p>
-          <h2 ref={headerRef} className={`ps-headline${headerVisible ? " visible" : ""}`}>Lleva Essenza a tu cocina</h2>
-          <div ref={lineRef} className={`ps-gold-line${lineVisible ? " visible" : ""}`} />
-          <div ref={diamondsRef} className={`ps-diamonds${diamondsVisible ? " visible" : ""}`}>
-            <span>◆</span><span>◆</span><span>◆</span>
-          </div>
-          <p ref={subRef} className={`ps-sub${subVisible ? " visible" : ""}`}>
-            100% chileno · Extracción en frío · Máximo 0.3% acidez
-          </p>
-        </div>
 
-        <div className="ps-track-wrap">
-          <div className="ps-track">
-            {PRODUCTS.map((p, i) => (
-              <ProductCard key={p.id} product={p} delay={i * 80} onAddToCart={onAddToCart} onDetail={onDetail} />
-            ))}
-          </div>
+      {/* HEADER */}
+      <div className="ps-header" ref={headerRef}>
+        <div className={`ps-kicker${headerVisible ? " visible" : ""}`}>
+          Colección · Cosecha 2024
         </div>
+        <h2 className={`ps-headline${headerVisible ? " visible" : ""}`}>
+          Aceite de oliva<br /><em>extra virgen</em>
+        </h2>
+        <div className={`ps-gold-line${headerVisible ? " visible" : ""}`} />
+        <p className={`ps-sub${headerVisible ? " visible" : ""}`}>
+          Extracción en frío · Valle Central de Chile · Directo del productor
+        </p>
+      </div>
 
-        <div ref={ctaRef} className={`ps-cta-wrap${ctaVisible ? " visible" : ""}`}>
-          <button className="ps-cta-btn" onClick={onViewAll}>Ver tienda completa</button>
+      {/* TRUST BAR */}
+      <div className="ps-trust">
+        <div className="ps-trust-item">
+          <span className="ps-trust-dot" />
+          Acidez 0.3%
         </div>
-      </section>
-    </>
+        <div className="ps-trust-item">
+          <span className="ps-trust-dot" />
+          Extracción en frío
+        </div>
+        <div className="ps-trust-item">
+          <span className="ps-trust-dot" />
+          Valle Central Chile
+        </div>
+        <div className="ps-trust-item">
+          <span className="ps-trust-dot" />
+          Pago seguro
+        </div>
+        <div className="ps-trust-item">
+          <span className="ps-trust-dot" />
+          Despacho a todo Chile
+        </div>
+      </div>
+
+      {/* GRID */}
+      <div className="ps-grid-wrap">
+        <div className="ps-grid-label">
+          {PRODUCTS.length} productos disponibles
+        </div>
+        <div className="ps-track">
+          {PRODUCTS.map((p, i) => (
+            <ProductCard
+              key={p.id}
+              product={p}
+              onAddToCart={onAddToCart}
+              onDetail={onDetail}
+              animDelay={i * 60}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ENVÍOS */}
+      <div className="ps-envios">
+        <div className="ps-envio-item">
+          <div className="ps-envio-region">Región Metropolitana</div>
+          <div className="ps-envio-precio">$3.990</div>
+          <div className="ps-envio-desc">2 a 4 días hábiles</div>
+        </div>
+        <div className="ps-envio-item">
+          <div className="ps-envio-region">Resto del país</div>
+          <div className="ps-envio-precio">$5.990</div>
+          <div className="ps-envio-desc">4 a 7 días hábiles</div>
+        </div>
+        <div className="ps-envio-item">
+          <div className="ps-envio-region">Zonas extremas</div>
+          <div className="ps-envio-precio">$7.990</div>
+          <div className="ps-envio-desc">7 a 12 días hábiles</div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      {onViewAll && (
+        <div className="ps-cta-wrap">
+          <button className="ps-cta-btn" onClick={onViewAll}>
+            Ver toda la colección
+          </button>
+        </div>
+      )}
+    </section>
   );
 }
