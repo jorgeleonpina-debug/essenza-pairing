@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { trackEvent, trackLead, trackContact, serverEvent } from "./utils/metaPixel";
+import { initCursor, initParallax, initScrollReveal, initTypeReveal } from "./utils/premiumEffects";
 import HeroSection from "./components/HeroSection";
 import BrandStory from "./components/BrandStory";
 import ProductsShowcase from "./components/ProductsShowcase";
@@ -1004,7 +1005,7 @@ const Footer = ({ onNewsletter, onNav }) => (
       <div style={{ width: "100%", height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.45), transparent)", marginBottom: 64 }} />
 
       {/* Three-column body */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 48, alignItems: "start", marginBottom: 64 }}>
+      <div className="reveal" style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 48, alignItems: "start", marginBottom: 64 }}>
 
         {/* Left — brand */}
         <div>
@@ -1137,6 +1138,16 @@ export default function EssenzaPairingAI() {
       const t = setTimeout(() => setShowNewsletter(true), 8000);
       return () => clearTimeout(t);
     }
+  }, []);
+
+  useEffect(() => {
+    const cleanups = [
+      initCursor(),
+      initParallax(),
+      initScrollReveal(),
+      initTypeReveal(),
+    ].filter(Boolean);
+    return () => cleanups.forEach((fn) => fn());
   }, []);
 
   useEffect(() => {
@@ -1305,14 +1316,14 @@ export default function EssenzaPairingAI() {
           <div style={{ maxWidth: 620, margin: "0 auto", padding: "0 28px", position: "relative", zIndex: 1 }}>
 
             {/* Header */}
-            <div style={{ textAlign: "center", marginBottom: 60 }}>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: "clamp(34px, 5vw, 52px)", fontWeight: 400, margin: "0 0 18px", lineHeight: 1.05, letterSpacing: "0.01em" }}>
+            <div style={{ textAlign: "center", marginBottom: 60 }} data-reveal-group>
+              <h2 className="type-reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: "clamp(34px, 5vw, 52px)", fontWeight: 400, margin: "0 0 18px", lineHeight: 1.05, letterSpacing: "0.01em" }}>
                 Encuentra tu Maridaje Perfecto
               </h2>
-              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: "rgba(245,240,232,0.6)", fontSize: "clamp(15px, 2.2vw, 18px)", margin: "0 0 32px", lineHeight: 1.65, fontWeight: 400 }}>
+              <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: "rgba(245,240,232,0.6)", fontSize: "clamp(15px, 2.2vw, 18px)", margin: "0 0 32px", lineHeight: 1.65, fontWeight: 400 }}>
                 Nuestra IA selecciona el aceite Essenza ideal para cada plato
               </p>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
+              <div className="reveal" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
                 <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.5))" }} />
                 <span style={{ color: COLORS.gold, fontSize: 10 }}>◆</span>
                 <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, rgba(201,168,76,0.5), transparent)" }} />
