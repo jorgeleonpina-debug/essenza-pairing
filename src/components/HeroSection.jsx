@@ -18,12 +18,26 @@ const styles = `
   .hero-bg {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 30% 60%, rgba(201,168,76,0.06) 0%, transparent 55%),
-                radial-gradient(ellipse at 70% 20%, rgba(45,74,30,0.5) 0%, transparent 50%),
-                #0d2214;
     transform: scale(1.08);
     will-change: transform;
     transition: transform 0.1s linear;
+  }
+
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 1;
   }
 
   .hero-bg-watermark {
@@ -33,8 +47,9 @@ const styles = `
     background-repeat: no-repeat;
     background-position: center;
     background-size: 55%;
-    opacity: 0.055;
+    opacity: 0.045;
     pointer-events: none;
+    z-index: 2;
   }
 
   /* Thin horizontal gold lines framing the content */
@@ -259,6 +274,8 @@ export default function HeroSection({ onShopClick, onAiClick }) {
       <style>{styles}</style>
       <section className="hero-root">
         <div className="hero-bg" ref={bgRef}>
+          <img className="hero-photo" src="/images/fotos-reales/botellas-pasto-diagonal.jpg" alt="" aria-hidden />
+          <div className="hero-overlay" aria-hidden />
           <div className="hero-bg-watermark" aria-hidden />
         </div>
 
