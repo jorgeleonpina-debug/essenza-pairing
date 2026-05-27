@@ -1276,44 +1276,80 @@ export default function EssenzaPairingAI() {
         <NavBar active={activeTab} onNav={scrollToSection} user={user} onLogin={() => setShowAuth(true)} onLogout={logout} cartCount={cartCount} onOpenCart={() => setShowCart(true)} />
 
         <section ref={(el) => { sectionsRef.current["inicio"] = el; }} data-section="inicio"
-          style={{ minHeight: "100vh", position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center", padding: "110px 0 80px" }}>
+          style={{ background: "#0A0A0A", position: "relative", overflow: "hidden" }}>
 
-          {/* FOTO DE FONDO */}
-          <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${process.env.PUBLIC_URL}/images/bottle-1l.jpeg)`, backgroundSize: "cover", backgroundPosition: "center", zIndex: 0 }} />
+          {/* LÍNEA DORADA superior */}
+          <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, #c9a84c 30%, #c9a84c 70%, transparent)" }} />
 
-          {/* OVERLAY */}
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(10,10,10,0.88) 0%, rgba(13,32,20,0.80) 50%, rgba(10,10,10,0.88) 100%)", zIndex: 1 }} />
+          {/* SVG olive branch — fondo sutil */}
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", opacity: 0.025, animation: "slowRotate 120s linear infinite", pointerEvents: "none", zIndex: 0 }}>
+            <svg viewBox="0 0 400 400" width="700" height="700" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M200 380 Q196 290 186 210 Q176 130 200 50" stroke="#c9a84c" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+              <path d="M191 335 Q148 308 105 288" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M189 295 Q238 268 278 250" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M192 258 Q144 228 102 205" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M191 218 Q242 192 282 172" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M193 178 Q148 150 110 130" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M195 140 Q244 115 278 96" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+              <path d="M197 104 Q155 82 122 68" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round" fill="none"/>
+              <ellipse cx="84" cy="280" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(-36 84 280)"/>
+              <ellipse cx="58" cy="266" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-42 58 266)"/>
+              <ellipse cx="114" cy="292" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-28 114 292)"/>
+              <ellipse cx="288" cy="242" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(36 288 242)"/>
+              <ellipse cx="314" cy="228" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(30 314 228)"/>
+              <ellipse cx="264" cy="255" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(42 264 255)"/>
+              <ellipse cx="82" cy="198" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(-40 82 198)"/>
+              <ellipse cx="56" cy="184" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-46 56 184)"/>
+              <ellipse cx="112" cy="210" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-32 112 210)"/>
+              <ellipse cx="292" cy="164" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(34 292 164)"/>
+              <ellipse cx="318" cy="150" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(28 318 150)"/>
+              <ellipse cx="88" cy="122" rx="22" ry="8.5" fill="#c9a84c" transform="rotate(-38 88 122)"/>
+              <ellipse cx="64" cy="108" rx="17" ry="6.5" fill="#c9a84c" transform="rotate(-44 64 108)"/>
+              <ellipse cx="286" cy="88" rx="22" ry="8.5" fill="#c9a84c" transform="rotate(37 286 88)"/>
+              <ellipse cx="264" cy="76" rx="17" ry="6.5" fill="#c9a84c" transform="rotate(43 264 76)"/>
+              <ellipse cx="100" cy="66" rx="18" ry="7" fill="#c9a84c" transform="rotate(-35 100 66)"/>
+              <circle cx="104" cy="288" r="7" fill="#c9a84c"/>
+              <circle cx="294" cy="248" r="7" fill="#c9a84c"/>
+              <circle cx="102" cy="208" r="6" fill="#c9a84c"/>
+              <circle cx="298" cy="168" r="6" fill="#c9a84c"/>
+              <circle cx="106" cy="128" r="6" fill="#c9a84c"/>
+              <circle cx="292" cy="94" r="6" fill="#c9a84c"/>
+              <circle cx="112" cy="74" r="5" fill="#c9a84c"/>
+            </svg>
+          </div>
 
-          {/* CONTENIDO centrado */}
-          <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 2, textAlign: "center" }}>
+          {/* CONTENIDO */}
+          <div style={{ maxWidth: 800, margin: "0 auto", padding: "120px 48px 100px", position: "relative", zIndex: 1, textAlign: "center" }}>
 
             {/* Eyebrow */}
-            <div className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "5px", textTransform: "uppercase", color: "rgba(201,168,76,0.6)", marginBottom: 20 }}>
-              Essenza Chile
+            <div className="reveal" style={{ fontSize: 9, letterSpacing: "6px", textTransform: "uppercase", color: "rgba(201,168,76,0.5)", marginBottom: 48, fontFamily: "'Cormorant Garamond', serif" }}>
+              ESSENZA CHILE
             </div>
 
-            {/* Título */}
-            <h2 className="type-reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#f5f0e8", fontSize: "clamp(36px, 4.5vw, 58px)", fontWeight: 300, margin: "0 0 8px", lineHeight: 1.05, letterSpacing: "-0.01em" }}>
-              Encuentra tu
-            </h2>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: "#c9a84c", fontSize: "clamp(36px, 4.5vw, 58px)", fontWeight: 300, fontStyle: "italic", margin: "0 0 28px", lineHeight: 1.05 }}>
-              Maridaje Perfecto
-            </h2>
-
-            {/* Descripción */}
-            <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(245,240,232,0.55)", fontSize: "clamp(15px, 1.8vw, 18px)", lineHeight: 1.8, margin: "0 auto 48px", maxWidth: 420, fontStyle: "italic" }}>
-              Nuestra IA analiza tu plato y selecciona el aceite Essenza que mejor realza sus sabores.
-            </p>
+            {/* Título 3 líneas */}
+            <div style={{ marginBottom: 0 }}>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 72, fontWeight: 300, color: "#f5f0e8", lineHeight: 1.0, margin: 0 }}>Encuentra</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 72, fontWeight: 300, color: "#f5f0e8", lineHeight: 1.0, margin: 0 }}>tu maridaje</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 72, fontWeight: 300, fontStyle: "italic", color: "#c9a84c", lineHeight: 1.0, margin: 0 }}>perfecto</div>
+            </div>
 
             {/* Separador */}
-            <div className="reveal" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 40 }}>
-              <div style={{ width: 48, height: "0.5px", background: "rgba(201,168,76,0.4)" }} />
-              <span style={{ color: "rgba(201,168,76,0.5)", fontSize: 9, letterSpacing: "3px", textTransform: "uppercase" }}>Escribe tu plato</span>
-              <div style={{ flex: 1, height: "0.5px", background: "rgba(201,168,76,0.15)" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 16, margin: "32px 0 40px" }}>
+              <div style={{ flex: 1, height: "0.5px", background: "rgba(201,168,76,0.2)" }} />
+              <span style={{ color: "#c9a84c", fontSize: 8 }}>◆</span>
+              <div style={{ flex: 1, height: "0.5px", background: "rgba(201,168,76,0.2)" }} />
             </div>
 
-            {/* Input */}
-            <div style={{ position: "relative", marginBottom: 32 }}>
+            {/* Descripción */}
+            <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontStyle: "italic", color: "rgba(245,240,232,0.5)", lineHeight: 1.8, marginBottom: 64, maxWidth: 560, margin: "0 auto 64px" }}>
+              Nuestra inteligencia artificial analiza tu plato y selecciona el aceite Essenza que mejor realza sus sabores naturales.
+            </p>
+
+            {/* INPUT ÁREA */}
+            <div style={{ background: "rgba(13,32,20,0.3)", border: "0.5px solid rgba(201,168,76,0.15)", marginBottom: 24, position: "relative" }}>
+              <div style={{ padding: "12px 20px 0", fontSize: 9, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(201,168,76,0.4)", textAlign: "left" }}>
+                TU PLATO
+              </div>
               <input
                 ref={textareaRef}
                 className="pairing-input"
@@ -1322,31 +1358,29 @@ export default function EssenzaPairingAI() {
                 onKeyDown={handleKey}
                 onFocus={() => setInputFocused(true)}
                 onBlur={() => setInputFocused(false)}
-                placeholder="ej: Pasta al pesto, Ceviche, Asado a la parrilla..."
-                style={{ width: "100%", background: "rgba(13,32,20,0.6)", border: "0.5px solid rgba(201,168,76,0.2)", borderBottom: "1px solid rgba(201,168,76,0.4)", color: "#f5f0e8", fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(18px, 2.5vw, 22px)", fontStyle: "italic", padding: "18px 20px", outline: "none", caretColor: "#c9a84c", boxSizing: "border-box", transition: "border-color 0.3s ease" }}
+                placeholder="ej: Pasta al pesto, Asado a la parrilla, Ceviche..."
+                style={{ background: "transparent", border: "none", borderBottom: "0.5px solid rgba(201,168,76,0.1)", color: "#f5f0e8", fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontStyle: "italic", padding: "12px 20px 20px", width: "100%", outline: "none", caretColor: "#c9a84c", boxSizing: "border-box", display: "block" }}
               />
-              <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", height: 2, background: "linear-gradient(90deg, transparent, #c9a84c, transparent)", width: inputFocused ? "100%" : "0%", transition: "width 0.45s ease", pointerEvents: "none" }} />
+              <div style={{ height: 1, background: "linear-gradient(90deg, transparent, #c9a84c, transparent)", width: inputFocused ? "100%" : "0%", transition: "width 0.5s ease" }} />
             </div>
 
             {/* Suggestions */}
             {!result && !loading && (
-              <div style={{ marginBottom: 36 }}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
-                  {suggestions.map((s) => (
-                    <button key={s} onClick={() => setInput(s)}
-                      style={{ background: "transparent", border: "0.5px solid rgba(201,168,76,0.2)", color: "rgba(245,240,232,0.5)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, padding: "6px 14px", cursor: "pointer", transition: "all 0.2s", letterSpacing: "0.5px" }}
-                      onMouseEnter={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.6)"; e.target.style.color = "#c9a84c"; e.target.style.background = "rgba(201,168,76,0.05)"; }}
-                      onMouseLeave={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.2)"; e.target.style.color = "rgba(245,240,232,0.5)"; e.target.style.background = "transparent"; }}>
-                      {s}
-                    </button>
-                  ))}
-                </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 40, justifyContent: "center" }}>
+                {suggestions.map((s) => (
+                  <button key={s} onClick={() => setInput(s)}
+                    style={{ background: "transparent", border: "0.5px solid rgba(201,168,76,0.15)", color: "rgba(245,240,232,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.5px", padding: "5px 16px", cursor: "pointer", transition: "all 0.2s" }}
+                    onMouseEnter={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.5)"; e.target.style.color = "#c9a84c"; e.target.style.background = "rgba(201,168,76,0.04)"; }}
+                    onMouseLeave={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.15)"; e.target.style.color = "rgba(245,240,232,0.4)"; e.target.style.background = "transparent"; }}>
+                    {s}
+                  </button>
+                ))}
               </div>
             )}
 
-            {/* Botón */}
+            {/* Botón principal */}
             <button onClick={handleSubmit} disabled={!input.trim() || loading}
-              style={{ background: input.trim() && !loading ? "#c9a84c" : "transparent", border: "0.5px solid rgba(201,168,76,0.4)", color: input.trim() && !loading ? "#0A0A0A" : "rgba(201,168,76,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "3px", textTransform: "uppercase", padding: "16px 48px", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.3s ease" }}
+              style={{ background: input.trim() && !loading ? "#c9a84c" : "transparent", border: input.trim() && !loading ? "none" : "0.5px solid rgba(201,168,76,0.2)", color: input.trim() && !loading ? "#0A0A0A" : "rgba(201,168,76,0.3)", fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", padding: "18px 64px", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.3s ease", display: "block", margin: "0 auto" }}
               onMouseEnter={(e) => { if (input.trim() && !loading) e.currentTarget.style.background = "#e8c46a"; }}
               onMouseLeave={(e) => { if (input.trim() && !loading) e.currentTarget.style.background = "#c9a84c"; }}>
               {loading ? <><span>Analizando</span><LoadingDots /></> : "Descubrir Maridaje"}
@@ -1360,7 +1394,7 @@ export default function EssenzaPairingAI() {
 
             {result && (
               <button onClick={() => { setResult(null); setInput(""); setError(null); }}
-                style={{ marginTop: 24, background: "transparent", border: "none", color: "rgba(201,168,76,0.6)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "2px", cursor: "pointer", padding: 0 }}
+                style={{ marginTop: 24, background: "transparent", border: "none", color: "rgba(201,168,76,0.6)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "2px", cursor: "pointer", padding: 0, display: "block", margin: "24px auto 0" }}
                 onMouseEnter={(e) => { e.target.style.color = "rgba(201,168,76,0.9)"; }}
                 onMouseLeave={(e) => { e.target.style.color = "rgba(201,168,76,0.6)"; }}>
                 ← Nuevo maridaje
@@ -1368,20 +1402,24 @@ export default function EssenzaPairingAI() {
             )}
 
             {/* Stats */}
-            <div className="reveal" style={{ display: "flex", gap: 40, justifyContent: "center", marginTop: 56, paddingTop: 32, borderTop: "0.5px solid rgba(201,168,76,0.1)" }}>
+            <div className="reveal" style={{ marginTop: 80, paddingTop: 40, borderTop: "0.5px solid rgba(201,168,76,0.08)", display: "grid", gridTemplateColumns: "repeat(3,1fr)", textAlign: "center" }}>
               {[
                 { num: "0.3%", label: "Acidez máxima" },
-                { num: "24h", label: "Cosecha a botella" },
+                { num: "24h",  label: "Cosecha a botella" },
                 { num: "100%", label: "Valle Central" },
-              ].map(({ num, label }) => (
-                <div key={label}>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, fontWeight: 300, color: "#c9a84c" }}>{num}</div>
-                  <div style={{ fontSize: 10, letterSpacing: "2px", textTransform: "uppercase", color: "rgba(245,240,232,0.35)", marginTop: 4 }}>{label}</div>
+              ].map(({ num, label }, i) => (
+                <div key={label} style={{ borderRight: i < 2 ? "0.5px solid rgba(201,168,76,0.1)" : "none" }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 32, fontWeight: 300, color: "#c9a84c" }}>{num}</div>
+                  <div style={{ fontSize: 9, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(245,240,232,0.25)", marginTop: 6 }}>{label}</div>
                 </div>
               ))}
             </div>
 
           </div>
+
+          {/* LÍNEA DORADA inferior */}
+          <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, #c9a84c 30%, #c9a84c 70%, transparent)" }} />
+
         </section>
 
         <section ref={(el) => { sectionsRef.current["quienes-somos"] = el; }} data-section="quienes-somos" style={{ background: "#0d2214", borderTop: "1px solid rgba(201,168,76,0.12)", borderBottom: "1px solid rgba(201,168,76,0.12)" }}>
