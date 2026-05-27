@@ -814,7 +814,7 @@ const NewsletterModal = ({ onClose }) => {
         {!success ? (
           <div style={{ padding: "40px 36px 32px" }}>
             <div style={{ textAlign: "center", marginBottom: 22 }}>
-              <div style={{ marginBottom: 14 }}><IconOliveBranch /></div>
+              <img src="/images/logo-transparent-hq.png" alt="Essenza Chile" style={{ width: 120, height: "auto", marginBottom: 16, opacity: 0.9 }} />
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.32)", borderRadius: 20, padding: "5px 16px" }}>
                 <span style={{ fontSize: 9, color: COLORS.gold }}>✦</span>
                 <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.24em", color: COLORS.gold, textTransform: "uppercase" }}>Bienvenida exclusiva</span>
@@ -1282,8 +1282,8 @@ export default function EssenzaPairingAI() {
           <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, #c9a84c 30%, #c9a84c 70%, transparent)" }} />
 
           {/* SVG olive branch — fondo sutil */}
-          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", opacity: 0.025, animation: "slowRotate 120s linear infinite", pointerEvents: "none", zIndex: 0 }}>
-            <svg viewBox="0 0 400 400" width="700" height="700" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", opacity: 0.03, animation: "slowRotate 120s linear infinite", pointerEvents: "none", zIndex: 0 }}>
+            <svg viewBox="0 0 400 400" width="500" height="500" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M200 380 Q196 290 186 210 Q176 130 200 50" stroke="#c9a84c" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
               <path d="M191 335 Q148 308 105 288" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
               <path d="M189 295 Q238 268 278 250" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
@@ -1322,15 +1322,15 @@ export default function EssenzaPairingAI() {
           <div style={{ maxWidth: 800, margin: "0 auto", padding: "120px 48px 100px", position: "relative", zIndex: 1, textAlign: "center" }}>
 
             {/* Eyebrow */}
-            <div className="reveal" style={{ fontSize: 9, letterSpacing: "6px", textTransform: "uppercase", color: "rgba(201,168,76,0.5)", marginBottom: 48, fontFamily: "'Cormorant Garamond', serif" }}>
+            <div className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontWeight: 300, letterSpacing: "8px", textTransform: "uppercase", color: "rgba(201,168,76,0.8)", marginBottom: 32 }}>
               ESSENZA CHILE
             </div>
 
             {/* Título 3 líneas */}
             <div style={{ marginBottom: 0 }}>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 72, fontWeight: 300, color: "#f5f0e8", lineHeight: 1.0, margin: 0 }}>Encuentra</div>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 72, fontWeight: 300, color: "#f5f0e8", lineHeight: 1.0, margin: 0 }}>tu maridaje</div>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 72, fontWeight: 300, fontStyle: "italic", color: "#c9a84c", lineHeight: 1.0, margin: 0 }}>perfecto</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 52, fontWeight: 300, color: "#f5f0e8", lineHeight: 1.0, margin: 0 }}>Encuentra</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 52, fontWeight: 300, color: "#f5f0e8", lineHeight: 1.0, margin: 0 }}>tu maridaje</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 52, fontWeight: 300, fontStyle: "italic", color: "#c9a84c", lineHeight: 1.0, margin: 0 }}>perfecto</div>
             </div>
 
             {/* Separador */}
@@ -1380,7 +1380,7 @@ export default function EssenzaPairingAI() {
 
             {/* Botón principal */}
             <button onClick={handleSubmit} disabled={!input.trim() || loading}
-              style={{ background: input.trim() && !loading ? "#c9a84c" : "transparent", border: input.trim() && !loading ? "none" : "0.5px solid rgba(201,168,76,0.2)", color: input.trim() && !loading ? "#0A0A0A" : "rgba(201,168,76,0.3)", fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", padding: "18px 64px", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.3s ease", display: "block", margin: "0 auto" }}
+              style={{ background: input.trim() && !loading ? "#c9a84c" : "rgba(201,168,76,0.15)", border: "none", color: input.trim() && !loading ? "#0A0A0A" : "rgba(201,168,76,0.3)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "4px", textTransform: "uppercase", padding: "18px 64px", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.3s ease", display: "block", margin: "0 auto" }}
               onMouseEnter={(e) => { if (input.trim() && !loading) e.currentTarget.style.background = "#e8c46a"; }}
               onMouseLeave={(e) => { if (input.trim() && !loading) e.currentTarget.style.background = "#c9a84c"; }}>
               {loading ? <><span>Analizando</span><LoadingDots /></> : "Descubrir Maridaje"}
