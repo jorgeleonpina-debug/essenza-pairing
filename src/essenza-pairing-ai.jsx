@@ -1279,7 +1279,7 @@ export default function EssenzaPairingAI() {
           style={{ minHeight: "100vh", position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center", padding: "110px 0 80px" }}>
 
           {/* FOTO DE FONDO */}
-          <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/images/fotos-reales/aceite-lifestyle.jpg')", backgroundSize: "cover", backgroundPosition: "center", zIndex: 0 }} />
+          <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${process.env.PUBLIC_URL}/images/bottle-1l.jpeg)`, backgroundSize: "cover", backgroundPosition: "center", zIndex: 0 }} />
 
           {/* OVERLAY */}
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(10,10,10,0.88) 0%, rgba(13,32,20,0.80) 50%, rgba(10,10,10,0.88) 100%)", zIndex: 1 }} />
@@ -1289,7 +1289,7 @@ export default function EssenzaPairingAI() {
 
             {/* Eyebrow */}
             <div className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "5px", textTransform: "uppercase", color: "rgba(201,168,76,0.6)", marginBottom: 20 }}>
-              Potenciado por Claude AI · Essenza Chile
+              Essenza Chile
             </div>
 
             {/* Título */}
