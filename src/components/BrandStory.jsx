@@ -3,46 +3,15 @@ import { useEffect, useRef, useState } from "react";
 const styles = `
   .brand-root {
     background: #0d2214;
+    padding: 96px 24px 104px;
     overflow: hidden;
     border-top: 1px solid rgba(201,168,76,0.12);
     border-bottom: 1px solid rgba(201,168,76,0.12);
-    display: flex;
-    align-items: stretch;
-  }
-
-  .brand-photo-col {
-    flex: 0 0 50%;
-    position: relative;
-    min-height: 560px;
-    overflow: hidden;
-  }
-
-  .brand-photo-col img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .brand-text-col {
-    flex: 0 0 50%;
-    padding: 96px 56px 104px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .brand-headline-wrap {
     text-align: center;
-    margin-bottom: 56px;
-  }
-
-  @media (max-width: 768px) {
-    .brand-root { flex-direction: column; }
-    .brand-photo-col { flex: none; min-height: 300px; }
-    .brand-text-col { padding: 64px 24px 80px; }
+    margin-bottom: 72px;
   }
 
   .brand-kicker {
@@ -226,29 +195,23 @@ export default function BrandStory() {
     <>
       <style>{styles}</style>
       <section className="brand-root" aria-label="Nuestra historia">
-        <div className="brand-photo-col" aria-hidden>
-          <img src="/images/fotos-reales/olivo-arbol.jpg" alt="Olivo Valle Central Chile" />
+        <div className="brand-headline-wrap">
+          <p ref={kickerRef} className={`brand-kicker${kickerV ? " visible" : ""}`}>
+            Desde el Valle Central de Chile
+          </p>
+          <h2 ref={headlineRef} className={`brand-headline${headlineV ? " visible" : ""}`}>
+            Pureza que se <em>siente</em><br />en cada gota
+          </h2>
+          <div ref={lineRef} className={`brand-gold-line${lineV ? " visible" : ""}`} aria-hidden />
+          <div ref={diamondsRef} className={`brand-diamonds${diamondsV ? " visible" : ""}`} aria-hidden>
+            <span>◆</span><span>◆</span><span>◆</span>
+          </div>
         </div>
 
-        <div className="brand-text-col">
-          <div className="brand-headline-wrap">
-            <p ref={kickerRef} className={`brand-kicker${kickerV ? " visible" : ""}`}>
-              Desde el Valle Central de Chile
-            </p>
-            <h2 ref={headlineRef} className={`brand-headline${headlineV ? " visible" : ""}`}>
-              Pureza que se <em>siente</em><br />en cada gota
-            </h2>
-            <div ref={lineRef} className={`brand-gold-line${lineV ? " visible" : ""}`} aria-hidden />
-            <div ref={diamondsRef} className={`brand-diamonds${diamondsV ? " visible" : ""}`} aria-hidden>
-              <span>◆</span><span>◆</span><span>◆</span>
-            </div>
-          </div>
-
-          <div className="brand-stats">
-            {STATS.map((stat, i) => (
-              <StatCard key={stat.label} stat={stat} delay={i * 120} />
-            ))}
-          </div>
+        <div className="brand-stats">
+          {STATS.map((stat, i) => (
+            <StatCard key={stat.label} stat={stat} delay={i * 120} />
+          ))}
         </div>
       </section>
     </>

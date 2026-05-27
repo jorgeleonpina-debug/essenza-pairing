@@ -909,34 +909,30 @@ const QuienesSomos = () => {
   ];
 
   return (
-    <div ref={containerRef} style={{ display: "flex", alignItems: "stretch", opacity: visible ? 1 : 0, transition: "opacity 0.9s ease", flexWrap: "wrap" }}>
-      <div style={{ flex: "0 0 50%", minWidth: 280, padding: "80px 56px 80px 24px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <div style={{ marginBottom: 40 }}>
-          <div style={{ fontSize: 10, letterSpacing: "0.35em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", marginBottom: 20 }}>Nuestra Historia</div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: "clamp(36px, 5vw, 52px)", fontWeight: 400, margin: "0 0 24px", lineHeight: 1 }}>Quiénes Somos</h2>
-          <div style={{ width: 80, height: 1, background: "linear-gradient(90deg, transparent, #c9a84c, transparent)", marginBottom: 28 }} />
-          <div style={{ display: "flex", gap: 16, marginBottom: 36, color: "rgba(201,168,76,0.45)", fontSize: 11 }}>
-            <span>◆</span><span>◆</span><span>◆</span>
-          </div>
-        </div>
-
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: "#f5f0e8", fontSize: "clamp(16px, 2vw, 20px)", lineHeight: 1.9, marginBottom: 56, fontWeight: 400 }}>
-          Essenza Chile nace en el corazón agrícola del Valle Central, donde el clima mediterráneo y la tierra generosa se unen para producir uno de los mejores aceites de oliva virgen extra del mundo.
-        </p>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 28 }}>
-          {cards.map((item, i) => (
-            <div key={item.title} style={{ borderTop: "2px solid #c9a84c", paddingTop: 22, opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: `opacity 0.9s ease ${0.2 + i * 0.15}s, transform 0.9s ease ${0.2 + i * 0.15}s` }}>
-              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 20, fontWeight: 600, margin: "0 0 10px", letterSpacing: "0.05em" }}>{item.title}</h3>
-              <p style={{ fontFamily: "'Lora', serif", fontStyle: "italic", color: "rgba(245,240,232,0.75)", fontSize: 13, lineHeight: 1.85, margin: 0 }}>{item.text}</p>
-            </div>
-          ))}
-        </div>
+    <div ref={containerRef} style={{ maxWidth: 860, margin: "0 auto", padding: "80px 24px", textAlign: "center", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(32px)", transition: "opacity 0.9s ease, transform 0.9s ease" }}>
+      <div style={{ marginBottom: 56 }}>
+        <div style={{ fontSize: 10, letterSpacing: "0.35em", color: "rgba(201,168,76,0.7)", textTransform: "uppercase", marginBottom: 20 }}>Nuestra Historia</div>
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: "clamp(40px, 6vw, 56px)", fontWeight: 400, margin: "0 0 24px", lineHeight: 1 }}>Quiénes Somos</h2>
+        <div style={{ width: 80, height: 1, background: "linear-gradient(90deg, transparent, #c9a84c, transparent)", margin: "0 auto" }} />
       </div>
 
-      <div style={{ flex: "0 0 50%", minWidth: 280, minHeight: 480, position: "relative", overflow: "hidden" }}>
-        <img src="/images/fotos-reales/planta-produccion-1.jpg" alt="Planta de producción Essenza Chile"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 52, color: "rgba(201,168,76,0.45)", fontSize: 11 }}>
+        <span>◆</span>
+        <span>◆</span>
+        <span>◆</span>
+      </div>
+
+      <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: "#f5f0e8", fontSize: "clamp(18px, 2.5vw, 22px)", lineHeight: 1.9, maxWidth: 700, margin: "0 auto 72px", fontWeight: 400 }}>
+        Essenza Chile nace en el corazón agrícola del Valle Central, donde el clima mediterráneo y la tierra generosa se unen para producir uno de los mejores aceites de oliva virgen extra del mundo. Nuestra marca representa la elegancia, el origen y el compromiso con la excelencia.
+      </p>
+
+      <div className="qs-cards" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
+        {cards.map((item, i) => (
+          <div key={item.title} style={{ borderTop: "2px solid #c9a84c", paddingTop: 28, textAlign: "left", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: `opacity 0.9s ease ${0.2 + i * 0.15}s, transform 0.9s ease ${0.2 + i * 0.15}s` }}>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", color: COLORS.gold, fontSize: 22, fontWeight: 600, margin: "0 0 16px", letterSpacing: "0.05em" }}>{item.title}</h3>
+            <p style={{ fontFamily: "'Lora', serif", fontStyle: "italic", color: "rgba(245,240,232,0.75)", fontSize: 14, lineHeight: 1.85, margin: 0 }}>{item.text}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -1253,14 +1249,6 @@ export default function EssenzaPairingAI() {
         />
 
         <BrandStory />
-
-        <div style={{ display: "flex", height: 300, overflow: "hidden" }} aria-hidden>
-          {["/images/fotos-reales/extraccion-2.jpg", "/images/fotos-reales/aceite-lifestyle.jpg", "/images/fotos-reales/olivo-rama.jpg"].map((src, i) => (
-            <div key={i} style={{ flex: 1, overflow: "hidden" }}>
-              <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
-            </div>
-          ))}
-        </div>
 
         <div ref={(el) => { sectionsRef.current["tienda"] = el; }} data-section="tienda">
           <ProductsShowcase
