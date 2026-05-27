@@ -1276,61 +1276,16 @@ export default function EssenzaPairingAI() {
         <NavBar active={activeTab} onNav={scrollToSection} user={user} onLogin={() => setShowAuth(true)} onLogout={logout} cartCount={cartCount} onOpenCart={() => setShowCart(true)} />
 
         <section ref={(el) => { sectionsRef.current["inicio"] = el; }} data-section="inicio"
-          style={{ minHeight: "100vh", background: "#0A0A0A", display: "flex", position: "relative", overflow: "hidden" }}>
+          style={{ minHeight: "100vh", position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center", padding: "110px 0 80px" }}>
 
-          {/* COLUMNA IZQUIERDA — Foto real con overlay */}
-          <div style={{ width: "45%", position: "relative", flexShrink: 0, display: "none" }} className="maridaje-foto-col">
-            <img
-              src="/images/fotos-reales/aceite-lifestyle.jpg"
-              alt="Aceite Essenza"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
-            />
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(10,10,10,0) 60%, #0A0A0A 100%)" }} />
-            <div style={{ position: "absolute", bottom: 40, left: 40, background: "rgba(10,10,10,0.7)", border: "0.5px solid rgba(201,168,76,0.4)", padding: "16px 24px", backdropFilter: "blur(10px)" }}>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(201,168,76,0.7)", marginBottom: 6 }}>Inteligencia artificial</div>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 300, color: "#f5f0e8" }}>Maridaje perfecto</div>
-            </div>
-          </div>
+          {/* FOTO DE FONDO */}
+          <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/images/fotos-reales/aceite-lifestyle.jpg')", backgroundSize: "cover", backgroundPosition: "center", zIndex: 0 }} />
 
-          {/* COLUMNA DERECHA — Contenido */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "100px 64px 80px", position: "relative", zIndex: 1 }} className="maridaje-content-col">
+          {/* OVERLAY */}
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(10,10,10,0.88) 0%, rgba(13,32,20,0.80) 50%, rgba(10,10,10,0.88) 100%)", zIndex: 1 }} />
 
-            {/* SVG decorativo fondo */}
-            <div style={{ position: "absolute", bottom: "-10%", right: "-5%", opacity: 0.03, animation: "slowRotate 80s linear infinite", pointerEvents: "none" }}>
-              <svg viewBox="0 0 400 400" width="560" height="560" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M200 380 Q196 290 186 210 Q176 130 200 50" stroke="#c9a84c" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
-                <path d="M191 335 Q148 308 105 288" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-                <path d="M189 295 Q238 268 278 250" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-                <path d="M192 258 Q144 228 102 205" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-                <path d="M191 218 Q242 192 282 172" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-                <path d="M193 178 Q148 150 110 130" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-                <path d="M195 140 Q244 115 278 96" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-                <path d="M197 104 Q155 82 122 68" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                <ellipse cx="84" cy="280" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(-36 84 280)"/>
-                <ellipse cx="58" cy="266" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-42 58 266)"/>
-                <ellipse cx="114" cy="292" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-28 114 292)"/>
-                <ellipse cx="288" cy="242" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(36 288 242)"/>
-                <ellipse cx="314" cy="228" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(30 314 228)"/>
-                <ellipse cx="264" cy="255" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(42 264 255)"/>
-                <ellipse cx="82" cy="198" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(-40 82 198)"/>
-                <ellipse cx="56" cy="184" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-46 56 184)"/>
-                <ellipse cx="112" cy="210" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(-32 112 210)"/>
-                <ellipse cx="292" cy="164" rx="24" ry="9.5" fill="#c9a84c" transform="rotate(34 292 164)"/>
-                <ellipse cx="318" cy="150" rx="19" ry="7.5" fill="#c9a84c" transform="rotate(28 318 150)"/>
-                <ellipse cx="88" cy="122" rx="22" ry="8.5" fill="#c9a84c" transform="rotate(-38 88 122)"/>
-                <ellipse cx="64" cy="108" rx="17" ry="6.5" fill="#c9a84c" transform="rotate(-44 64 108)"/>
-                <ellipse cx="286" cy="88" rx="22" ry="8.5" fill="#c9a84c" transform="rotate(37 286 88)"/>
-                <ellipse cx="264" cy="76" rx="17" ry="6.5" fill="#c9a84c" transform="rotate(43 264 76)"/>
-                <ellipse cx="100" cy="66" rx="18" ry="7" fill="#c9a84c" transform="rotate(-35 100 66)"/>
-                <circle cx="104" cy="288" r="7" fill="#c9a84c"/>
-                <circle cx="294" cy="248" r="7" fill="#c9a84c"/>
-                <circle cx="102" cy="208" r="6" fill="#c9a84c"/>
-                <circle cx="298" cy="168" r="6" fill="#c9a84c"/>
-                <circle cx="106" cy="128" r="6" fill="#c9a84c"/>
-                <circle cx="292" cy="94" r="6" fill="#c9a84c"/>
-                <circle cx="112" cy="74" r="5" fill="#c9a84c"/>
-              </svg>
-            </div>
+          {/* CONTENIDO centrado */}
+          <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 2, textAlign: "center" }}>
 
             {/* Eyebrow */}
             <div className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "5px", textTransform: "uppercase", color: "rgba(201,168,76,0.6)", marginBottom: 20 }}>
@@ -1346,7 +1301,7 @@ export default function EssenzaPairingAI() {
             </h2>
 
             {/* Descripción */}
-            <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(245,240,232,0.55)", fontSize: "clamp(15px, 1.8vw, 18px)", lineHeight: 1.8, margin: "0 0 48px", maxWidth: 420, fontStyle: "italic" }}>
+            <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", color: "rgba(245,240,232,0.55)", fontSize: "clamp(15px, 1.8vw, 18px)", lineHeight: 1.8, margin: "0 auto 48px", maxWidth: 420, fontStyle: "italic" }}>
               Nuestra IA analiza tu plato y selecciona el aceite Essenza que mejor realza sus sabores.
             </p>
 
@@ -1376,7 +1331,7 @@ export default function EssenzaPairingAI() {
             {/* Suggestions */}
             {!result && !loading && (
               <div style={{ marginBottom: 36 }}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
                   {suggestions.map((s) => (
                     <button key={s} onClick={() => setInput(s)}
                       style={{ background: "transparent", border: "0.5px solid rgba(201,168,76,0.2)", color: "rgba(245,240,232,0.5)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, padding: "6px 14px", cursor: "pointer", transition: "all 0.2s", letterSpacing: "0.5px" }}
@@ -1391,7 +1346,7 @@ export default function EssenzaPairingAI() {
 
             {/* Botón */}
             <button onClick={handleSubmit} disabled={!input.trim() || loading}
-              style={{ background: input.trim() && !loading ? "#c9a84c" : "transparent", border: "0.5px solid rgba(201,168,76,0.4)", color: input.trim() && !loading ? "#0A0A0A" : "rgba(201,168,76,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "3px", textTransform: "uppercase", padding: "16px 48px", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.3s ease", maxWidth: 280 }}
+              style={{ background: input.trim() && !loading ? "#c9a84c" : "transparent", border: "0.5px solid rgba(201,168,76,0.4)", color: input.trim() && !loading ? "#0A0A0A" : "rgba(201,168,76,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "3px", textTransform: "uppercase", padding: "16px 48px", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.3s ease" }}
               onMouseEnter={(e) => { if (input.trim() && !loading) e.currentTarget.style.background = "#e8c46a"; }}
               onMouseLeave={(e) => { if (input.trim() && !loading) e.currentTarget.style.background = "#c9a84c"; }}>
               {loading ? <><span>Analizando</span><LoadingDots /></> : "Descubrir Maridaje"}
@@ -1413,7 +1368,7 @@ export default function EssenzaPairingAI() {
             )}
 
             {/* Stats */}
-            <div className="reveal" style={{ display: "flex", gap: 40, marginTop: 56, paddingTop: 32, borderTop: "0.5px solid rgba(201,168,76,0.1)" }}>
+            <div className="reveal" style={{ display: "flex", gap: 40, justifyContent: "center", marginTop: 56, paddingTop: 32, borderTop: "0.5px solid rgba(201,168,76,0.1)" }}>
               {[
                 { num: "0.3%", label: "Acidez máxima" },
                 { num: "24h", label: "Cosecha a botella" },
