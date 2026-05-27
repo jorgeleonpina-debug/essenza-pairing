@@ -801,18 +801,21 @@ const NewsletterModal = ({ onClose }) => {
         <button onClick={onClose} style={{ position: "absolute", top: 16, right: 18, background: "transparent", border: "none", color: "rgba(245,240,232,0.3)", cursor: "pointer", fontSize: 20, zIndex: 2, padding: 6 }}>✕</button>
         {!success ? (
           <div style={{ padding: "40px 36px 32px" }}>
-            <div style={{ textAlign: "center", marginBottom: 22 }}>
-              <img src="/images/logo-transparent-hq.png" alt="Essenza Chile" style={{ width: 120, height: "auto", marginBottom: 16, opacity: 0.9 }} />
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.32)", borderRadius: 20, padding: "5px 16px" }}>
-                <span style={{ fontSize: 9, color: COLORS.gold }}>✦</span>
-                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "0.24em", color: COLORS.gold, textTransform: "uppercase" }}>Bienvenida exclusiva</span>
-                <span style={{ fontSize: 9, color: COLORS.gold }}>✦</span>
-              </div>
+            <div style={{ textAlign: "center", marginBottom: 24 }}>
+              <img src="/images/logo-transparent-hq.png" alt="Essenza Chile" style={{ width: 160, height: "auto", opacity: 1, display: "block", margin: "0 auto" }} />
             </div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 31, fontWeight: 700, lineHeight: 1.08, textAlign: "center", marginBottom: 14, background: `linear-gradient(135deg, ${COLORS.cream} 0%, ${COLORS.goldLight} 60%, ${COLORS.gold} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", textTransform: "uppercase" }}>
-              15% OFF<br />y Envío Gratis<br />en tu primera compra
-            </h2>
-            <p style={{ fontFamily: "'Lora', serif", color: "rgba(245,240,232,0.48)", fontSize: 13.5, lineHeight: 1.7, textAlign: "center", marginBottom: 26, fontStyle: "italic" }}>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 10, border: "0.5px solid rgba(201,168,76,0.4)", padding: "8px 20px", fontFamily: "'Cormorant Garamond', serif", fontSize: 10, letterSpacing: "4px", textTransform: "uppercase", color: "rgba(201,168,76,0.8)" }}>
+                <span style={{ fontSize: 8 }}>◆</span>
+                Bienvenida exclusiva
+                <span style={{ fontSize: 8 }}>◆</span>
+              </span>
+            </div>
+            <div style={{ textAlign: "center", marginBottom: 12 }}>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 42, fontWeight: 300, color: "#c9a84c", lineHeight: 1.1 }}>15% OFF</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontWeight: 300, color: "#f5f0e8", letterSpacing: "2px", textTransform: "uppercase", marginTop: 4 }}>Y envío gratis en tu primera compra</div>
+            </div>
+            <p style={{ textAlign: "center", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 15, color: "rgba(245,240,232,0.5)", lineHeight: 1.7, marginBottom: 32 }}>
               Regístrate para recibir tu descuento exclusivo,<br />novedades y ofertas de Essenza Chile.
             </p>
             <div style={{ borderTop: "1px solid rgba(201,168,76,0.12)", marginBottom: 22 }} />
