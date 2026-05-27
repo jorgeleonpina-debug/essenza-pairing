@@ -752,18 +752,6 @@ const ProductDetailModal = ({ product, onClose, onAddToCart }) => {
 };
 
 // ── Newsletter Modal ───────────────────────────────────────────────────────────
-const IconOliveBranch = () => (
-  <svg width="52" height="56" viewBox="0 0 52 56" fill="none">
-    <path d="M26 52 Q25 38 24 28 Q23 18 26 8" stroke="#c9a84c" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-    <ellipse cx="16" cy="20" rx="9" ry="4.2" fill="rgba(45,74,30,0.9)" stroke="#c9a84c" strokeWidth="1.2" transform="rotate(-38 16 20)"/>
-    <ellipse cx="14" cy="34" rx="8" ry="3.8" fill="rgba(45,74,30,0.8)" stroke="#c9a84c" strokeWidth="1.1" transform="rotate(-28 14 34)"/>
-    <ellipse cx="36" cy="16" rx="9" ry="4.2" fill="rgba(45,74,30,0.9)" stroke="#c9a84c" strokeWidth="1.2" transform="rotate(33 36 16)"/>
-    <ellipse cx="34" cy="30" rx="8" ry="3.8" fill="rgba(45,74,30,0.8)" stroke="#c9a84c" strokeWidth="1.1" transform="rotate(22 34 30)"/>
-    <circle cx="16" cy="18" r="2.2" fill="#c9a84c" opacity="0.75"/>
-    <circle cx="36" cy="14" r="2.2" fill="#c9a84c" opacity="0.75"/>
-    <circle cx="13" cy="32" r="1.8" fill="#c9a84c" opacity="0.5"/>
-  </svg>
-);
 
 const NEWSLETTER_PREFS = ["Aceite de oliva extra virgen", "Pastas artesanales", "Sets de regalo", "Todo Essenza"];
 const DISCOUNT_CODE = "ESSENZA15";
