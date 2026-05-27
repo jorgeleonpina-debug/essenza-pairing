@@ -1272,9 +1272,9 @@ export default function EssenzaPairingAI() {
           {/* LÍNEA DORADA superior */}
           <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, #c9a84c 30%, #c9a84c 70%, transparent)" }} />
 
-          {/* SVG olive branch — fondo sutil */}
-          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", opacity: 0.03, animation: "slowRotate 120s linear infinite", pointerEvents: "none", zIndex: 0 }}>
-            <svg viewBox="0 0 400 400" width="500" height="500" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* SVG olive branch — fondo global */}
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 600, height: 600, opacity: 0.02, animation: "slowRotate 120s linear infinite", pointerEvents: "none", zIndex: 0 }}>
+            <svg viewBox="0 0 400 400" width="600" height="600" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M200 380 Q196 290 186 210 Q176 130 200 50" stroke="#c9a84c" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
               <path d="M191 335 Q148 308 105 288" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
               <path d="M189 295 Q238 268 278 250" stroke="#c9a84c" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
@@ -1309,103 +1309,140 @@ export default function EssenzaPairingAI() {
             </svg>
           </div>
 
-          {/* CONTENIDO */}
-          <div style={{ maxWidth: 800, margin: "0 auto", padding: "120px 48px 100px", position: "relative", zIndex: 1, textAlign: "center" }}>
+          {/* ═══ PARTE 1 — HERO STATEMENT ═══ */}
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "100px 48px 80px", position: "relative", zIndex: 1, textAlign: "center" }}>
 
-            {/* Eyebrow */}
-            <div className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontWeight: 300, letterSpacing: "8px", textTransform: "uppercase", color: "rgba(201,168,76,0.8)", marginBottom: 32 }}>
+            <div className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 11, letterSpacing: "8px", textTransform: "uppercase", color: "rgba(201,168,76,0.6)", marginBottom: 40 }}>
               ESSENZA CHILE
             </div>
 
-            {/* Título 3 líneas */}
-            <div style={{ marginBottom: 0 }}>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 52, fontWeight: 300, color: "#f5f0e8", lineHeight: 1.0, margin: 0 }}>Encuentra</div>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 52, fontWeight: 300, color: "#f5f0e8", lineHeight: 1.0, margin: 0 }}>tu maridaje</div>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 52, fontWeight: 300, fontStyle: "italic", color: "#c9a84c", lineHeight: 1.0, margin: 0 }}>perfecto</div>
+            <div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 68, fontWeight: 300, color: "#f5f0e8", lineHeight: 1.0, margin: 0 }}>Encuentra tu maridaje</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 68, fontWeight: 300, fontStyle: "italic", color: "#c9a84c", lineHeight: 1.0, margin: 0 }}>perfecto</div>
             </div>
 
-            {/* Separador */}
-            <div style={{ display: "flex", alignItems: "center", gap: 16, margin: "32px 0 40px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, margin: "32px auto", maxWidth: 400 }}>
               <div style={{ flex: 1, height: "0.5px", background: "rgba(201,168,76,0.2)" }} />
               <span style={{ color: "#c9a84c", fontSize: 8 }}>◆</span>
               <div style={{ flex: 1, height: "0.5px", background: "rgba(201,168,76,0.2)" }} />
             </div>
 
-            {/* Descripción */}
-            <p className="reveal" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontStyle: "italic", color: "rgba(245,240,232,0.5)", lineHeight: 1.8, marginBottom: 64, maxWidth: 560, margin: "0 auto 64px" }}>
-              Nuestra inteligencia artificial analiza tu plato y selecciona el aceite Essenza que mejor realza sus sabores naturales.
-            </p>
-
-            {/* INPUT ÁREA */}
-            <div style={{ background: "rgba(13,32,20,0.3)", border: "0.5px solid rgba(201,168,76,0.15)", marginBottom: 24, position: "relative" }}>
-              <div style={{ padding: "12px 20px 0", fontSize: 9, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(201,168,76,0.4)", textAlign: "left" }}>
-                TU PLATO
-              </div>
-              <input
-                ref={textareaRef}
-                className="pairing-input"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKey}
-                onFocus={() => setInputFocused(true)}
-                onBlur={() => setInputFocused(false)}
-                placeholder="ej: Pasta al pesto, Asado a la parrilla, Ceviche..."
-                style={{ background: "transparent", border: "none", borderBottom: "0.5px solid rgba(201,168,76,0.1)", color: "#f5f0e8", fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontStyle: "italic", padding: "12px 20px 20px", width: "100%", outline: "none", caretColor: "#c9a84c", boxSizing: "border-box", display: "block" }}
-              />
-              <div style={{ height: 1, background: "linear-gradient(90deg, transparent, #c9a84c, transparent)", width: inputFocused ? "100%" : "0%", transition: "width 0.5s ease" }} />
+            <div className="reveal" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, marginBottom: 80, textAlign: "left" }}>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, fontStyle: "italic", color: "rgba(245,240,232,0.45)", lineHeight: 1.8, margin: 0 }}>
+                Nuestra IA analiza las notas aromáticas, textura y acidez de tu plato para seleccionar el aceite que mejor lo realza.
+              </p>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, fontStyle: "italic", color: "rgba(245,240,232,0.45)", lineHeight: 1.8, margin: 0 }}>
+                Cada recomendación incluye el tipo de aceite, temperatura ideal y técnica de aplicación para chefs y aficionados.
+              </p>
             </div>
+          </div>
 
-            {/* Suggestions */}
-            {!result && !loading && (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 40, justifyContent: "center" }}>
-                {suggestions.map((s) => (
-                  <button key={s} onClick={() => setInput(s)}
-                    style={{ background: "transparent", border: "0.5px solid rgba(201,168,76,0.15)", color: "rgba(245,240,232,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.5px", padding: "5px 16px", cursor: "pointer", transition: "all 0.2s" }}
-                    onMouseEnter={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.5)"; e.target.style.color = "#c9a84c"; e.target.style.background = "rgba(201,168,76,0.04)"; }}
-                    onMouseLeave={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.15)"; e.target.style.color = "rgba(245,240,232,0.4)"; e.target.style.background = "transparent"; }}>
-                    {s}
-                  </button>
-                ))}
+          {/* ═══ PARTE 2 — FRANJA CARACTERÍSTICAS ═══ */}
+          <div style={{ background: "rgba(13,32,20,0.5)", borderTop: "0.5px solid rgba(201,168,76,0.1)", borderBottom: "0.5px solid rgba(201,168,76,0.1)", padding: "40px 0", position: "relative", zIndex: 1 }}>
+            <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 48px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+              {[
+                {
+                  icon: <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="18" r="7" stroke="#c9a84c" strokeWidth="1.2"/><path d="M15 4 Q18 10 15 18" stroke="#c9a84c" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+                  title: "ANÁLISIS IA",
+                  text: "Claude analiza acidez, frutado e intensidad"
+                },
+                {
+                  icon: <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><ellipse cx="15" cy="15" rx="5" ry="11" stroke="#c9a84c" strokeWidth="1.2" transform="rotate(-30 15 15)"/><path d="M15 4 Q22 15 15 26" stroke="#c9a84c" strokeWidth="1" strokeLinecap="round" fill="none"/></svg>,
+                  title: "SELECCIÓN PRECISA",
+                  text: "Varietal y formato ideal para tu plato"
+                },
+                {
+                  icon: <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M15 3 L16.5 13 L26 15 L16.5 17 L15 27 L13.5 17 L4 15 L13.5 13 Z" stroke="#c9a84c" strokeWidth="1.2" strokeLinejoin="round" fill="none"/></svg>,
+                  title: "EXPERIENCIA GOURMET",
+                  text: "Técnica y temperatura de aplicación"
+                },
+              ].map(({ icon, title, text }, i) => (
+                <div key={title} style={{ textAlign: "center", padding: "0 32px", borderRight: i < 2 ? "0.5px solid rgba(201,168,76,0.1)" : "none" }}>
+                  <div style={{ marginBottom: 14, display: "flex", justifyContent: "center" }}>{icon}</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "3px", textTransform: "uppercase", color: "#c9a84c", marginBottom: 6 }}>{title}</div>
+                  <div style={{ fontSize: 12, color: "rgba(245,240,232,0.4)", lineHeight: 1.6 }}>{text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ═══ PARTE 3 — ÁREA DE BÚSQUEDA ═══ */}
+          <div style={{ background: "#0A0A0A", padding: "80px 0", position: "relative", zIndex: 1 }}>
+            <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 48px" }}>
+
+              <div style={{ textAlign: "center", fontSize: 9, letterSpacing: "4px", textTransform: "uppercase", color: "rgba(201,168,76,0.5)", marginBottom: 24, fontFamily: "'Cormorant Garamond', serif" }}>
+                ¿QUÉ PLATO ESTÁS PREPARANDO?
               </div>
-            )}
 
-            {/* Botón principal */}
-            <button onClick={handleSubmit} disabled={!input.trim() || loading}
-              style={{ background: input.trim() && !loading ? "#c9a84c" : "rgba(201,168,76,0.15)", border: "none", color: input.trim() && !loading ? "#0A0A0A" : "rgba(201,168,76,0.3)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "4px", textTransform: "uppercase", padding: "18px 64px", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.3s ease", display: "block", margin: "0 auto" }}
-              onMouseEnter={(e) => { if (input.trim() && !loading) e.currentTarget.style.background = "#e8c46a"; }}
-              onMouseLeave={(e) => { if (input.trim() && !loading) e.currentTarget.style.background = "#c9a84c"; }}>
-              {loading ? <><span>Analizando</span><LoadingDots /></> : "Descubrir Maridaje"}
-            </button>
+              <div style={{ background: "rgba(13,32,20,0.4)", border: "0.5px solid rgba(201,168,76,0.2)", position: "relative", overflow: "hidden", marginBottom: 0 }}>
+                <div style={{ padding: "14px 24px 0", fontSize: 9, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(201,168,76,0.4)", textAlign: "left" }}>TU PLATO</div>
+                <input
+                  ref={textareaRef}
+                  className="pairing-input"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKey}
+                  onFocus={() => setInputFocused(true)}
+                  onBlur={() => setInputFocused(false)}
+                  placeholder="ej: Pasta al pesto, Asado a la parrilla..."
+                  style={{ background: "transparent", border: "none", color: "#f5f0e8", fontFamily: "'Cormorant Garamond', serif", fontSize: 24, fontStyle: "italic", padding: "8px 24px 20px", width: "100%", outline: "none", caretColor: "#c9a84c", boxSizing: "border-box", display: "block" }}
+                />
+                <div style={{ height: 2, background: "linear-gradient(90deg, transparent, #c9a84c, transparent)", width: inputFocused ? "100%" : "0%", transition: "width 0.5s ease" }} />
+              </div>
 
-            {error && (
-              <div style={{ marginTop: 20, color: "#eb5757", fontSize: 13, fontFamily: "'Cormorant Garamond', serif" }}>{error}</div>
-            )}
+              {!result && !loading && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16, justifyContent: "center" }}>
+                  {suggestions.map((s) => (
+                    <button key={s} onClick={() => setInput(s)}
+                      style={{ background: "transparent", border: "0.5px solid rgba(201,168,76,0.15)", color: "rgba(245,240,232,0.4)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, padding: "6px 18px", cursor: "pointer", transition: "all 0.2s", letterSpacing: "0.5px" }}
+                      onMouseEnter={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.5)"; e.target.style.color = "#c9a84c"; e.target.style.background = "rgba(201,168,76,0.05)"; }}
+                      onMouseLeave={(e) => { e.target.style.borderColor = "rgba(201,168,76,0.15)"; e.target.style.color = "rgba(245,240,232,0.4)"; e.target.style.background = "transparent"; }}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
 
-            {result && <ResultCard data={result} onAddToCart={addToCart} />}
-
-            {result && (
-              <button onClick={() => { setResult(null); setInput(""); setError(null); }}
-                style={{ marginTop: 24, background: "transparent", border: "none", color: "rgba(201,168,76,0.6)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "2px", cursor: "pointer", padding: 0, display: "block", margin: "24px auto 0" }}
-                onMouseEnter={(e) => { e.target.style.color = "rgba(201,168,76,0.9)"; }}
-                onMouseLeave={(e) => { e.target.style.color = "rgba(201,168,76,0.6)"; }}>
-                ← Nuevo maridaje
+              <button onClick={handleSubmit} disabled={!input.trim() || loading}
+                style={{ marginTop: 32, display: "block", margin: "32px auto 0", background: input.trim() && !loading ? "#c9a84c" : "transparent", border: input.trim() && !loading ? "none" : "0.5px solid rgba(201,168,76,0.2)", color: input.trim() && !loading ? "#0A0A0A" : "rgba(201,168,76,0.25)", fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "5px", textTransform: "uppercase", padding: "18px 72px", cursor: input.trim() && !loading ? "pointer" : "default", transition: "all 0.3s ease" }}
+                onMouseEnter={(e) => { if (input.trim() && !loading) { e.currentTarget.style.background = "#e8c46a"; e.currentTarget.style.transform = "translateY(-1px)"; } }}
+                onMouseLeave={(e) => { if (input.trim() && !loading) { e.currentTarget.style.background = "#c9a84c"; e.currentTarget.style.transform = "translateY(0)"; } }}>
+                {loading ? <><span>Analizando</span><LoadingDots /></> : "Descubrir Maridaje"}
               </button>
-            )}
 
-            {/* Stats */}
-            <div className="reveal" style={{ marginTop: 80, paddingTop: 40, borderTop: "0.5px solid rgba(201,168,76,0.08)", display: "grid", gridTemplateColumns: "repeat(3,1fr)", textAlign: "center" }}>
+              {error && (
+                <div style={{ marginTop: 20, color: "#eb5757", fontSize: 13, fontFamily: "'Cormorant Garamond', serif", textAlign: "center" }}>{error}</div>
+              )}
+
+              {result && <ResultCard data={result} onAddToCart={addToCart} />}
+
+              {result && (
+                <button onClick={() => { setResult(null); setInput(""); setError(null); }}
+                  style={{ display: "block", margin: "24px auto 0", background: "transparent", border: "none", color: "rgba(201,168,76,0.6)", fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "2px", cursor: "pointer", padding: 0 }}
+                  onMouseEnter={(e) => { e.target.style.color = "rgba(201,168,76,0.9)"; }}
+                  onMouseLeave={(e) => { e.target.style.color = "rgba(201,168,76,0.6)"; }}>
+                  ← Nuevo maridaje
+                </button>
+              )}
+
+            </div>
+          </div>
+
+          {/* ═══ PARTE 4 — STATS ═══ */}
+          <div className="reveal" style={{ background: "rgba(13,32,20,0.3)", borderTop: "0.5px solid rgba(201,168,76,0.08)", padding: "48px 0", position: "relative", zIndex: 1 }}>
+            <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 48px", display: "grid", gridTemplateColumns: "repeat(4,1fr)", textAlign: "center" }}>
               {[
                 { num: "0.3%", label: "Acidez máxima" },
-                { num: "24h",  label: "Cosecha a botella" },
-                { num: "100%", label: "Valle Central" },
+                { num: "24h",  label: "Cosecha a extracción" },
+                { num: "8+",   label: "Variedades analizadas" },
+                { num: "100%", label: "Valle Central Chile" },
               ].map(({ num, label }, i) => (
-                <div key={label} style={{ borderRight: i < 2 ? "0.5px solid rgba(201,168,76,0.1)" : "none" }}>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 32, fontWeight: 300, color: "#c9a84c" }}>{num}</div>
+                <div key={label} style={{ borderRight: i < 3 ? "0.5px solid rgba(201,168,76,0.1)" : "none" }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 36, fontWeight: 300, color: "#c9a84c" }}>{num}</div>
                   <div style={{ fontSize: 9, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(245,240,232,0.25)", marginTop: 6 }}>{label}</div>
                 </div>
               ))}
             </div>
-
           </div>
 
           {/* LÍNEA DORADA inferior */}
