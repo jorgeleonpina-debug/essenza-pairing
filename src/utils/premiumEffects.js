@@ -128,19 +128,20 @@ export function initScrollReveal() {
 export function initTypeReveal() {
   try {
     const typeEl = (el) => {
-      const text = el.textContent;
+      const words = el.textContent.trim().split(/\s+/);
       el.textContent = '';
-      [...text].forEach((char, i) => {
-        if (char === '\n') { el.appendChild(document.createElement('br')); return; }
+      words.forEach((word, i) => {
         const span = document.createElement('span');
-        span.textContent = char === ' ' ? ' ' : char;
+        span.textContent = word;
         span.style.cssText = [
           'display:inline-block',
+          'white-space:nowrap',
           'opacity:0',
           'transform:translateY(20px)',
-          `transition:opacity 0.3s ease ${i * 40}ms,transform 0.3s ease ${i * 40}ms`,
+          `transition:opacity 0.35s ease ${i * 80}ms,transform 0.35s ease ${i * 80}ms`,
         ].join(';');
         el.appendChild(span);
+        if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
         // double RAF ensures layout before transition
         requestAnimationFrame(() => requestAnimationFrame(() => {
           span.style.opacity = '1';
